@@ -150,9 +150,10 @@ if __name__ == '__main__':
     file_test = r"./res/renameData.txt"
     file_test2 = r"./res/file_test2.txt"
     file_test3 = r"./res/file_tes3.txt"
-    file_bis = r"./res/file_test2.txt"
+    file_test4 = r"./res/file_test4.txt"
+    file_test5 = r"./res/file_test5.txt"
 
-    g_m = Matching(gamma, file_test3)
+    g_m = Matching(gamma, file_test5)
 
     print("*********************** testing link_stream method ***********************")
     start_time = time.time()
@@ -163,5 +164,5 @@ if __name__ == '__main__':
     print()
 
     print("***************************** gamma_matching *****************************")
-    # M = g_m.gammaMatching(link_stream, gamma)
-    # print("gammaMatching: ", M["max_matching"])
+    M = g_m.gammaMatching(link_stream, gamma)
+    print("algo - max_matching: ", M["max_matching"])

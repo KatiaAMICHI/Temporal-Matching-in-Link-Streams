@@ -55,13 +55,14 @@ class Matching:
         return True
 
     def estCompatibleE_gamma(self, gammaMatching: GammaMach, M: dict) -> bool:
-        print("....... je suis dans estCompatibleE_gamma ......... je suis : ", gammaMatching)
+        #  print("....... je suis dans estCompatibleE_gamma ......... je suis : ", gammaMatching)
         t = gammaMatching.t
         if gammaMatching in M["elements"]:
-            print("return True")
+            #  print("return True")
             return True
 
         for gammaMatchingM in M["elements"]:
+
             if gammaMatching.u == gammaMatchingM.u and gammaMatching.v == gammaMatchingM.v and gammaMatching.t == gammaMatchingM.t:
                 print("return True")
                 return True
@@ -70,16 +71,16 @@ class Matching:
             if gammaMatching.u == gammaMatchingM.u or gammaMatching.v == gammaMatchingM.v or \
                     gammaMatching.u == gammaMatchingM.v or gammaMatching.v == gammaMatchingM.u:
 
-                print(">>>>>>>>  gammaMatching : ", gammaMatching)
+                # print(">>>>>>>>  gammaMatching : ", gammaMatching)
                 if self.REVERSE:
                     t_check = range(tM - self.gamma, tM)
                 else:
                     t_check = range(tM, tM + self.gamma)
 
                 if t in t_check:
-                    print("return True")
+                    #   print("return True")
                     return True
-        print("return False")
+        #  print("return False")
         return False
 
     def contient(self, P: [Edge], gamma: int, edge: Edge, t: int) -> bool:
@@ -203,6 +204,7 @@ class Matching:
                         t_check = range(tE, tE + self.gamma)
 
                     if t in t_check:
+                        # if gammMatchingE.u == u and gammMatchingE.v == v:
                         if gammMatchingE.u == v or gammMatchingE.v == u or gammMatchingE.u == u or gammMatchingE.v == v:
                             newGammaMach.neighbours.append(gammMatchingE)
                             newGammaMach.nb_neighbours += 1
@@ -219,25 +221,67 @@ class Matching:
         # P_gamma.reverse()
 
         for t, gammaMachingList in E_gamma["elements"].items():
-            print("t : ", t,
-                  ".........................................................................................")
+            # print("t : ", t,
+              #    ".........................................................................................")
             while gammaMachingList:
                 gammaMaching = gammaMachingList.pop()
-                print("gammaMaching  pop : ", gammaMaching)
+                # print("<<<<<<<<<<<<<gammaMaching  pop : ", gammaMaching)
+                # print("mes voisins : ", gammaMaching.neighbours)
                 gammaMaching_to_add = gammaMaching
                 max_nb_g_maching = E_gamma["max_matching"] - gammaMaching.nb_neighbours
-                print("max_nb_g_maching : ", max_nb_g_maching)
+                # print("max_nb_g_maching : ", max_nb_g_maching)
                 for g_m_neighbour in gammaMaching.neighbours:
                     nb_g_maching = E_gamma["max_matching"] - g_m_neighbour.nb_neighbours
-                    print("nb_g_maching  : ", nb_g_maching)
+                    # print("nb_g_maching  : ", nb_g_maching)
                     if max_nb_g_maching < nb_g_maching:
-                        print("++++++ je suis : ", g_m_neighbour)
+                        # print("++++++ je suis : ", g_m_neighbour)
                         gammaMaching_to_add = g_m_neighbour
 
                 if not self.estCompatibleE_gamma(gammaMaching_to_add, M):
-                    print(">>>>>>>>>>>>>>> je vais ajouter : ", gammaMaching_to_add)
+                    # print(">>>>>>>>>>>>>>> je vais ajouter : ", gammaMaching_to_add)
                     M["elements"].append(gammaMaching_to_add)
                     M["max_matching"] += 1
+
+                    # il faut supprimer ces voinsins !! et décrémonter le nombre des voinins de ces voisins
+                    for g_m_neighbour in gammaMaching_to_add.neighbours:
+                        if g_m_neighbour == gammaMaching_to_add:
+                            continue
+                        # print("********************* je vais supprimer : ", g_m_neighbour)
+
+                        # supprimer le voisins dans ses voisins
+                        # pour chaque voisins le truver et le supprimer et décrimenter le nb_voisins
+                        for n_g_m_neighbour in g_m_neighbour.neighbours:
+                            if n_g_m_neighbour == gammaMaching_to_add:
+                                continue
+                            # print("$$ je suis le voisin du voisin | n_g_m_neighbour : ", n_g_m_neighbour)
+
+                            try:
+                                index_g_m_neighbour_in_n_g_m_neighbour = n_g_m_neighbour.neighbours.index(g_m_neighbour)
+                                index_n_g_m_neighbour_in_E_gamma = E_gamma["elements"][n_g_m_neighbour.t].index(
+                                    n_g_m_neighbour)
+                                E_gamma["elements"][n_g_m_neighbour.t][
+                                    index_n_g_m_neighbour_in_E_gamma].nb_neighbours -= 1
+                                del E_gamma["elements"][n_g_m_neighbour.t][index_n_g_m_neighbour_in_E_gamma].neighbours[
+                                    index_g_m_neighbour_in_n_g_m_neighbour]
+                            except:
+                                print("je pense il a déja été suprimer")
+
+                        # supprission du voisin dans E-gamma
+                        try:
+                            index_g_m_neighbour_in_E_gamma_element = E_gamma["elements"][g_m_neighbour.t].index(
+                                g_m_neighbour)
+                            del E_gamma["elements"][g_m_neighbour.t][index_g_m_neighbour_in_E_gamma_element]
+                        except:
+                            print("???????????????????????")
+                    # enfin le suprimer dans la liste des gamma_matchings
+                    try:
+                        index_gamma_matching_to_add = E_gamma["elements"][gammaMaching_to_add.t].index(
+                            gammaMaching_to_add)
+                        del E_gamma["E"][gammaMaching_to_add.t][index_gamma_matching_to_add]
+                    except:
+                        print("???????????????????????")
+                    E_gamma["max_matching"] = E_gamma["max_matching"] - 1 - gammaMaching_to_add.nb_neighbours
+
         return M
 
 
@@ -255,9 +299,9 @@ if __name__ == '__main__':
     file_test2 = r"./res/file_test2.txt"
     file_test3 = r"./res/file_tes3.txt"
     file_test4 = r"./res/file_test4.txt"
-    file_bis = r"./res/file_test2.txt"
+    file_test5 = r"./res/file_test5.txt"
 
-    g_m = Matching(gamma, file_test4)
+    g_m = Matching(gamma, file_test5)
 
     # print("*********************** testing link_stream method ***********************")
     # start_time = time.time()
