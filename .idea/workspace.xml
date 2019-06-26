@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="34c30e85-9f08-4175-a8ba-b0ca0b29cb00" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/algo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/file_tes3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/res/file_tes3.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,41 +19,15 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/algo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="828">
-              <caret line="199" column="68" selection-start-line="199" selection-start-column="68" selection-end-line="199" selection-end-column="68" />
+            <state relative-caret-position="285">
+              <caret line="19" column="18" lean-forward="true" selection-end-line="254" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <element signature="e#2677#3783#0" />
-                <element signature="e#3864#4725#0" />
-                <element signature="e#4813#5058#0" />
+                <element signature="e#934#1408#0" />
+                <element signature="e#1493#1951#0" />
+                <element signature="e#1999#2680#0" />
+                <element signature="e#2758#3864#0" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///usr/lib/python3/dist-packages/apt/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" selection-start-line="22" selection-end-line="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/file_tes3.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="7" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/resultat.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="31" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -92,6 +63,7 @@
       <find>[]</find>
       <find>append</find>
       <find>np.append</find>
+      <find>g_m2</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -112,11 +84,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="4">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="67" />
     <option name="y" value="25" />
     <option name="width" value="927" />
-    <option name="height" value="1173" />
+    <option name="height" value="1175" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -124,7 +96,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -132,20 +103,11 @@
               <item name="Temporal-Matching-in-Link-Streams" type="b2602c69:ProjectViewProjectNode" />
               <item name="Temporal-Matching-in-Link-Streams" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="Temporal-Matching-in-Link-Streams" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Temporal-Matching-in-Link-Streams" type="462c0819:PsiDirectoryNode" />
-              <item name="res" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Temporal-Matching-in-Link-Streams" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Temporal-Matching-in-Link-Streams" type="462c0819:PsiDirectoryNode" />
-              <item name="scripts" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -221,23 +183,24 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="25" width="927" height="1175" extended-state="4" />
+    <frame x="67" y="25" width="1853" height="1175" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.19137168" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.093989074" />
       <window_info id="Structure" order="1" sideWeight="0.5016234" side_tool="true" weight="0.2836057" />
       <window_info id="Favorites" order="2" sideWeight="0.5016234" side_tool="true" weight="0.2836057" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32897604" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49920928" weight="0.24952199" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49920928" visible="true" weight="0.24952199" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39978212" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3298279" />
       <window_info anchor="bottom" id="Bucklescript" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3298279" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49920928" visible="true" weight="0.26003823" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49920928" weight="0.25957856" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5007907" side_tool="true" weight="0.4019608" />
-      <window_info anchor="bottom" id="Python Console" order="11" sideWeight="0.49973643" weight="0.3288719" />
+      <window_info anchor="bottom" id="Python Console" order="11" sideWeight="0.49973643" weight="0.32791588" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -336,20 +299,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/file_tes3.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="7" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/resultat.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="31" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/lib/python3.7/dist-packages/numpy/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1170" />
@@ -362,15 +311,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_bundle/pydev_import_hook.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/file_tes3.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="7" lean-forward="true" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/resultat.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="31" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/algo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="199" column="68" selection-start-line="199" selection-start-column="68" selection-end-line="199" selection-end-column="68" />
+        <state relative-caret-position="285">
+          <caret line="19" column="18" lean-forward="true" selection-end-line="254" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#2677#3783#0" />
-            <element signature="e#3864#4725#0" />
-            <element signature="e#4813#5058#0" />
+            <element signature="e#934#1408#0" />
+            <element signature="e#1493#1951#0" />
+            <element signature="e#1999#2680#0" />
+            <element signature="e#2758#3864#0" />
           </folding>
         </state>
       </provider>
