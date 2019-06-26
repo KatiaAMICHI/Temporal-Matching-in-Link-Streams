@@ -72,7 +72,7 @@ class Matching:
 
         return False
 
-    def linkStreamList(self) -> dict:
+    def linkStream(self) -> dict:
         link_stream = {"V": 0, "T": 0, "E": []}
         max_node = -1
         t_max = -1
@@ -136,87 +136,6 @@ class Matching:
                     break
         return M
 
-    def linkStreamDict(self) -> dict:
-        link_stream = {"V": 0, "T": 0, "E": defaultdict(list)}
-        max_node = -1
-        t_max = -1
-
-        with open(self.file) as f:
-            for line in f:
-                line_split = line.split()
-                t = int(line_split[0])
-                u = line_split[1]
-                v = line_split[2]
-
-                new_edge = Edge(u=u, v=v)
-                if len(link_stream["E"][t]) > 0:
-                    for edge in link_stream["E"][t]:
-                        if edge.u == u and edge.v == v:
-                            continue
-
-                        if edge.u == v or edge.v == u:
-                            edge.neighbours.append(new_edge)
-                            edge.nb_neighbours += 1
-                            new_edge.neighbours.append(edge)
-                            new_edge.nb_neighbours += 1
-
-                link_stream["E"][t].append(new_edge)  # ajout du tuple (t, uv)
-
-                if max_node < max(int(u), int(v)):
-                    max_node = max(int(u), int(v))
-
-                if t_max < int(t):
-                    t_max = int(t)
-
-                link_stream["V"] = max_node + 1
-                link_stream["T"] = t_max + 1
-
-        return link_stream
-
-    def E_gamma_matching(self, link_stream: dict, gamma: int) -> dict:
-        """
-        E_gamma = {"gamma" : int,
-                    "nb_gamma_matching" = int,
-                    " elements" : [gammaMatching] }
-
-        :param link_stream:
-        :param gamma:
-        :return E_gamma: un dictionnaire où on a une liste de tous les gamma_matchin disponible
-        """
-
-        E_gamma = {"gamma": gamma, "max_matching": 0, "elements": defaultdict(list)}
-        P = link_stream["E"].copy()
-        if self.REVERSE:
-            P.reverse()
-
-        while len(P) != 0:
-            (t, edge) = P.pop(0)
-            u = edge.u
-            v = edge.v
-
-            if t in E_gamma["elements"] and edge in E_gamma["elements"][t]:
-                continue
-
-            if not self.contient(P, gamma, edge, t):
-                continue
-
-            E_gamma["elements"][t].append(GammaMach(t, u, v))
-
-            # ajout des voisin
-
-            E_gamma["max_matching"] += 1
-
-        return E_gamma
-
-    def gamma_matching_with_E_gamma(self, E_gamma: dict, gamma: int) -> dict:
-        M = {"gamma": gamma, "max_matching": 0, "elements": []}
-        P_gamma = E_gamma["elements"].copy()  # contient la liste des gamma_matching possible
-        # P_gamma.reverse()
-
-        while len(P_gamma) != 0:
-            pass
-        return M
-
 
 if __name__ == '__main__':
     gamma = 3
@@ -237,7 +156,7 @@ if __name__ == '__main__':
 
     print("*********************** testing link_stream method ***********************")
     start_time = time.time()
-    link_stream = g_m.linkStreamDict()
+    link_stream = g_m.linkStream()
     print("Temps d execution link_stream : %s secondes ---" % (time.time() - start_time))
     print("L : ( V:", link_stream["V"], ", T:", link_stream["T"], ", E:", len(link_stream["E"]), ")")
     print("elements E :", link_stream["E"])
@@ -246,9 +165,3 @@ if __name__ == '__main__':
     print("***************************** gamma_matching *****************************")
     # M = g_m.gammaMatching(link_stream, gamma)
     # print("gammaMatching: ", M["max_matching"])
-
-    print("**************************** E_gamma_matching ****************************")
-    start_time = time.time()
-    E_gamma = g_m.E_gamma_matching(link_stream, gamma)
-    print("Temps d execution : %s secondes ---\n" % (time.time() - start_time))
-    print("E_gamma", E_gamma["max_matching"], ", elements : ", E_gamma["elements"])

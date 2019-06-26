@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="34c30e85-9f08-4175-a8ba-b0ca0b29cb00" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algo+.py" beforeDir="false" afterPath="$PROJECT_DIR$/algo+.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/file_tes3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/res/file_tes3.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,20 +18,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/algo.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/algo+.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="18" lean-forward="true" selection-end-line="254" />
+            <state relative-caret-position="388">
+              <caret line="204" column="81" selection-start-line="204" selection-start-column="81" selection-end-line="204" selection-end-column="81" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <element signature="e#934#1408#0" />
                 <element signature="e#1493#1951#0" />
                 <element signature="e#1999#2680#0" />
-                <element signature="e#2758#3864#0" />
               </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/file_tes3.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="7" lean-forward="true" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/file_test4.txt">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -81,6 +95,7 @@
         <option value="$PROJECT_DIR$/res/file_test2.txt" />
         <option value="$PROJECT_DIR$/res/file_tes3.txt" />
         <option value="$PROJECT_DIR$/algo.py" />
+        <option value="$PROJECT_DIR$/algo+.py" />
       </list>
     </option>
   </component>
@@ -102,6 +117,11 @@
             <path>
               <item name="Temporal-Matching-in-Link-Streams" type="b2602c69:ProjectViewProjectNode" />
               <item name="Temporal-Matching-in-Link-Streams" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Temporal-Matching-in-Link-Streams" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Temporal-Matching-in-Link-Streams" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -132,7 +152,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.algo+">
     <configuration name="algo" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Temporal-Matching-in-Link-Streams" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -154,8 +174,30 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="algo+" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Temporal-Matching-in-Link-Streams" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algo+.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.algo+" />
         <item itemvalue="Python.algo" />
       </list>
     </recent_temporary>
@@ -192,13 +234,13 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32897604" />
       <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49920928" visible="true" weight="0.24952199" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39978212" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39961758" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3298279" />
       <window_info anchor="bottom" id="Bucklescript" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3298279" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49920928" weight="0.25957856" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49920928" weight="0.25908223" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5007907" side_tool="true" weight="0.4019608" />
       <window_info anchor="bottom" id="Python Console" order="11" sideWeight="0.49973643" weight="0.32791588" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -291,7 +333,6 @@
         <state relative-caret-position="-370011" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/file_test4.txt" />
     <entry file="file://$PROJECT_DIR$/res/file_test2.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -318,13 +359,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/file_tes3.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="7" lean-forward="true" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/resultat.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -334,8 +368,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/algo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="18" lean-forward="true" selection-end-line="254" />
+        <state relative-caret-position="193">
+          <caret line="137" lean-forward="true" selection-start-line="137" selection-end-line="137" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
             <element signature="e#934#1408#0" />
@@ -345,6 +379,28 @@
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algo+.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="204" column="81" selection-start-line="204" selection-start-column="81" selection-end-line="204" selection-end-column="81" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#1493#1951#0" />
+            <element signature="e#1999#2680#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/file_tes3.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="7" lean-forward="true" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/file_test4.txt">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
 </project>
