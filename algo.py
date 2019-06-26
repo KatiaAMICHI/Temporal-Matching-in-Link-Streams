@@ -1,5 +1,6 @@
 from collections import defaultdict
 import time
+import os
 
 
 class Edge:
@@ -13,6 +14,7 @@ class Edge:
         return "Edge(u:" + self.u + ", v:" + self.v + ", nb_neighbours:" + str(self.nb_neighbours) + ")"
 
 
+# TODO un scripte pour tester tt les fichier d'un repertoir
 # TODO laisser ou enlever t
 class GammaMach:
     def __init__(self, t, u, v, nb_neighbours=None):
@@ -137,32 +139,28 @@ class Matching:
         return M
 
 
+def main():
+    gamma = 2
+    path = "./res/to_test/"
+
+    for file in os.listdir(path):
+        print("\n ...............................................", file,
+              "...............................................")
+        g_m = Matching(gamma, path + file)
+
+        print("****************** testing link_stream method ******************")
+        start_time = time.time()
+        link_stream = g_m.linkStream()
+        print("Temps d execution link_stream : %s secondes ---" % (time.time() - start_time))
+        print("L : ( V:", link_stream["V"], ", T:", link_stream["T"], ", E:", len(link_stream["E"]), ")")
+        print()
+
+        print("************************ gamma_matching ************************")
+        start_time = time.time()
+        M = g_m.gammaMatching(link_stream, gamma)
+        print("Temps d execution gamma_matching : %s secondes ---" % (time.time() - start_time))
+        print("algo - max_matching: ", M["max_matching"])
+
+
 if __name__ == '__main__':
-    gamma = 3
-    file_enron_clean = r"./res/enronClean"
-    file_enron_clean_rename = r"./res/enronCleanRename"
-    file_enron_clean_rename_3days = r"./res/enronCleanRename3days"
-    file_enron_clean_rename_6days = r"./res/enronCleanRename6days"
-    file_enronCleanDeco1h = r"./res/enronCleanDeco1h"
-    file_enronCleanDeco3h = r"./res/enronCleanDeco3h"
-    file_enronCleanDeco1day = r"./res/enronCleanDeco1day"
-
-    file_test = r"./res/renameData.txt"
-    file_test2 = r"./res/file_test2.txt"
-    file_test3 = r"./res/file_tes3.txt"
-    file_test4 = r"./res/file_test4.txt"
-    file_test5 = r"./res/file_test5.txt"
-
-    g_m = Matching(gamma, file_test5)
-
-    print("*********************** testing link_stream method ***********************")
-    start_time = time.time()
-    link_stream = g_m.linkStream()
-    print("Temps d execution link_stream : %s secondes ---" % (time.time() - start_time))
-    print("L : ( V:", link_stream["V"], ", T:", link_stream["T"], ", E:", len(link_stream["E"]), ")")
-    print("elements E :", link_stream["E"])
-    print()
-
-    print("***************************** gamma_matching *****************************")
-    M = g_m.gammaMatching(link_stream, gamma)
-    print("algo - max_matching: ", M["max_matching"])
+    main()

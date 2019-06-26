@@ -14,3 +14,18 @@ file_enron_clean_rename : 0
 file_enron_clean_rename_3days : 39
 file_enron_clean_rename_6days : 57
 
+
+
+
+les new résultat
+gamma = 3
+file1h:
+algo - max_matching:  229
+algo + max_matching :  230
+
+
+gamma : 2
+
+file1h:
+algo - max_matching:  1232
+algo + max_matching :  1261

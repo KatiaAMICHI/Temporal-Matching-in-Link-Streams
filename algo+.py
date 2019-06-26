@@ -1,6 +1,5 @@
 from collections import defaultdict
-import time
-import pprint
+import time, os
 
 
 class Edge:
@@ -222,7 +221,7 @@ class Matching:
 
         for t, gammaMachingList in E_gamma["elements"].items():
             # print("t : ", t,
-              #    ".........................................................................................")
+            #    ".........................................................................................")
             while gammaMachingList:
                 gammaMaching = gammaMachingList.pop()
                 # print("<<<<<<<<<<<<<gammaMaching  pop : ", gammaMaching)
@@ -264,7 +263,8 @@ class Matching:
                                 del E_gamma["elements"][n_g_m_neighbour.t][index_n_g_m_neighbour_in_E_gamma].neighbours[
                                     index_g_m_neighbour_in_n_g_m_neighbour]
                             except:
-                                print("je pense il a déja été suprimer")
+                                pass
+                                # print("je pense il a déja été suprimer")
 
                         # supprission du voisin dans E-gamma
                         try:
@@ -272,62 +272,51 @@ class Matching:
                                 g_m_neighbour)
                             del E_gamma["elements"][g_m_neighbour.t][index_g_m_neighbour_in_E_gamma_element]
                         except:
-                            print("???????????????????????")
+                            pass
+                            # print("???????????????????????")
                     # enfin le suprimer dans la liste des gamma_matchings
                     try:
                         index_gamma_matching_to_add = E_gamma["elements"][gammaMaching_to_add.t].index(
                             gammaMaching_to_add)
                         del E_gamma["E"][gammaMaching_to_add.t][index_gamma_matching_to_add]
                     except:
-                        print("???????????????????????")
+                        pass
+                        # print("???????????????????????")
                     E_gamma["max_matching"] = E_gamma["max_matching"] - 1 - gammaMaching_to_add.nb_neighbours
 
         return M
 
 
+def main():
+    gamma = 2
+    # path = "./res/to_test/"
+    path = "./res/test_local/"
+
+    for file in os.listdir(path):
+        print("\n ...............................................", file,
+              "...............................................")
+        g_m = Matching(gamma, path + file)
+
+        print("*********************** testing link_stream method ***********************")
+        start_time = time.time()
+        link_stream = g_m.linkStreamList()
+        print("Temps d execution link_stream : %s secondes ---" % (time.time() - start_time))
+        print("L : ( V:", link_stream["V"], ", T:", link_stream["T"], ", E:", len(link_stream["E"]), ")")
+        print()
+
+        print("**************************** E_gamma nb_matching ****************************")
+        start_time = time.time()
+        E_gamma = g_m.E_gamma_matching(link_stream, gamma)
+        print("Temps d execution : %s secondes ---" % (time.time() - start_time))
+        print("E_gamma nb_matching : ", E_gamma["max_matching"])
+        print()
+
+        print("**************************** E_gamma max_matching ****************************")
+        start_time = time.time()
+        E_gamma_matching = g_m.gamma_matching_with_E_gamma(E_gamma, gamma)
+        print("Temps d execution : %s secondes ---" % (time.time() - start_time))
+        print("algo + - max_matching : ", E_gamma_matching["max_matching"])
+
+
 if __name__ == '__main__':
-    gamma = 3
-    file_enron_clean = r"./res/enronClean"
-    file_enron_clean_rename = r"./res/enronCleanRename"
-    file_enron_clean_rename_3days = r"./res/enronCleanRename3days"
-    file_enron_clean_rename_6days = r"./res/enronCleanRename6days"
-    file_enronCleanDeco1h = r"./res/enronCleanDeco1h"
-    file_enronCleanDeco3h = r"./res/enronCleanDeco3h"
-    file_enronCleanDeco1day = r"./res/enronCleanDeco1day"
-
-    file_test = r"./res/renameData.txt"
-    file_test2 = r"./res/file_test2.txt"
-    file_test3 = r"./res/file_tes3.txt"
-    file_test4 = r"./res/file_test4.txt"
-    file_test5 = r"./res/file_test5.txt"
-
-    g_m = Matching(gamma, file_test5)
-
-    # print("*********************** testing link_stream method ***********************")
-    # start_time = time.time()
-    link_stream = g_m.linkStreamList()
-    # print("Temps d execution link_stream : %s secondes ---" % (time.time() - start_time))
-    # print("L : ( V:", link_stream["V"], ", T:", link_stream["T"], ", E:", len(link_stream["E"]), ")")
-    # print("elements E :", link_stream["E"])
-    # print()
-
-    # print("***************************** gamma_matching *****************************")
-    # M = g_m.gammaMatching(link_stream, gamma)
-    # print("gammaMatching: ", M["max_matching"])
-    # print()
-
-    # print("**************************** E_gamma_matching ****************************")
-    # start_time = time.time()
-    E_gamma = g_m.E_gamma_matching(link_stream, gamma)
-    # print("Temps d execution : %s secondes ---" % (time.time() - start_time))
-    # print("max_matching : ", E_gamma["max_matching"], ", elements : ", E_gamma["elements"])
-    # print()
-
-    pprint.pprint(E_gamma)
-
-    print()
-    print("**************************** E_gamma_matching ****************************")
-    start_time = time.time()
-    E_gamma_matching = g_m.gamma_matching_with_E_gamma(E_gamma, gamma)
-    print("Temps d execution : %s secondes ---" % (time.time() - start_time))
-    print("max_matching : ", E_gamma_matching["max_matching"], ", elements : ", E_gamma_matching["elements"])
+    main()
