@@ -2,11 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="34c30e85-9f08-4175-a8ba-b0ca0b29cb00" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algo+.py" beforeDir="false" afterPath="$PROJECT_DIR$/algo+.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/algo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/file_tes3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/res/file_tes3.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/enronCleanDeco1day" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/enronCleanDeco1h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/enronCleanDeco3h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/enronCleanRename3days" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/enronCleanRename6days" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/resultat.txt" beforeDir="false" afterPath="$PROJECT_DIR$/res/resultat.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,35 +23,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/algo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="828">
-              <caret line="199" column="68" selection-start-line="199" selection-start-column="68" selection-end-line="199" selection-end-column="68" />
+            <state relative-caret-position="58">
+              <caret line="141" selection-start-line="141" selection-end-line="161" selection-end-column="57" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <element signature="e#2677#3783#0" />
-                <element signature="e#3864#4725#0" />
-                <element signature="e#4813#5058#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///usr/lib/python3/dist-packages/apt/__init__.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/algo+.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" selection-start-line="22" selection-end-line="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/file_tes3.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="7" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+            <state relative-caret-position="306">
+              <caret line="294" column="40" lean-forward="true" selection-start-line="294" selection-start-column="40" selection-end-line="294" selection-end-column="40" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+                <element signature="e#80#333#0" />
+                <element signature="e#114#203#0" />
+                <element signature="e#237#333#0" />
+                <element signature="e#564#707#0" />
+                <element signature="e#1056#1399#0" />
+                <element signature="e#1180#1399#0" />
+                <element signature="e#1679#1723#0" />
+                <element signature="e#1918#1966#0" />
+                <element signature="e#2672#3130#0" />
+                <element signature="e#2728#3108#0" />
+                <element signature="e#3178#3859#0" />
+                <element signature="e#3307#3831#0" />
+                <element signature="e#3338#3831#0" />
+                <element signature="e#3907#5114#0" />
+                <element signature="e#4051#5086#0" />
+                <element signature="e#4082#5086#0" />
+                <element signature="e#4327#4738#0" />
+                <element signature="e#4384#4738#0" />
+                <element signature="e#4537#4738#0" />
+                <element signature="e#5195#5490#1" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -55,8 +70,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/resultat.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="31" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
+            <state relative-caret-position="420">
+              <caret line="28" selection-start-line="28" selection-end-line="28" />
             </state>
           </provider>
         </entry>
@@ -92,6 +107,11 @@
       <find>[]</find>
       <find>append</find>
       <find>np.append</find>
+      <find>g_m2</find>
+      <find>print(</find>
+      <find>je suis</find>
+      <find>print(&quot;return Tr</find>
+      <find>index_g_m_neighbour_in_E_gamma_element</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -105,18 +125,19 @@
         <option value="$PROJECT_DIR$/exemple.py" />
         <option value="$PROJECT_DIR$/scripts/filterData.sh" />
         <option value="$PROJECT_DIR$/scripts/decomData.sh" />
-        <option value="$PROJECT_DIR$/res/resultat.txt" />
         <option value="$PROJECT_DIR$/res/file_test2.txt" />
         <option value="$PROJECT_DIR$/res/file_tes3.txt" />
+        <option value="$PROJECT_DIR$/res/file_test5.txt" />
+        <option value="$PROJECT_DIR$/res/resultat.txt" />
         <option value="$PROJECT_DIR$/algo.py" />
+        <option value="$PROJECT_DIR$/algo+.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="4">
-    <option name="x" value="67" />
-    <option name="y" value="25" />
-    <option name="width" value="927" />
-    <option name="height" value="1173" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="19" />
+    <option name="width" value="960" />
+    <option name="height" value="1060" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -150,10 +171,13 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Documents/Temporal-Matching-in-Link-Streams" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/res" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/res" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/res" />
     </key>
@@ -170,7 +194,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.algo">
     <configuration name="algo" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Temporal-Matching-in-Link-Streams" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -192,9 +216,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="algo+" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Temporal-Matching-in-Link-Streams" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algo+.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.algo" />
+        <item itemvalue="Python.algo+" />
       </list>
     </recent_temporary>
   </component>
@@ -221,23 +267,24 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="25" width="927" height="1175" extended-state="4" />
+    <frame x="0" y="19" width="1920" height="1060" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.19137168" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.27938852" />
       <window_info id="Structure" order="1" sideWeight="0.5016234" side_tool="true" weight="0.2836057" />
       <window_info id="Favorites" order="2" sideWeight="0.5016234" side_tool="true" weight="0.2836057" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32897604" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49920928" weight="0.24952199" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39978212" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.3298279" />
-      <window_info anchor="bottom" id="Bucklescript" order="7" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.3298279" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49920928" visible="true" weight="0.26003823" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5007907" side_tool="true" weight="0.4019608" />
-      <window_info anchor="bottom" id="Python Console" order="11" sideWeight="0.49973643" weight="0.3288719" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32896176" />
+      <window_info anchor="bottom" id="Debug" order="2" weight="0.3989071" />
+      <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="5" weight="0.3298279" />
+      <window_info anchor="bottom" id="Bucklescript" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3298279" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49920928" weight="0.2590164" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.501845" side_tool="true" weight="0.47759563" />
+      <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49973643" weight="0.32786885" />
+      <window_info anchor="bottom" id="Run" order="11" sideWeight="0.49815497" weight="0.36939892" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -303,14 +350,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/enronCleanDeco27300" />
-    <entry file="file://$PROJECT_DIR$/res/fileTest.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/enronCleanDeco1h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-90" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/enronCleanDeco1day">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-242502" />
@@ -328,7 +367,24 @@
         <state relative-caret-position="-370011" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/file_test4.txt" />
+    <entry file="file:///usr/local/lib/python3.7/dist-packages/numpy/__init__.py" />
+    <entry file="file:///usr/lib/python3/dist-packages/apt/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_bundle/pydev_import_hook.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/fileTest.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/res/file_test2.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -339,38 +395,74 @@
     <entry file="file://$PROJECT_DIR$/res/file_tes3.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
-          <caret line="10" column="7" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+          <caret line="10" column="7" lean-forward="true" selection-start-line="10" selection-end-line="10" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/file_test4.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="5" selection-start-line="6" selection-start-column="4" selection-end-line="8" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/file_test5.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="1" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/enronCleanDeco1h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="34" column="4" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/resultat.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="31" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python3.7/dist-packages/numpy/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1170" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/lib/python3/dist-packages/apt/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        <state relative-caret-position="420">
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/algo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="199" column="68" selection-start-line="199" selection-start-column="68" selection-end-line="199" selection-end-column="68" />
+        <state relative-caret-position="58">
+          <caret line="141" selection-start-line="141" selection-end-line="161" selection-end-column="57" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#2677#3783#0" />
-            <element signature="e#3864#4725#0" />
-            <element signature="e#4813#5058#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algo+.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="294" column="40" lean-forward="true" selection-start-line="294" selection-start-column="40" selection-end-line="294" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#80#333#0" />
+            <element signature="e#114#203#0" />
+            <element signature="e#237#333#0" />
+            <element signature="e#564#707#0" />
+            <element signature="e#1056#1399#0" />
+            <element signature="e#1180#1399#0" />
+            <element signature="e#1679#1723#0" />
+            <element signature="e#1918#1966#0" />
+            <element signature="e#2672#3130#0" />
+            <element signature="e#2728#3108#0" />
+            <element signature="e#3178#3859#0" />
+            <element signature="e#3307#3831#0" />
+            <element signature="e#3338#3831#0" />
+            <element signature="e#3907#5114#0" />
+            <element signature="e#4051#5086#0" />
+            <element signature="e#4082#5086#0" />
+            <element signature="e#4327#4738#0" />
+            <element signature="e#4384#4738#0" />
+            <element signature="e#4537#4738#0" />
+            <element signature="e#5195#5490#1" />
           </folding>
         </state>
       </provider>
