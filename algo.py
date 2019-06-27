@@ -29,7 +29,7 @@ class GammaMach:
 
 # TODO lancer les calcule ce soir
 class Matching:
-    REVERSE = False
+    REVERSE = True
 
     def __init__(self, gamma, file):
         self.gamma = gamma
@@ -139,9 +139,8 @@ class Matching:
 
 
 def main():
-    gamma = 2
+    gamma = 3
     path_enron = "./res/test_enron/"
-
     path_rollernet = "./res/rollernet/test_rollernet/"
 
     for file in os.listdir(path_rollernet):

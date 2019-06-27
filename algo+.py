@@ -313,10 +313,7 @@ class Matching:
                 M["elements"].append((t, edge))  # ajout du couple (t, uv)
                 M["max_matching"] += 1
                 nb_gamma = 0
-                pprint.pprint(P)
 
-                # pour supp notre gamma_matching
-                # on doit iterer sur l'intervalle [t:t+gamma-1]
                 t_check = range(t + 1, t + gamma)
                 for t_gamma in t_check:
                     for e in link_stream['E'][t_gamma]:
@@ -333,14 +330,14 @@ class Matching:
 
 
 def main():
-    gamma = 2
+    gamma = 3
     path = "./res/enron/test_enron/"
     path_rollernet = "./res/rollernet/test_rollernet/"
 
-    for file in os.listdir(path):
+    for file in os.listdir(path_rollernet):
         print("\n ...............................................", file,
               "...............................................")
-        g_m = Matching(gamma, path + file)
+        g_m = Matching(gamma, path_rollernet + file)
 
         print("*********************** testing link_stream method ***********************")
         start_time = time.time()
@@ -363,7 +360,7 @@ def main():
         print("algo + - max_matching : ", gamma_matching_with_E_gamma["max_matching"])
 
 
-def test_methode(gamma):
+def test_gammaMatching_L_sort():
     file_enron_clean = r"./res/enronClean"
     file_enron_clean_rename = r"./res/enronCleanRename"
     file_enron_clean_rename_3days = r"./res/enronCleanRename3days"
@@ -378,25 +375,23 @@ def test_methode(gamma):
     file_test4 = r"./res/test_local/file_test4.txt"
     file_test5 = r"./res/test_local/file_test5.txt"
 
-    g_m = Matching(gamma, file_test5)
+    gamma = 2
+    path_enron = "./res/enron/test_enron/"
+    path_rollernet = "./res/rollernet/test_rollernet/"
 
-    print("*********************** testing link_stream method ***********************")
-    start_time = time.time()
-    link_stream = g_m.linkStreamDict()
-    print("Temps d execution link_stream : %s secondes ---" % (time.time() - start_time))
-    print("L : ( V:", link_stream["V"], ", T:", link_stream["T"], ", E:", len(link_stream["E"]), ")")
+    for file in os.listdir(path_enron):
+        print("\n ...............................................", file,
+              "...............................................")
+        g_m = Matching(gamma, path_enron + file)
 
-    pprint.pprint(link_stream['E'])
-    print()
-    gammaMatching_L_sort = g_m.gammaMatching_L_sort(link_stream, gamma)
-    print()
+        link_stream = g_m.linkStreamDict()
 
-    pprint.pprint(gammaMatching_L_sort)
+        gammaMatching_L_sort = g_m.gammaMatching_L_sort(link_stream, gamma)
+
+        print(gammaMatching_L_sort['max_matching'])
 
     print("\nFIN")
 
 
 if __name__ == '__main__':
-    gamma = 2
-    test_methode(gamma)
-    main()
+    test_gammaMatching_L_sort()
