@@ -141,12 +141,14 @@ class Matching:
 
 def main():
     gamma = 2
-    path = "./res/to_test/"
+    path_enron = "./res/test_enron/"
 
-    for file in os.listdir(path):
+    path_rollernet = "./res/rollernet/test_rollernet/"
+
+    for file in os.listdir(path_rollernet):
         print("\n ...............................................", file,
               "...............................................")
-        g_m = Matching(gamma, path + file)
+        g_m = Matching(gamma, path_rollernet + file)
 
         print("****************** testing link_stream method ******************")
         start_time = time.time()
@@ -160,6 +162,8 @@ def main():
         M = g_m.gammaMatching(link_stream, gamma)
         print("Temps d execution gamma_matching : %s secondes ---" % (time.time() - start_time))
         print("algo - max_matching: ", M["max_matching"])
+
+    print("\nFIN")
 
 
 if __name__ == '__main__':

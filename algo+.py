@@ -289,8 +289,8 @@ class Matching:
 
 def main():
     gamma = 2
-    # path = "./res/to_test/"
-    path = "./res/test_local/"
+    path = "./res/test_enron/"
+    path_rollernet = "./res/rollernet/test_rollernet/"
 
     for file in os.listdir(path):
         print("\n ...............................................", file,
@@ -316,6 +316,8 @@ def main():
         E_gamma_matching = g_m.gamma_matching_with_E_gamma(E_gamma, gamma)
         print("Temps d execution : %s secondes ---" % (time.time() - start_time))
         print("algo + - max_matching : ", E_gamma_matching["max_matching"])
+
+    print("\nFIN")
 
 
 if __name__ == '__main__':
