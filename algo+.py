@@ -379,10 +379,10 @@ def test_gammaMatching_L_sort():
     path_enron = "./res/enron/test_enron/"
     path_rollernet = "./res/rollernet/test_rollernet/"
 
-    for file in os.listdir(path_enron):
+    for file in os.listdir(path_rollernet):
         print("\n ...............................................", file,
               "...............................................")
-        g_m = Matching(gamma, path_enron + file)
+        g_m = Matching(gamma, path_rollernet + file)
 
         link_stream = g_m.linkStreamDict()
 
@@ -394,4 +394,5 @@ def test_gammaMatching_L_sort():
 
 
 if __name__ == '__main__':
-    test_gammaMatching_L_sort()
+    #   test_gammaMatching_L_sort()
+    main()
