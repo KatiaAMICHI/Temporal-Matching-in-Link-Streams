@@ -14,7 +14,6 @@ class Edge:
         return "Edge(u:" + self.u + ", v:" + self.v + ", nb_neighbours:" + str(self.nb_neighbours) + ")"
 
 
-# TODO un scripte pour tester tt les fichier d'un repertoir
 # TODO laisser ou enlever t
 class GammaMach:
     def __init__(self, t, u, v, nb_neighbours=None):
