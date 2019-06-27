@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="34c30e85-9f08-4175-a8ba-b0ca0b29cb00" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algo+.py" beforeDir="false" afterPath="$PROJECT_DIR$/algo+.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/algo.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,22 +19,30 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/algo+.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-752">
-              <caret line="337" column="5" lean-forward="true" selection-start-line="337" selection-start-column="5" selection-end-line="337" selection-end-column="5" />
+            <state relative-caret-position="282">
+              <caret line="298" column="28" selection-start-line="298" selection-start-column="8" selection-end-line="298" selection-end-column="28" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
                 <element signature="e#3927#5134#0" />
-                <element signature="e#10736#12637#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="20" selection-start-column="20" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/algo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-167">
-              <caret line="142" column="14" lean-forward="true" selection-start-line="142" selection-end-line="143" />
+            <state relative-caret-position="517">
+              <caret line="159" column="12" lean-forward="true" selection-start-line="159" selection-start-column="12" selection-end-line="159" selection-end-column="12" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -54,7 +61,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>original_link_stream</find>
       <find>;</find>
       <find>{</find>
       <find>shift</find>
@@ -84,6 +90,7 @@
       <find>max_nb_g_maching</find>
       <find>g_m_neighbour</find>
       <find>nb_g_maching</find>
+      <find>E_gamma_matching</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -104,10 +111,11 @@
         <option value="$PROJECT_DIR$/res/test_local/file_test6.txt" />
         <option value="$PROJECT_DIR$/algo.py" />
         <option value="$PROJECT_DIR$/algo+.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="4">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="993" />
     <option name="y" value="25" />
     <option name="width" value="927" />
@@ -171,7 +179,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.algo">
+  <component name="RunManager" selected="Python.algo+">
     <configuration name="algo" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Temporal-Matching-in-Link-Streams" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -216,8 +224,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.algo" />
         <item itemvalue="Python.algo+" />
+        <item itemvalue="Python.algo" />
       </list>
     </recent_temporary>
   </component>
@@ -244,9 +252,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="993" y="25" width="927" height="1175" extended-state="4" />
+    <frame x="67" y="25" width="1853" height="1175" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.26216814" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.049726777" />
       <window_info id="Structure" order="1" sideWeight="0.5016234" side_tool="true" weight="0.2836057" />
       <window_info id="Favorites" order="2" sideWeight="0.5016234" side_tool="true" weight="0.2836057" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -257,10 +266,10 @@
       <window_info anchor="bottom" id="TODO" order="5" weight="0.3298279" />
       <window_info anchor="bottom" id="Bucklescript" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3298279" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49920928" weight="0.25717017" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49920928" visible="true" weight="0.25717017" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.501845" side_tool="true" weight="0.47759563" />
       <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49973643" weight="0.32695985" />
-      <window_info active="true" anchor="bottom" id="Run" order="11" sideWeight="0.49815497" visible="true" weight="0.6806883" />
+      <window_info anchor="bottom" id="Run" order="11" sideWeight="0.49815497" weight="0.27055448" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -388,25 +397,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/algo+.py">
+    <entry file="file://$PROJECT_DIR$/algo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-752">
-          <caret line="337" column="5" lean-forward="true" selection-start-line="337" selection-start-column="5" selection-end-line="337" selection-end-column="5" />
+        <state relative-caret-position="517">
+          <caret line="159" column="12" lean-forward="true" selection-start-line="159" selection-start-column="12" selection-end-line="159" selection-end-column="12" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#3927#5134#0" />
-            <element signature="e#10736#12637#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/algo.py">
+    <entry file="file://$PROJECT_DIR$/algo+.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-167">
-          <caret line="142" column="14" lean-forward="true" selection-start-line="142" selection-end-line="143" />
+        <state relative-caret-position="282">
+          <caret line="298" column="28" selection-start-line="298" selection-start-column="8" selection-end-line="298" selection-end-column="28" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#3927#5134#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="20" selection-start-column="20" selection-end-column="20" />
         </state>
       </provider>
     </entry>
