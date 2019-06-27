@@ -1,5 +1,6 @@
 from collections import defaultdict
 import time, os
+import pprint
 
 
 class Edge:
@@ -27,7 +28,6 @@ class GammaMach:
             self.nb_neighbours) + ")"
 
 
-# TODO lancer les calcule ce soir
 class Matching:
     REVERSE = False
 
@@ -54,10 +54,8 @@ class Matching:
         return True
 
     def estCompatibleE_gamma(self, gammaMatching: GammaMach, M: dict) -> bool:
-        #  print("....... je suis dans estCompatibleE_gamma ......... je suis : ", gammaMatching)
         t = gammaMatching.t
         if gammaMatching in M["elements"]:
-            #  print("return True")
             return True
 
         for gammaMatchingM in M["elements"]:
@@ -70,16 +68,13 @@ class Matching:
             if gammaMatching.u == gammaMatchingM.u or gammaMatching.v == gammaMatchingM.v or \
                     gammaMatching.u == gammaMatchingM.v or gammaMatching.v == gammaMatchingM.u:
 
-                # print(">>>>>>>>  gammaMatching : ", gammaMatching)
                 if self.REVERSE:
                     t_check = range(tM - self.gamma, tM)
                 else:
                     t_check = range(tM, tM + self.gamma)
 
                 if t in t_check:
-                    #   print("return True")
                     return True
-        #  print("return False")
         return False
 
     def contient(self, P: [Edge], gamma: int, edge: Edge, t: int) -> bool:
@@ -100,6 +95,33 @@ class Matching:
                 t += 1
             if nb_gammma == gamma:
                 return True
+
+        return False
+
+    def contient(self, E: dict, gamma: int, edge: Edge, t: int) -> bool:
+        nb_gammma = 1
+        for tP, edgeP_list in E.items():
+            if tP == t:
+                continue
+            if self.REVERSE:
+                t_check = t - 1
+            else:
+                t_check = t + 1
+
+            if tP != t_check:
+                continue
+
+            for edgeP in edgeP_list:
+                if edgeP.u != edge.u or edgeP.v != edge.v:
+                    continue
+
+                nb_gammma += 1
+                if self.REVERSE:
+                    t -= 1
+                else:
+                    t += 1
+                if nb_gammma == gamma:
+                    return True
 
         return False
 
@@ -220,24 +242,16 @@ class Matching:
         # P_gamma.reverse()
 
         for t, gammaMachingList in E_gamma["elements"].items():
-            # print("t : ", t,
-            #    ".........................................................................................")
             while gammaMachingList:
                 gammaMaching = gammaMachingList.pop()
-                # print("<<<<<<<<<<<<<gammaMaching  pop : ", gammaMaching)
-                # print("mes voisins : ", gammaMaching.neighbours)
                 gammaMaching_to_add = gammaMaching
                 max_nb_g_maching = E_gamma["max_matching"] - gammaMaching.nb_neighbours
-                # print("max_nb_g_maching : ", max_nb_g_maching)
                 for g_m_neighbour in gammaMaching.neighbours:
                     nb_g_maching = E_gamma["max_matching"] - g_m_neighbour.nb_neighbours
-                    # print("nb_g_maching  : ", nb_g_maching)
                     if max_nb_g_maching < nb_g_maching:
-                        # print("++++++ je suis : ", g_m_neighbour)
                         gammaMaching_to_add = g_m_neighbour
 
                 if not self.estCompatibleE_gamma(gammaMaching_to_add, M):
-                    # print(">>>>>>>>>>>>>>> je vais ajouter : ", gammaMaching_to_add)
                     M["elements"].append(gammaMaching_to_add)
                     M["max_matching"] += 1
 
@@ -245,14 +259,12 @@ class Matching:
                     for g_m_neighbour in gammaMaching_to_add.neighbours:
                         if g_m_neighbour == gammaMaching_to_add:
                             continue
-                        # print("********************* je vais supprimer : ", g_m_neighbour)
 
                         # supprimer le voisins dans ses voisins
                         # pour chaque voisins le truver et le supprimer et décrimenter le nb_voisins
                         for n_g_m_neighbour in g_m_neighbour.neighbours:
                             if n_g_m_neighbour == gammaMaching_to_add:
                                 continue
-                            # print("$$ je suis le voisin du voisin | n_g_m_neighbour : ", n_g_m_neighbour)
 
                             try:
                                 index_g_m_neighbour_in_n_g_m_neighbour = n_g_m_neighbour.neighbours.index(g_m_neighbour)
@@ -264,7 +276,6 @@ class Matching:
                                     index_g_m_neighbour_in_n_g_m_neighbour]
                             except:
                                 pass
-                                # print("je pense il a déja été suprimer")
 
                         # supprission du voisin dans E-gamma
                         try:
@@ -273,7 +284,6 @@ class Matching:
                             del E_gamma["elements"][g_m_neighbour.t][index_g_m_neighbour_in_E_gamma_element]
                         except:
                             pass
-                            # print("???????????????????????")
                     # enfin le suprimer dans la liste des gamma_matchings
                     try:
                         index_gamma_matching_to_add = E_gamma["elements"][gammaMaching_to_add.t].index(
@@ -281,10 +291,44 @@ class Matching:
                         del E_gamma["E"][gammaMaching_to_add.t][index_gamma_matching_to_add]
                     except:
                         pass
-                        # print("???????????????????????")
                     E_gamma["max_matching"] = E_gamma["max_matching"] - 1 - gammaMaching_to_add.nb_neighbours
 
         return M
+
+    def gammaMatching_L_sort(self, link_stream: dict, gamma: int) -> dict:
+        M = {"gamma": gamma, "max_matching": 0, "elements": []}
+
+        for t in link_stream['E']:
+            link_stream['E'][t].sort(key=lambda x: x.nb_neighbours, reverse=False)
+
+        for t, P in link_stream['E'].items():
+            for edge in P:
+                u = edge.u
+                v = edge.v
+                if not self.estCompatible(edge, t, M):
+                    continue
+                if not self.contient(link_stream['E'], gamma, edge, t):
+                    continue
+                M["elements"].append((t, edge))  # ajout du couple (t, uv)
+                M["max_matching"] += 1
+                nb_gamma = 0
+                pprint.pprint(P)
+
+                # pour supp notre gamma_matching
+                # on doit iterer sur l'intervalle [t:t+gamma-1]
+                t_check = range(t + 1, t + gamma)
+                for t_gamma in t_check:
+                    for e in link_stream['E'][t_gamma]:
+                        if e.u == u and e.v == v:
+                            nb_gamma += 1
+                            link_stream['E'][t_gamma].remove(e)
+                            # passer au suivant
+                            break
+
+        return M
+
+    def mu_max_matching(self, L: dict, gamma: int):
+        pass
 
 
 def main():
@@ -318,5 +362,37 @@ def main():
         print("algo + - max_matching : ", E_gamma_matching["max_matching"])
 
 
+def test_methode(gamma):
+    file_enron_clean = r"./res/enronClean"
+    file_enron_clean_rename = r"./res/enronCleanRename"
+    file_enron_clean_rename_3days = r"./res/enronCleanRename3days"
+    file_enron_clean_rename_6days = r"./res/enronCleanRename6days"
+    file_enronCleanDeco1h = r"./res/enronCleanDeco1h"
+    file_enronCleanDeco3h = r"./res/enronCleanDeco3h"
+    file_enronCleanDeco1day = r"./res/enronCleanDeco1day"
+
+    file_test2 = r"./res/test_local/file_test2.txt"
+    file_test3 = r"./res/test_local/file_tes3.txt"
+    file_test6 = r"./res/test_local/file_test6.txt"
+    file_test4 = r"./res/test_local/file_test4.txt"
+    file_test5 = r"./res/test_local/file_test5.txt"
+
+    g_m = Matching(gamma, file_test5)
+
+    print("*********************** testing link_stream method ***********************")
+    start_time = time.time()
+    link_stream = g_m.linkStreamDict()
+    print("Temps d execution link_stream : %s secondes ---" % (time.time() - start_time))
+    print("L : ( V:", link_stream["V"], ", T:", link_stream["T"], ", E:", len(link_stream["E"]), ")")
+
+    pprint.pprint(link_stream['E'])
+    print()
+    gammaMatching_L_sort = g_m.gammaMatching_L_sort(link_stream, gamma)
+    print()
+
+    pprint.pprint(gammaMatching_L_sort)
+
+
 if __name__ == '__main__':
-    main()
+    gamma = 3
+    test_methode(gamma)
