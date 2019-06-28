@@ -14,7 +14,7 @@ class Edge:
         return "Edge(u:" + self.u + ", v:" + self.v + ", nb_neighbours:" + str(self.nb_neighbours) + ")"
 
 
-# TODO laisser ou enlever t
+# TODO laisser ou enlever t ?
 class GammaMach:
     def __init__(self, t, u, v):
         self.t = t
@@ -260,7 +260,7 @@ class Matching:
                         if g_m_neighbour == gammaMaching_to_add:
                             continue
 
-                        # supprimer ses voisins dans leurs voisins
+                        # supprimer ce voisin dans leurs voisins
                         # pour chaque voisins le truver et le supprimer et décrimenter le nb_voisins
                         for n_g_m_neighbour in g_m_neighbour.neighbours:
                             if n_g_m_neighbour == gammaMaching_to_add:
