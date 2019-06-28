@@ -325,8 +325,36 @@ class Matching:
 
         return M
 
-    def mu_max_matching(self, L: dict, gamma: int):
-        pass
+    def mu_max_matching(self, L: dict, E_gamma: dict, gamma: int):
+        M = {"gamma": gamma, "max_matching": 0, "elements": []}
+
+        for t, P in L['E'].items():
+            while P:
+                element_max_y_matching = []
+                max_y_matching = -1
+                nb_y_matching = len(P)
+
+                for edge in P:
+                    # d'abor trouver tt les gamma_arete possible dans l'interal [t, t+gamma-&]
+                    u = edge.u
+                    v = edge.v
+                    if not self.estCompatible(edge, t, M):
+                        continue
+                    if not self.contient__L_sort(L['E'], gamma, edge, t):
+                        continue
+
+                # ajout du résultat finale le le y_matchin maximum
+                M["elements"].extend(max_y_matching)
+                M["max_matching"] += 1
+                nb_gamma = 0
+
+                t_check = range(t + 1, t + gamma)
+                for t_gamma in t_check:
+                    for e in L['E'][t_gamma]:
+                        if e.u == u and e.v == v:
+                            nb_gamma += 1
+                            L['E'][t_gamma].remove(e)
+                            break
 
 
 def main():
@@ -391,6 +419,31 @@ def test_gammaMatching_L_sort():
         print(gammaMatching_L_sort['max_matching'])
 
     print("\nFIN")
+
+
+def test_method():
+    gamma = 3
+
+    file_test2 = r"./res/test_local/file_test2.txt"
+    file_test3 = r"./res/test_local/file_tes3.txt"
+    file_test6 = r"./res/test_local/file_test6.txt"
+    file_test4 = r"./res/test_local/file_test4.txt"
+    file_test5 = r"./res/test_local/file_test5.txt"
+
+    g_m = Matching(gamma, file_test5)
+
+    print("****************** testing link_stream method ******************")
+    start_time = time.time()
+    link_stream = g_m.linkStream()
+    print("Temps d execution link_stream : %s secondes ---" % (time.time() - start_time))
+    print("L : ( V:", link_stream["V"], ", T:", link_stream["T"], ", E:", len(link_stream["E"]), ")")
+    print()
+
+    print("************************ gamma_matching ************************")
+    start_time = time.time()
+    M = g_m.gammaMatching(link_stream, gamma)
+    print("Temps d execution gamma_matching : %s secondes ---" % (time.time() - start_time))
+    print("algo - max_matching: ", M["max_matching"])
 
 
 if __name__ == '__main__':
