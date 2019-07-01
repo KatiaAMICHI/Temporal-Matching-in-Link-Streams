@@ -176,8 +176,10 @@ def test_method():
     file_test6 = r"./res/test_local/file_test6.txt"
     file_test4 = r"./res/test_local/file_test4.txt"
     file_test5 = r"./res/test_local/file_test5.txt"
+    rollernetClean30min = r"./res/rollernet/test_rollernet/rollernetClean30mins"
+    rollernetClean30minTO = r"./res/rollernet/test_rollernet/rollernetClean30minsT0"
 
-    g_m = Matching(gamma, file_test5)
+    g_m = Matching(gamma, rollernetClean30minTO)
 
     print("****************** testing link_stream method ******************")
     start_time = time.time()
@@ -194,5 +196,5 @@ def test_method():
 
 
 if __name__ == '__main__':
-    main()
-    # test_method()
+    # main()
+    test_method()
