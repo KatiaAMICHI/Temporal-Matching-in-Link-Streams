@@ -577,7 +577,6 @@ def test_method():
     start_time = time.time()
     M = g_m.gammaMatching_E_gamma_avancer(E_gamma, gamma)
     print("Temps d execution gamma_matching : %s secondes ---" % (time.time() - start_time))
-    # print("algo+ - elements: ", M["elements"])
     print("algo - max_matching: ", M["max_matching"])
 
 
