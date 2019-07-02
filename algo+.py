@@ -14,7 +14,6 @@ class Edge:
         return "Edge(u:" + self.u + ", v:" + self.v + ", nb_neighbours:" + str(self.nb_neighbours) + ")"
 
 
-# TODO laisser ou enlever t ?
 class GammaMach:
     def __init__(self, t, u, v):
         self.t = t
@@ -98,7 +97,7 @@ class Matching:
 
         return False
 
-    def contient__L_sort(self, E: dict, gamma: int, edge: Edge, t: int) -> bool:
+    def contientL_sort(self, E: dict, gamma: int, edge: Edge, t: int) -> bool:
         nb_gammma = 1
         for tP, edgeP_list in E.items():
             if tP == t:
@@ -280,7 +279,7 @@ class Matching:
 
         return E_gamma
 
-    def gammaMatching_E_gamma(self, E_gamma: dict, gamma: int) -> dict:
+    def gammaMatchingE_gamma(self, E_gamma: dict, gamma: int) -> dict:
         M = {"gamma": gamma, "max_matching": 0, "elements": []}
 
         for t, gammaMachingList in E_gamma["elements"].items():
@@ -340,7 +339,7 @@ class Matching:
 
         return M
 
-    def gammaMatching_E_gamma_avancer(self, E_gamma: dict, gamma: int) -> dict:
+    def gammaMatchingE_gamma_avancer(self, E_gamma: dict, gamma: int) -> dict:
         M = {"gamma": gamma, "max_matching": 0, "elements": []}
 
         for t, gammaMachingList in E_gamma["elements"].items():
@@ -426,7 +425,7 @@ class Matching:
                 v = edge.v
                 if not self.estCompatible(edge, t, M):
                     continue
-                if not self.contient__L_sort(link_stream['E'], gamma, edge, t):
+                if not self.contientL_sort(link_stream['E'], gamma, edge, t):
                     continue
                 M["elements"].append((t, edge))  # ajout du couple (t, uv)
                 M["max_matching"] += 1
@@ -443,96 +442,8 @@ class Matching:
 
         return M
 
-    def mu_max_matching(self, L: dict, E_gamma: dict, gamma: int):
-        M = {"gamma": gamma, "max_matching": 0, "elements": []}
-        element_max_y_matching_t = []
-
-        for t, P in L['E'].items():
-            # element_max_y_matching_t = []
-            while P:
-                edge = P.pop()
-                max_y_matching_t = 0
-                nb_g_m_neighbour = -1
-
-                if not self.contient__L_sort(L['E'], gamma, edge, t):
-                    continue
-
-                gammaMaching = None
-                for g_m in E_gamma["elements"][t]:
-                    if g_m.u == edge.u and g_m.v == edge.v:
-                        gammaMaching = g_m
-                        break
-
-                # juste pour le moment, après je dois chercher la gaam_arrete a partir de l'intervalle [t, t + gamma_m]
-                if gammaMaching:
-                    gammaMaching_to_add = gammaMaching
-                    nb_g_m = E_gamma["max_matching"] - gammaMaching.nb_neighbours
-
-                    for g_m_neighbour in gammaMaching.neighbours:
-                        nb_g_m_neighbour = E_gamma["max_matching"] - g_m_neighbour.nb_neighbours
-                        if nb_g_m < nb_g_m_neighbour:
-                            gammaMaching_to_add = g_m_neighbour
-
-                    # ajout de gammaMathcing
-                    if not self.estCompatibleE_gamma(gammaMaching_to_add,
-                                                     M) and gammaMaching_to_add not in element_max_y_matching_t:
-                        print("je suis la , le gamma to add : ", gammaMaching_to_add)
-                        element_max_y_matching_t.append(gammaMaching_to_add)
-                        max_y_matching_t = max(nb_g_m, nb_g_m_neighbour)
-
-            # mnt on doit vérifier pour l'intervalle [t, t+gamma]
-            for t_bis in range(t, t + gamma):
-                pass
-            print(element_max_y_matching_t)
-
-
 def main():
     gamma = 3
-    path = "./res/enron/test_enron/"
-    path_rollernet = "./res/rollernet/test_rollernet/"
-
-    for file in os.listdir(path_rollernet):
-        print("\n ...............................................", file,
-              "...............................................")
-        g_m = Matching(gamma, path_rollernet + file)
-
-        print("*********************** testing link_stream method ***********************")
-        start_time = time.time()
-        link_stream = g_m.linkStreamList()
-        print("Temps d execution link_stream : %s secondes ---" % (time.time() - start_time))
-        print("L : ( V:", link_stream["V"], ", T:", link_stream["T"], ", E:", len(link_stream["E"]), ")")
-        print()
-
-        print("**************************** E_gamma nb_matching ****************************")
-        start_time = time.time()
-        E_gamma = g_m.E_gammaMatching(link_stream, gamma)
-        print("Temps d execution : %s secondes ---" % (time.time() - start_time))
-        print("E_gamma nb_matching : ", E_gamma["max_matching"])
-        print()
-
-        print("**************************** E_gamma max_matching ****************************")
-        start_time = time.time()
-        gamma_matching_with_E_gamma = g_m.gammaMatching_E_gamma(E_gamma, gamma)
-        print("Temps d execution : %s secondes ---" % (time.time() - start_time))
-        print("algo + - max_matching : ", gamma_matching_with_E_gamma["max_matching"])
-
-
-def test_gammaMatching_L_sort():
-    file_enron_clean = r"./res/enronClean"
-    file_enron_clean_rename = r"./res/enronCleanRename"
-    file_enron_clean_rename_3days = r"./res/enronCleanRename3days"
-    file_enron_clean_rename_6days = r"./res/enronCleanRename6days"
-    file_enronCleanDeco1h = r"./res/enronCleanDeco1h"
-    file_enronCleanDeco3h = r"./res/enronCleanDeco3h"
-    file_enronCleanDeco1day = r"./res/enronCleanDeco1day"
-
-    file_test2 = r"./res/test_local/file_test2.txt"
-    file_test3 = r"./res/test_local/file_tes3.txt"
-    file_test6 = r"./res/test_local/file_test6.txt"
-    file_test4 = r"./res/test_local/file_test4.txt"
-    file_test5 = r"./res/test_local/file_test5.txt"
-
-    gamma = 2
     path_enron = "./res/enron/test_enron/"
     path_rollernet = "./res/rollernet/test_rollernet/"
 
@@ -541,13 +452,24 @@ def test_gammaMatching_L_sort():
               "...............................................")
         g_m = Matching(gamma, path_rollernet + file)
 
-        link_stream = g_m.linkStreamDict()
+        print("*********************** testing link_stream method ***********************")
+        link_stream_list = g_m.linkStreamList()
+        link_stream_dict = g_m.linkStreamDict()
 
-        gammaMatching_L_sort = g_m.gammaMatching_L_sort(link_stream, gamma)
+        print("L : ( V:", link_stream_list["V"], ", T:", link_stream_list["T"], ", E:", len(link_stream_list["E"]), ")")
 
-        print(gammaMatching_L_sort['max_matching'])
+        print("**************************** E_gamma nb_matching ****************************")
+        E_gamma = g_m.E_gammaMatching(link_stream_list, gamma)
 
-    print("\nFIN")
+        print("**************************** E_gamma max_matching ****************************")
+        start_time = time.time()
+        gamma_matching_with_E_gamma = g_m.gammaMatchingE_gamma(E_gamma, gamma)
+        print("gamma_matching_with_E_gamma - Temps d execution : %s secondes ---" % (time.time() - start_time))
+        gammaMatching_L_sort = g_m.gammaMatching_L_sort(link_stream_dict, gamma)
+        gamma_matching_with_E_gamma_avancer = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
+
+        print(E_gamma["max_matching"], " & 0 & 0 & ", gamma_matching_with_E_gamma["max_matching"], " & ",
+              gammaMatching_L_sort['max_matching'], " & ", gamma_matching_with_E_gamma_avancer["max_matching"])
 
 
 def test_method():
@@ -575,7 +497,7 @@ def test_method():
 
     print("************************ gamma_matching ************************")
     start_time = time.time()
-    M = g_m.gammaMatching_E_gamma_avancer(E_gamma, gamma)
+    M = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
     print("Temps d execution gamma_matching : %s secondes ---" % (time.time() - start_time))
     print("algo - max_matching: ", M["max_matching"])
 
@@ -598,9 +520,9 @@ def result():
 
         print("**************************** E_gamma max_matching ****************************")
         start_time = time.time()
-        gamma_matching_with_E_gamma_avancer = g_m.gammaMatching_E_gamma_avancer(E_gamma, gamma)
+        gamma_matching_with_E_gamma_avancer = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
         print("Temps d execution : %s secondes ---" % (time.time() - start_time))
-        print("gammaMatching_E_gamma- max_matching : ", gamma_matching_with_E_gamma_avancer["max_matching"])
+        print("gammaMatchingE_gamma- max_matching : ", gamma_matching_with_E_gamma_avancer["max_matching"])
 
     for file in os.listdir(path):
         print("\n ...............................................", file,
@@ -615,11 +537,11 @@ def result():
 
         print("**************************** E_gamma max_matching ****************************")
         start_time = time.time()
-        gamma_matching_with_E_gamma = g_m.gammaMatching_E_gamma(E_gamma, gamma)
-        # gamma_matching_with_E_gamma_avancer = g_m.gammaMatching_E_gamma_avancer(E_gamma, gamma)
+        gamma_matching_with_E_gamma = g_m.gammaMatchingE_gamma(E_gamma, gamma)
+        # gamma_matching_with_E_gamma_avancer = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
         print("Temps d execution : %s secondes ---" % (time.time() - start_time))
-        print("gammaMatching_E_gamma- max_matching : ", gamma_matching_with_E_gamma["max_matching"])
-        # print("gammaMatching_E_gamma_avancer - max_matching : ", gamma_matching_with_E_gamma_avancer["max_matching"])
+        print("gammaMatchingE_gamma- max_matching : ", gamma_matching_with_E_gamma["max_matching"])
+        # print("gammaMatchingE_gamma_avancer - max_matching : ", gamma_matching_with_E_gamma_avancer["max_matching"])
 
 
 if __name__ == '__main__':
