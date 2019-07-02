@@ -196,5 +196,5 @@ def test_method():
 
 
 if __name__ == '__main__':
-    # main()
-    test_method()
+    main()
+    # test_method()

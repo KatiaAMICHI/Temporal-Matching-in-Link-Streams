@@ -581,7 +581,7 @@ def test_method():
 
 
 def result():
-    gamma = 3
+    gamma = 2
     path = "./res/enron/test_enron/"
     path_rollernet = "./res/rollernet/test_rollernet/"
 
