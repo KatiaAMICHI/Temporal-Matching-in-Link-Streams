@@ -314,7 +314,8 @@ class Matching:
                                     n_g_m_neighbour)
                                 E_gamma_copy["elements"][n_g_m_neighbour.t][
                                     index_n_g_m_neighbour_in_E_gamma].nb_neighbours -= 1
-                                del E_gamma_copy["elements"][n_g_m_neighbour.t][index_n_g_m_neighbour_in_E_gamma].neighbours[
+                                del E_gamma_copy["elements"][n_g_m_neighbour.t][
+                                    index_n_g_m_neighbour_in_E_gamma].neighbours[
                                     index_g_m_neighbour_in_n_g_m_neighbour]
                             except:
                                 pass
@@ -557,6 +558,29 @@ def result():
         # print("gammaMatchingE_gamma_avancer - max_matching : ", gamma_matching_with_E_gamma_avancer["max_matching"])
 
 
+def test_file():
+    gamma = 3
+    file = "./res/test_local/fileTest.txt"
+
+    print("\n ...............................................", file,
+          "...............................................")
+    g_m = Matching(gamma, file)
+
+    print("*********************** testing link_stream method ***********************")
+    link_stream = g_m.linkStreamList()
+
+    print("**************************** E_gamma nb_matching ****************************")
+    E_gamma = g_m.E_gammaMatching(link_stream, gamma)
+
+    print("**************************** E_gamma max_matching ****************************")
+    start_time = time.time()
+    gamma_matching_with_E_gamma_avancer = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
+    print("Temps d execution : %s secondes ---" % (time.time() - start_time))
+    print("gammaMatchingE_gamma- max_matching : ", gamma_matching_with_E_gamma_avancer["max_matching"])
+    pprint.pprint(gamma_matching_with_E_gamma_avancer["elements"])
+
+
 if __name__ == '__main__':
-    main()
+    # main()
     # test_method()
+    test_file()
