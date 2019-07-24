@@ -282,6 +282,8 @@ class Matching:
     def gammaMatchingE_gamma(self, E_gamma: dict, gamma: int) -> dict:
         M = {"gamma": gamma, "max_matching": 0, "elements": []}
         E_gamma_copy = E_gamma.copy()
+        print("!Egamma copy", E_gamma["elements"])
+
         for t, gammaMachingList in E_gamma_copy["elements"].items():
             while gammaMachingList:
                 gammaMaching = gammaMachingList.pop()
@@ -314,7 +316,8 @@ class Matching:
                                     n_g_m_neighbour)
                                 E_gamma_copy["elements"][n_g_m_neighbour.t][
                                     index_n_g_m_neighbour_in_E_gamma].nb_neighbours -= 1
-                                del E_gamma_copy["elements"][n_g_m_neighbour.t][index_n_g_m_neighbour_in_E_gamma].neighbours[
+                                del E_gamma_copy["elements"][n_g_m_neighbour.t][
+                                    index_n_g_m_neighbour_in_E_gamma].neighbours[
                                     index_g_m_neighbour_in_n_g_m_neighbour]
                             except:
                                 pass
@@ -336,23 +339,24 @@ class Matching:
                         pass
 
                     E_gamma_copy["max_matching"] = E_gamma_copy["max_matching"] - 1 - gammaMaching_to_add.nb_neighbours
-
+        del E_gamma_copy
         return M
 
     def gammaMatchingE_gamma_avancer(self, E_gamma: dict, gamma: int) -> dict:
         M = {"gamma": gamma, "max_matching": 0, "elements": []}
 
-        for t, gammaMachingList in E_gamma["elements"].items():
-            # print("***************************** t = ", t, "*****************************")
+        E_gamma_copy = E_gamma.copy()
+
+        for t, gammaMachingList in E_gamma_copy["elements"].items():
             while gammaMachingList:
                 gammaMaching = gammaMachingList.pop()
-                # print(">>>> : ", gammaMaching)
                 gammaMaching_to_add = gammaMaching
-                nb_g_m = E_gamma["max_matching"] - gammaMaching.nb_neighbours
+                nb_g_m = E_gamma_copy["max_matching"] - gammaMaching.nb_neighbours
                 change = False
                 gammaMaching_bis = None
+
                 for g_m_neighbour in gammaMaching.neighbours:
-                    nb_g_m_neighbour = E_gamma["max_matching"] - g_m_neighbour.nb_neighbours
+                    nb_g_m_neighbour = E_gamma_copy["max_matching"] - g_m_neighbour.nb_neighbours
                     if nb_g_m < nb_g_m_neighbour:
                         change = True
                         nb_g_m = nb_g_m_neighbour
@@ -362,7 +366,7 @@ class Matching:
                 # alors on doit vérifier les voisins de g_m_neighbour qui est le new gammaMaching_to_add
                 if change:
                     for g_m_n_neighbour in gammaMaching_bis.neighbours:
-                        nb_g_m_n_neighbour = E_gamma["max_matching"] - g_m_n_neighbour.nb_neighbours
+                        nb_g_m_n_neighbour = E_gamma_copy["max_matching"] - g_m_n_neighbour.nb_neighbours
                         if nb_g_m < nb_g_m_n_neighbour:
                             gammaMaching_to_add = gammaMaching
 
@@ -384,33 +388,34 @@ class Matching:
                                 continue
                             try:
                                 index_g_m_neighbour_in_n_g_m_neighbour = n_g_m_neighbour.neighbours.index(g_m_neighbour)
-                                index_n_g_m_neighbour_in_E_gamma = E_gamma["elements"][n_g_m_neighbour.t].index(
+                                index_n_g_m_neighbour_in_E_gamma = E_gamma_copy["elements"][n_g_m_neighbour.t].index(
                                     n_g_m_neighbour)
-                                E_gamma["elements"][n_g_m_neighbour.t][
+                                E_gamma_copy["elements"][n_g_m_neighbour.t][
                                     index_n_g_m_neighbour_in_E_gamma].nb_neighbours -= 1
-                                del E_gamma["elements"][n_g_m_neighbour.t][index_n_g_m_neighbour_in_E_gamma].neighbours[
+                                del E_gamma_copy["elements"][n_g_m_neighbour.t][
+                                    index_n_g_m_neighbour_in_E_gamma].neighbours[
                                     index_g_m_neighbour_in_n_g_m_neighbour]
                             except:
                                 pass
 
-                        # suppression du voisins dans E_gamma
+                        # suppression du voisins dans E_gamma_copy
                         try:
-                            index_g_m_neighbour_in_E_gamma_element = E_gamma["elements"][g_m_neighbour.t].index(
+                            index_g_m_neighbour_in_E_gamma_element = E_gamma_copy["elements"][g_m_neighbour.t].index(
                                 g_m_neighbour)
-                            del E_gamma["elements"][g_m_neighbour.t][index_g_m_neighbour_in_E_gamma_element]
+                            del E_gamma_copy["elements"][g_m_neighbour.t][index_g_m_neighbour_in_E_gamma_element]
                         except:
                             pass
 
-                    # suppremer le gamma_matchinc dans E_gamma
+                    # suppremer le gamma_matchinc dans E_gamma_copy
                     try:
-                        index_gamma_matching_to_add = E_gamma["elements"][gammaMaching_to_add.t].index(
+                        index_gamma_matching_to_add = E_gamma_copy["elements"][gammaMaching_to_add.t].index(
                             gammaMaching_to_add)
-                        del E_gamma["E"][gammaMaching_to_add.t][index_gamma_matching_to_add]
+                        del E_gamma_copy["E"][gammaMaching_to_add.t][index_gamma_matching_to_add]
                     except:
                         pass
 
-                    E_gamma["max_matching"] = E_gamma["max_matching"] - 1 - gammaMaching_to_add.nb_neighbours
-
+                    E_gamma_copy["max_matching"] = E_gamma_copy["max_matching"] - 1 - gammaMaching_to_add.nb_neighbours
+        del E_gamma_copy
         return M
 
     def gammaMatching_L_sort(self, link_stream: dict, gamma: int) -> dict:
@@ -449,8 +454,8 @@ def main():
     path_rollernet = "./res/rollernet/test_rollernet/"
 
     for file in os.listdir(path_rollernet):
-        print("\n ...............................................", file,
-              "...............................................")
+        print("\n ..................................", file,
+              "..................................")
         g_m = Matching(gamma, path_rollernet + file)
 
         print("*********************** testing link_stream method ***********************")
@@ -460,20 +465,22 @@ def main():
         print("L : ( V:", link_stream_list["V"], ", T:", link_stream_list["T"], ", E:", len(link_stream_list["E"]), ")")
 
         print("**************************** E_gamma nb_matching ****************************")
-        link_streamList = g_m.linkStreamList()
-        E_gamma = g_m.E_gammaMatching(link_streamList, gamma)
+        E_gamma = g_m.E_gammaMatching(link_stream_list, gamma)
 
         print("**************************** E_gamma max_matching ****************************")
-        start_time = time.time()
-        gamma_matching_with_E_gamma = g_m.gammaMatchingE_gamma(E_gamma, gamma)
-        print("gamma_matching_with_E_gamma - Temps d execution : %s secondes ---" % (time.time() - start_time))
-        gammaMatching_L_sort = g_m.gammaMatching_L_sort(link_stream_dict, gamma)
+        E_gamma_copy = E_gamma.copy()
+        dict2 = dict(E_gamma)
+
         gamma_matching_with_E_gamma_avancer = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
+        print("avant !Egamma copy", len(E_gamma_copy["elements"]))
+        E_gamma = g_m.E_gammaMatching(link_stream_list, gamma)
+        gamma_matching_with_E_gamma = g_m.gammaMatchingE_gamma(E_gamma.copy(), gamma)
+
+        gammaMatching_L_sort = g_m.gammaMatching_L_sort(link_stream_dict, gamma)
 
         M = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
-        print("E_gamma : ", E_gamma["max_matching"])
-        print("algo - max_matching: ", M["max_matching"])
 
+        print("algo - max_matching: ", M["max_matching"])
         print("E_avancer : ", gamma_matching_with_E_gamma_avancer["max_matching"])
         print(E_gamma["max_matching"], " & 0 & 0 & ", gamma_matching_with_E_gamma["max_matching"], " & ",
               gammaMatching_L_sort['max_matching'], " & ", gamma_matching_with_E_gamma_avancer["max_matching"])
