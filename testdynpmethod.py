@@ -1,5 +1,6 @@
 import time, os, pprint
 import numpy as np
+import itertools
 
 gamma = 2
 
@@ -14,44 +15,93 @@ def matchingDP(n, t_max, d, pos, file):
                     if x_max < j:
                         x_max = j
             print("x_max : ", x_max)
-            M = [[[[0] * (2 ** x_max)] * (2 ** x_max)] * t_max] * x_max
-            # pprint.pprint(M)
+            M = [[0] * t_max] * x_max
+            A = [False] * n
+            B = [False] * n
 
             for x in range(x_max):
-                print("x : ", x)
                 for t in range(gamma - 1, t_max):
-                    print("t : ", t)
-                    for a in range(2 ** x_max):
-                        for b in range(2 ** x_max):
-                            if x == 0:
-                                # print("nb_g_edge : ", nb_gamma_edge(n, t, d, pos))
-                                M[0][t][a][b] = M[x_max - 1][t - 1][a][b] + nb_gamma_edge(n, t, d, pos)
-                            M[x][t][a][b] = M[x-1][t][a][b]
-                            for pos_u in pos[t]:
-                                idx_u = pos[t].index(pos_u)
-                                for pos_v in pos[t]:
-                                    if pos[t].index(pos_u) <= pos[t].index(pos_v):
-                                        continue
-                                    idx_v = pos[t].index(pos_v)
-                                    if pos[t][idx_u] == x and pos[t][idx_v] == x -1 :
-                                        pass
+
+                    if x==0:
+
+                        A = B
+                        B = [False] * n
+
+                        M[0][t] = M[x_max - 1][t - 1]
 
 
+                        C = filter(lambda i: not A[i] and pos[i][t]==0, range(n))
+
+                        CEdges = filter(lambda i,j: abs(pos[i][t-1] - pos[j][t-1])<=d, list(itertools.product(C,C)))
+                        # CEdges = []
+                        # for i in C:
+                        #     for j in C:
+                        #         if abs(pos[i][t-1] - pos[j][t-1])<=d:
+                        #             CEdges.append((i,j))
+
+
+                        Edges = matchingMax(CEdges)  # <--- utiliser une bibliotheque existiante, p.e. tryalgo: pip install tryalgo
+
+                        M[0][t] += len(Edges)
+
+                        for i,j in Edges:
+                            B[i] = True
+                            B[j] = True
+
+                    else:
+
+
+                        M[x][t] = M[x - 1][t]
+
+                        C = filter(lambda i: not A[i] and pos[i][t] == x, range(n))
+
+                        CEdges = filter(lambda i, j: abs(pos[i][t - 1] - pos[j][t - 1]) <= d,
+                                        list(itertools.product(C, C)))
+                        # CEdges = []
+                        # for i in C:
+                        #     for j in C:
+                        #         if abs(pos[i][t-1] - pos[j][t-1])<=d:
+                        #             CEdges.append((i,j))
+
+                        Edges = matchingMax(CEdges)  # <--- utiliser une bibliotheque existiante, p.e. tryalgo: pip install tryalgo
+
+                        M[x][t] += len(Edges)
+
+                        if M[x][t] > cas2:
+                            for i,j in Edges:
+                                B[i] = True
+                                B[j] = True
+                        else:
+                            if cas2 > M[x][t]:
+                                M[x][t] = MDuCas2
+                                mettreAJourBPourCas2
+                            else:
+                                ????????
+
+
+
+
+                        # M[x][t][a][b] = M[x - 1][t][a][b]
+                        # for pos_u in pos[t]:
+                        #     idx_u = pos[t].index(pos_u)
+                        #     for pos_v in pos[t]:
+                        #         if pos[t].index(pos_u) <= pos[t].index(pos_v):
+                        #             continue
+                        #         idx_v = pos[t].index(pos_v)
+                        #         if pos[t][idx_u] == x and pos[t][idx_v] == x - 1 and (
+                        #                 pos[t - 1][idx_v] == pos[t - 1][idx_u] - 1 or
+                        #                 pos[t - 1][idx_u] == pos[t - 1][idx_v] - 1) and \
+                        #                 M[x-2][t][...][b] > M[x][t][a][b]:
+                        #             M[x][t][a][b] = M[x - 2][t][...][b] + nb_gamma_edge(n, t, d, pos)
 
     else:
         os.remove(file)
-
-
-"""
-la méthode rnvoie le nombre de gamma edge pour un t passé en paramètre              
-"""
 
 
 def nb_gamma_edge(n, t, d, pos):
     x = pos.copy()
     nb_g_edge = 0
     g_edge = True
-    # print("x[t] : ", x[t])
     for pos_u in x[t]:
         idx_u = x[t].index(pos_u)
         for pos_v in x[t]:
