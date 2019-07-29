@@ -179,7 +179,10 @@ def test_method():
     rollernetClean30min = r"./res/rollernet/test_rollernet/rollernetClean30mins"
     rollernetClean30minTO = r"./res/rollernet/test_rollernet/rollernetClean30minsT0"
 
-    g_m = Matching(gamma, rollernetClean30minTO)
+    path_rollernet = "./res/rollernet/test_rollernet/rollernetClean15mins_sort"
+
+
+    g_m = Matching(gamma, path_rollernet)
 
     print("****************** testing link_stream method ******************")
     start_time = time.time()

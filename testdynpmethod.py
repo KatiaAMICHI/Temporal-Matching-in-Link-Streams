@@ -22,34 +22,32 @@ def matchingDP(n, t_max, d, pos, file):
             for x in range(x_max):
                 for t in range(gamma - 1, t_max):
 
-                    if x==0:
+                    if x == 0:
 
                         A = B
                         B = [False] * n
 
                         M[0][t] = M[x_max - 1][t - 1]
 
+                        C = filter(lambda i: not A[i] and pos[i][t] == 0, range(n))
 
-                        C = filter(lambda i: not A[i] and pos[i][t]==0, range(n))
-
-                        CEdges = filter(lambda i,j: abs(pos[i][t-1] - pos[j][t-1])<=d, list(itertools.product(C,C)))
+                        CEdges = filter(lambda i, j: abs(pos[i][t - 1] - pos[j][t - 1]) <= d,
+                                        list(itertools.product(C, C)))
                         # CEdges = []
                         # for i in C:
                         #     for j in C:
                         #         if abs(pos[i][t-1] - pos[j][t-1])<=d:
                         #             CEdges.append((i,j))
 
+                        # Edges = matchingMax(CEdges)  # <--- utiliser une bibliotheque existiante, p.e. tryalgo: pip install tryalgo
 
-                        Edges = matchingMax(CEdges)  # <--- utiliser une bibliotheque existiante, p.e. tryalgo: pip install tryalgo
+                        # M[0][t] += len(Edges)
 
-                        M[0][t] += len(Edges)
-
-                        for i,j in Edges:
-                            B[i] = True
-                            B[j] = True
+                        # for i,j in Edges:
+                        #     B[i] = True
+                        #     B[j] = True
 
                     else:
-
 
                         M[x][t] = M[x - 1][t]
 
@@ -63,23 +61,21 @@ def matchingDP(n, t_max, d, pos, file):
                         #         if abs(pos[i][t-1] - pos[j][t-1])<=d:
                         #             CEdges.append((i,j))
 
-                        Edges = matchingMax(CEdges)  # <--- utiliser une bibliotheque existiante, p.e. tryalgo: pip install tryalgo
-
-                        M[x][t] += len(Edges)
-
-                        if M[x][t] > cas2:
-                            for i,j in Edges:
-                                B[i] = True
-                                B[j] = True
-                        else:
-                            if cas2 > M[x][t]:
-                                M[x][t] = MDuCas2
-                                mettreAJourBPourCas2
-                            else:
-                                ????????
-
-
-
+                        # Edges = matchingMax(CEdges)  # <--- utiliser une bibliotheque existiante, p.e. tryalgo: pip install tryalgo
+                        #
+                        # M[x][t] += len(Edges)
+                        #
+                        # if M[x][t] > cas2:
+                        #     for i,j in Edges:
+                        #         B[i] = True
+                        #         B[j] = True
+                        # else:
+                        #     if cas2 > M[x][t]:
+                        #         M[x][t] = MDuCas2
+                        #         mettreAJourBPourCas2
+                        #     else:
+                        #         ????????
+                        #
 
                         # M[x][t][a][b] = M[x - 1][t][a][b]
                         # for pos_u in pos[t]:
@@ -96,6 +92,17 @@ def matchingDP(n, t_max, d, pos, file):
 
     else:
         os.remove(file)
+
+
+def matchingDPT(file):
+    print("je suis la ")
+    with open(file, 'r') as f:
+        n, d = f.readline().split()
+        x = list(map(int, f.readline().split(',')))
+        M = []
+        M[0] = 0
+        M[1] = 0
+    print("x : ", x)
 
 
 def nb_gamma_edge(n, t, d, pos):
@@ -120,17 +127,20 @@ def nb_gamma_edge(n, t, d, pos):
     return int(nb_g_edge / 2)
 
 
-path = "/home/katia/Bureau/testbed/tests/"
-for file in os.listdir(path):
-    if file.endswith('.position'):
-        with open(path + file) as f:
-            print("file : ", file)
-            n, t_max, d = list(map(int, f.readline().split()))
-            x = [[]] * t_max
-            for line in f:
-                t, pos = line.split("[")
-                t = int(t)
-                x[t] = list(map(int, pos.replace("]", "").replace(",", " ").split()))
-            pprint.pprint(x)
-
-            matchingDP(n, t_max, d, x, path + file.replace("position", "resultDP"))
+if __name__ == '__main__':
+    # path = "/home/katia/Bureau/testbed/tests/"
+    # for file in os.listdir(path):
+    #     if file.endswith('.position'):
+    #         with open(path + file) as f:
+    #             print("file : ", file)
+    #             n, t_max, d = list(map(int, f.readline().split()))
+    #             x = [[]] * t_max
+    #             for line in f:
+    #                 t, pos = line.split("[")
+    #                 t = int(t)
+    #                 x[t] = list(map(int, pos.replace("]", "").replace(",", " ").split()))
+    #             pprint.pprint(x)
+    #
+    #             matchingDP(n, t_max, d, x, path + file.replace("position", "resultDP"))
+    file = "test_one_t"
+    matchingDPT(file)
