@@ -1,6 +1,7 @@
 import time, os, pprint
 import random
 import numpy as np
+import copy
 
 gamma = 2
 
@@ -206,12 +207,15 @@ def gammaMatchig1D(n, tmax, d, xInput):
         """
 
     M = np.zeros((n + 1, tmax + 1)).astype(int)
-    A = {"0": [],
-         "1": [],
-         "2": [],
-         "3": [],
-         "4": []}
-    x = xInput.copy()
+    A = {}
+    B = {}
+
+    for i in range(tmax + 1):
+        A[i] = []
+        B[i] = []
+
+    # A = [[]] * (tmax+1)
+    # x = xInput.copy()
 
     for i in range(2, n + 1):
 
@@ -223,29 +227,85 @@ def gammaMatchig1D(n, tmax, d, xInput):
         # x[i].sort()
         for j in range(2, tmax + 1):
             print("     j : ", j)
-            oui = False
             if abs(x[i][j] - x[i - 1][j]) <= d and abs(x[i][j - 1] - x[i - 1][j - 1]) <= d:
                 # ok
-                if oui:
-                    # TODO il faut apslument le vecteur de présence
+                print("**************** A *******************")
+                pprint.pprint(A)
+                print("1 **************** B *******************")
+                pprint.pprint(B)
+                print("**************************************")
+                bool_inter, nb_inter, Bp = intersection(A, B.copy(), j, i, i - 1)
+                bool_inter_b, nb_inter_b, Bp_b = intersection(B, B, j, i, i - 1)
+                if bool_inter:
                     # si y a une intersection alors on fait ce qu'on doit faire ici
-                    pass
+                    if j - 2 == 0:
+                        M[i][j] = max(M[i - 2][j - 2], M[i - 2][j], (M[i - 1][j - 2] - nb_inter)) + 1
 
+                    else:
+                        M[i][j] = max(M[i - 2][j - 2], M[i - 2][j], (M[i][j - 2] - nb_inter)) + 1
+                    if nb_inter == 1 and M[i][j] <= M[i][j - 1]:
+                        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+                        print("2 **************** B *******************")
+                        pprint.pprint(B)
+                        print("**************************************")
+                        B = Bp
+                        B[j].append((i, i - 1))
+                    M[i][j] = max(M[i][j], M[i][j - 1])
+                    print("3 **************** B *******************")
+                    pprint.pprint(B)
+                    print("**************************************")
+                    print("        [IF][IF] M[", i, "][", j, "] : ", M[i][j])
+                    print("        [IF][IF](i-2,j-2) M[", i - 2, "][", j - 2, "] : ", M[i - 2][j - 2])
+                    print("        [IF][IF](i-2,j) M[", i - 2, "][", j, "] : ", M[i - 2][j])
+                    print("        [IF][IF](i,j-2) M[", i, "][", j - 2, "] : ", M[i][j - 2])
                 else:
+                    # je viens de rajouter le verre
                     M[i][j] = max(M[i - 2][j - 2], M[i - 2][j], M[i][j - 2]) + 1
-                print("        [IF] M[", i, "][", j, "] : ", M[i][j])
-                print("        [IF](i-2,j-2) M[", i - 2, "][", j - 2, "] : ", M[i - 2][j - 2])
-                print("        [IF](i-2,j) M[", i - 2, "][", j, "] : ", M[i - 2][j])
-                print("        [IF](i,j-2) M[", i, "][", j - 2, "] : ", M[i][j - 2])
+                    # j où c'est la fin de notre gammamatching, il faut tester sur [j,j-gamma+1]
+                    A[j].append((i, i - 1))  # ajout de (u,v)
+                    B[j].append((i, i - 1))  # ajout de (u,v)
+
+                    print("je rajoute:", i, i - 1)
+                    print("        [IF][else] M[", i, "][", j, "] : ", M[i][j])
+                    print("        [IF][else](i-2,j-2) M[", i - 2, "][", j - 2, "] : ", M[i - 2][j - 2])
+                    print("        [IF][else](i-2,j) M[", i - 2, "][", j, "] : ", M[i - 2][j])
             else:
                 # ko
-                M[i][j] = M[i - 1][j - 1]
+                M[i][j] = max(M[i - 1][j - 1], M[i][j - 1])
                 print("         [else] M[", i, "][", j, "] : ", M[i][j])
         M[i][0] = M[i][tmax]
-        # print("******************print M*********************")
-        # pprint.pprint(M)
+        print("******************print A*********************")
+        pprint.pprint(A)
         print("**********************************************")
+        print()
+        print(np.matrix(M))
+
     return M
+
+# TODO faut aussi vérifier si le truc est dnas B
+
+
+def intersection(A, Bp, t, u, v):
+    gamma = 2
+    nb_inter = 0
+    bool_inter = False
+    B = copy.deepcopy(Bp)
+    print("Bp:", Bp)
+    for i in range(t - gamma + 1, t + gamma):
+        if i not in range(len(A)):
+            break
+        for edge in A[i]:
+            if u in edge or v in edge:
+                print("t:", t, " edge : ", edge)
+                print("u:", u, "v:", v)
+                bool_inter = True
+                if t in range(t - gamma - 1, t - 1) or (u > edge[0] and v == edge[0]) or (u == edge[0] and v > edge[0]):
+                    if edge in B[i]:
+                        B[i].remove(edge)
+                    nb_inter += 1
+    print(">>>>>>>>>>>>>>>>>>>>>>><<<<<<<><<<<>><<<<<<<>> nb_inter :", nb_inter)
+    print("Bp:", Bp)
+    return bool_inter, nb_inter, B
 
 
 def unzip(ls):
@@ -273,7 +333,7 @@ def test_unzip():
 
 
 if __name__ == '__main__':
-    file = "testformuleDP"
+    file = "testformuleDP5"
     with open(file, 'r') as f:
         n, tmax, d = list(map(int, f.readline().split()))
         x = [[0] * (tmax + 1)] * (n + 1)
@@ -285,8 +345,8 @@ if __name__ == '__main__':
         print("*********************print x*******************************")
         pprint.pprint(x)
         print("***********************************************************")
-        pprint.pprint(gammaMatchig1D(n, tmax, d, x))
-    # genGammaEdges()
+        # pprint.pprint(gammaMatchig1D(n, tmax, d, x))
+        gammaMatchig1D(n, tmax, d, x)
 
 # xMax=20
 # d=1
