@@ -216,7 +216,7 @@ def gammaMatchig1D(n, tmax, d, xInput):
 
     # A = [[]] * (tmax+1)
     # x = xInput.copy()
-
+    nb_matching_b = 0
     for i in range(2, n + 1):
 
         M[i][1] = M[i - 1][tmax]
@@ -234,8 +234,7 @@ def gammaMatchig1D(n, tmax, d, xInput):
                 print("1 **************** B *******************")
                 pprint.pprint(B)
                 print("**************************************")
-                bool_inter, nb_inter, Bp = intersection(A, B.copy(), j, i, i - 1)
-                bool_inter_b, nb_inter_b, Bp_b = intersection(B, B, j, i, i - 1)
+                bool_inter, nb_inter, nb_matching_b, Bp = intersection(A, B.copy(), j, i, i - 1, nb_matching_b)
                 if bool_inter:
                     # si y a une intersection alors on fait ce qu'on doit faire ici
                     if j - 2 == 0:
@@ -249,7 +248,9 @@ def gammaMatchig1D(n, tmax, d, xInput):
                         pprint.pprint(B)
                         print("**************************************")
                         B = Bp
-                        B[j].append((i, i - 1))
+                        if not intersectionB(B, j, i, i - 1):
+                            nb_matching_b += 1
+                            B[j].append((i, i - 1))
                     M[i][j] = max(M[i][j], M[i][j - 1])
                     print("3 **************** B *******************")
                     pprint.pprint(B)
@@ -263,7 +264,9 @@ def gammaMatchig1D(n, tmax, d, xInput):
                     M[i][j] = max(M[i - 2][j - 2], M[i - 2][j], M[i][j - 2]) + 1
                     # j où c'est la fin de notre gammamatching, il faut tester sur [j,j-gamma+1]
                     A[j].append((i, i - 1))  # ajout de (u,v)
-                    B[j].append((i, i - 1))  # ajout de (u,v)
+                    if not intersectionB(B, j, i, i - 1):
+                        B[j].append((i, i - 1))  # ajout de (u,v)
+                        nb_matching_b += 1
 
                     print("je rajoute:", i, i - 1)
                     print("        [IF][else] M[", i, "][", j, "] : ", M[i][j])
@@ -279,13 +282,14 @@ def gammaMatchig1D(n, tmax, d, xInput):
         print("**********************************************")
         print()
         print(np.matrix(M))
+        print("nb_matching_B : ", nb_matching_b)
 
     return M
 
+
 # TODO faut aussi vérifier si le truc est dnas B
 
-
-def intersection(A, Bp, t, u, v):
+def intersection(A, Bp, t, u, v, nb_matching_b):
     gamma = 2
     nb_inter = 0
     bool_inter = False
@@ -302,10 +306,30 @@ def intersection(A, Bp, t, u, v):
                 if t in range(t - gamma - 1, t - 1) or (u > edge[0] and v == edge[0]) or (u == edge[0] and v > edge[0]):
                     if edge in B[i]:
                         B[i].remove(edge)
+                        nb_matching_b -= 1
                     nb_inter += 1
     print(">>>>>>>>>>>>>>>>>>>>>>><<<<<<<><<<<>><<<<<<<>> nb_inter :", nb_inter)
     print("Bp:", Bp)
-    return bool_inter, nb_inter, B
+    return bool_inter, nb_inter, nb_matching_b, B
+
+
+def intersectionB(B, t, u, v):
+    gamma = 2
+
+    # on vérifie sur t-1 que par ce que ici on travaille avec gamma=2
+    if (u, v) in B[t] or (u, v) in B[t - 1]:
+        return True
+    for i in range(t - gamma + 1, t + gamma):
+        if i not in range(len(B)):
+            break
+        for edge in B[i]:
+            if u in edge or v in edge:
+                print("t:", t, " edge : ", edge)
+                print("u:", u, "v:", v)
+                bool_inter = True
+                if t in range(t - gamma - 1, t - 1) or (u > edge[0] and v == edge[0]) or (u == edge[0] and v > edge[0]):
+                    return True
+    return False
 
 
 def unzip(ls):
