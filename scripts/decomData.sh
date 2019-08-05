@@ -21,4 +21,4 @@ fi
 
 
 echo "nb_sec:$nb_sec"
-awk '{printf("%s\t%s\t%s\n", int($1/'$nb_sec'), ($2>$3)?$3:$2, ($2>$3)?$2:$3)}' $2  | sort -n | uniq > $3
+awk '{printf("%s\t%s\t%s\n", int($1/'$nb_sec'), ($2>$3)?$3:$2, ($2>$3)?$2:$3)}' $2  | sort -b -nk2,2  -nk1,1 | uniq > $3
