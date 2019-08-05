@@ -17,4 +17,4 @@ for t in range(T):
     if random.randint(0,9)<1 and position[i]>0:
       position[i]-=1
     else:
-      position[i]+=random.randint(0,2)
+      position[i]+=random.randint(0,4)
