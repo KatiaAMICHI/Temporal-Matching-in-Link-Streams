@@ -28,7 +28,7 @@ class GammaMach:
 
 
 class Matching:
-    REVERSE = True
+    REVERSE = False
 
     def __init__(self, gamma, file):
         self.gamma = gamma
@@ -186,7 +186,7 @@ class Matching:
 
         return link_stream
 
-    def E_gammaMatching_bis(self, link_stream: dict, gamma: int) -> dict:
+    def E_gammaMatching(self, link_stream: dict, gamma: int) -> dict:
         """
         E_gamma = {"gamma" : int,
                     "nb_gamma_matching" = int,
@@ -234,18 +234,8 @@ class Matching:
 
         return E_gamma
 
-    def E_gammaMatching(self, link_stream: dict, gamma: int) -> dict:
-        """
-        E_gamma = {"gamma" : int,
-                    "nb_gamma_matching" = int,
-                    " elements" : [gammaMatching] }
+    def E_gammaMatching_antoineR(self, link_stream: dict, gamma: int) -> dict:
 
-        :param link_stream:
-        :param gamma:
-        :return E_gamma: l'ensemble de gamma_matchin disponible
-        """
-
-        E_gamma = {"gamma": gamma, "max_matching": 0, "elements": defaultdict(list)}
         P = link_stream["E"].copy()
 
         last_u = -1
@@ -259,7 +249,7 @@ class Matching:
             u = edge.u
             v = edge.v
 
-            if u == last_u and v == last_v and t == last_t+1:
+            if u == last_u and v == last_v and t == last_t + 1:
                 gamma_cpt += 1
             else:
                 gamma_cpt = 0
@@ -481,43 +471,6 @@ class Matching:
         return M
 
 
-def main():
-    gamma = 2
-    path_enron = "./res/enron/test_enron/"
-    path_rollernet = "./res/rollernet/test_rollernet/"
-
-    for file in os.listdir(path_rollernet):
-        print("\n ...............................................", file,
-              "...............................................")
-        g_m = Matching(gamma, path_rollernet + file)
-
-        print("*********************** testing link_stream method ***********************")
-        link_stream_list = g_m.linkStreamList()
-        # link_stream_dict = g_m.linkStreamDict()
-
-        print("L : ( V:", link_stream_list["V"], ", T:", link_stream_list["T"], ", E:", len(link_stream_list["E"]), ")")
-
-        print("**************************** E_gamma nb_matching ****************************")
-        # link_streamList = g_m.linkStreamList()
-        E_gamma = g_m.E_gammaMatching(link_stream_list, gamma)
-
-        print("**************************** E_gamma max_matching ****************************")
-        # start_time = time.time()
-        # gamma_matching_with_E_gamma = g_m.gammaMatchingE_gamma(E_gamma, gamma)
-        # print("gamma_matching_with_E_gamma - Temps d execution : %s secondes ---" % (time.time() - start_time))
-        # gammaMatching_L_sort = g_m.gammaMatching_L_sort(link_stream_dict, gamma)
-        # gamma_matching_with_E_gamma_avancer = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
-        #
-        # M = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
-
-        # print("E_gamma : ", E_gamma["max_matching"])
-        # print("algo - max_matching: ", M["max_matching"])
-
-        # print("E_avancer : ", gamma_matching_with_E_gamma_avancer["max_matching"])
-        # print(E_gamma["max_matching"], " & 0 & 0 & ", gamma_matching_with_E_gamma["max_matching"], " & ",
-        #       gammaMatching_L_sort['max_matching'], " & ", gamma_matching_with_E_gamma_avancer["max_matching"])
-
-
 def test_method():
     gamma = 3
 
@@ -554,83 +507,46 @@ def test_method():
         print("algo - max_matching: ", M["max_matching"])
 
 
-def result():
+def main():
     gamma = 2
-    path = "./res/enron/test_enron/"
+    path_enron = "./res/enron/test_enron/"
     path_rollernet = "./res/rollernet/test_rollernet/"
 
+    for file in os.listdir(path_enron):
+        print("\n .............................", file, ".............................")
+        g_m = Matching(gamma, path_enron + file)
+
+        print("****************** testing link_stream method ******************")
+        link_streamList = g_m.linkStreamList()
+
+        E_gamma = g_m.E_gammaMatching(link_streamList, gamma)
+
+        print("************************ gamma_matching ************************")
+        print("E_gamma : ", E_gamma["max_matching"])
+
+        start_time = time.time()
+        M = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
+        print("Temps d execution gamma_matching : %s secondes ---" % (time.time() - start_time))
+        print("algo - max_matching: ", M["max_matching"])
+
     for file in os.listdir(path_rollernet):
-        print("\n ...............................................", file,
-              "...............................................")
+        print("\n .............................", file, ".............................")
         g_m = Matching(gamma, path_rollernet + file)
 
-        print("*********************** testing link_stream method ***********************")
-        link_stream = g_m.linkStreamList()
+        print("****************** testing link_stream method ******************")
+        link_streamList = g_m.linkStreamList()
 
-        print("**************************** E_gamma nb_matching ****************************")
-        E_gamma = g_m.E_gammaMatching(link_stream, gamma)
+        E_gamma = g_m.E_gammaMatching(link_streamList, gamma)
 
-        print("**************************** E_gamma max_matching ****************************")
+        print("************************ gamma_matching ************************")
+        print("E_gamma : ", E_gamma["max_matching"])
+
         start_time = time.time()
-        gamma_matching_with_E_gamma_avancer = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
-        print("Temps d execution : %s secondes ---" % (time.time() - start_time))
-        print("gammaMatchingE_gamma- max_matching : ", gamma_matching_with_E_gamma_avancer["max_matching"])
-
-    for file in os.listdir(path):
-        print("\n ...............................................", file,
-              "...............................................")
-        g_m = Matching(gamma, path + file)
-
-        print("*********************** testing link_stream method ***********************")
-        link_stream = g_m.linkStreamList()
-
-        print("**************************** E_gamma nb_matching ****************************")
-        E_gamma = g_m.E_gammaMatching(link_stream, gamma)
-
-        print("**************************** E_gamma max_matching ****************************")
-        start_time = time.time()
-        gamma_matching_with_E_gamma = g_m.gammaMatchingE_gamma(E_gamma, gamma)
-        # gamma_matching_with_E_gamma_avancer = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
-        print("Temps d execution : %s secondes ---" % (time.time() - start_time))
-        print("gammaMatchingE_gamma- max_matching : ", gamma_matching_with_E_gamma["max_matching"])
-        # print("gammaMatchingE_gamma_avancer - max_matching : ", gamma_matching_with_E_gamma_avancer["max_matching"])
-
-
-def test_file():
-    gamma = 3
-    file = "./res/test_local/fileTest.txt"
-
-    print("\n ...............................................", file,
-          "...............................................")
-    g_m = Matching(gamma, file)
-
-    print("*********************** testing link_stream method ***********************")
-    link_stream = g_m.linkStreamList()
-
-    print("**************************** E_gamma nb_matching ****************************")
-    E_gamma = g_m.E_gammaMatching(link_stream, gamma)
-
-    print("**************************** E_gamma max_matching ****************************")
-    start_time = time.time()
-    gamma_matching_with_E_gamma_avancer = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
-    print("Temps d execution : %s secondes ---" % (time.time() - start_time))
-    print("gammaMatchingE_gamma- max_matching : ", gamma_matching_with_E_gamma_avancer["max_matching"])
-    pprint.pprint(gamma_matching_with_E_gamma_avancer["elements"])
+        M = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
+        print("Temps d execution gamma_matching : %s secondes ---" % (time.time() - start_time))
+        print("algo - max_matching: ", M["max_matching"])
 
 
 if __name__ == '__main__':
-    # main()
+    main()
     # test_method()
-    # test_file()
-    gamma = 2
-    path_rollernet = "./res/rollernet/test_rollernet/rollernetClean1min_sort"
-    file = "/home/katia/Bureau/file.txt"
-    g_m = Matching(gamma, file)
-
-    print("*********************** testing link_stream method ***********************")
-    link_stream_list = g_m.linkStreamList()
-
-    print("L : ( V:", link_stream_list["V"], ", T:", link_stream_list["T"], ", E:", len(link_stream_list["E"]), ")")
-
-    print("**************************** E_gamma nb_matching ****************************")
-    E_gamma = g_m.E_gammaMatching(link_stream_list, gamma)

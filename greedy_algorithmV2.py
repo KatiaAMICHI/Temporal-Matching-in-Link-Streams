@@ -175,7 +175,7 @@ class Matching:
         return result
 
 
-if __name__ == '__main__':
+def main():
     gamma = 3
     path_rollernet = "./res/rollernet/test_rollernet/rollernetClean15mins_sort"
     file = "/home/katia/Bureau/file_sort"
@@ -203,3 +203,7 @@ if __name__ == '__main__':
             max_M = len(M)
 
     print("max : ", max_M, "   min : ", min_M)
+
+
+if __name__ == '__main__':
+    main()
