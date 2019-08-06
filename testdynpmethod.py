@@ -67,7 +67,7 @@ def mathing_dp(file):
         print(matchingDP_t(n, d, x))
 
 
-def matchingDP_t(n, d, xInput):
+def matchingDP_t(n, d, t, xInput):
     x = xInput.copy()
     x.sort()
     M = [0] * (n + 1)  # M[i] est le matching max en n'utilisant que les sommets 0,1,2,3,...,i-1
@@ -86,7 +86,7 @@ def matchingDP_t(n, d, xInput):
                     trouve = True
                     iii = xInput[1::].index(x[i - 1])
                     xInput[iii + 1] = -1
-                    Edges.append((ii, iii))
+                    Edges.append((t, ii, iii))
                 M[i] = M[i - 2] + 1
             if not trouve:
                 xInput[ii + 1] = temp
@@ -98,7 +98,7 @@ def matchingDP_t(n, d, xInput):
 
 
 def genGammaEdges():
-    path = "/home/katia/Bureau/testbed/tests/"
+    path = r"./testbed/tests/"
 
     result = []
     for file in os.listdir(path):
@@ -115,46 +115,12 @@ def genGammaEdges():
                         t, pos = line.split("[")
                         t = int(t)
                         x[t] = list(map(int, pos.replace("]", "").replace(",", " ").split()))
-                        M[t], edges = matchingDP_t(n, d, [0] + x[t])
+                        M[t], edges = matchingDP_t(n, d, t, [0] + x[t])
                         result.append((M[t][-1], edges))  # ajout du tuple (nb_matching, [les matching])
                         f_outPut.write(str(M[t][-1]) + " " + str(edges) + "\n")
                         # f_outPut.write(str(t) + " " + str(x[t]) + " " + str(M[t][-1]) + " " + str(edges) + "\n")
                 pprint.pprint(M)
     return result
-
-
-def max_t_matching(list_pos_matching):
-    max_matching = (0, [])
-    idx_max_matching = -1
-    i = 0
-    for x in list_pos_matching:
-        if max_matching[0] < x[0]:
-            max_matching = x
-            idx_max_matching = i
-        i += 1
-    return max_matching, idx_max_matching
-
-
-def update_list_pos_matching(list_pos_matching, max_matching, idx_max_matching):
-    for edge in max_matching:
-        for i in range(idx_max_matching - gamma + 1, idx_max_matching + gamma - 1):
-            for elem in list_pos_matching[i]:
-                for edge_p in elem[1]:
-                    if edge_p[0] == edge[0] or edge_p[1] == edge[0] or edge_p[0] == edge[1] or edge_p[1] == edge[1]:
-                        elem[1].remove(edge_p)
-                        elem[0] -= 1
-    list_pos_matching.remove(max_matching)
-    return list_pos_matching
-
-
-def nb_gamma_matching_decomposition(list_pos_matching, nb_matching, M):
-    # TODO ajout un point d'arret !!!!!
-    max_matching, idx_max_matching = max_t_matching(list_pos_matching)
-    M.append(max_matching[1])  # ajout des gamma_matching
-    nb_matching += max_matching[0]
-    update_list_pos_matching(list_pos_matching, max_matching, idx_max_matching)
-    nb_gamma_matching_decomposition(list_pos_matching[0:idx_max_matching], nb_matching, M)
-    nb_gamma_matching_decomposition(list_pos_matching[idx_max_matching::])
 
 
 def gammaMatchig1D(n, tmax, d, xInput):
@@ -176,7 +142,7 @@ def gammaMatchig1D(n, tmax, d, xInput):
         B[i] = []
 
     # A = [[]] * (tmax+1)
-    # x = xInput.copy()
+    x = xInput.copy()
     nb_matching_b = 0
     for i in range(2, n + 1):
 
@@ -242,7 +208,9 @@ def gammaMatchig1D(n, tmax, d, xInput):
         pprint.pprint(A)
         print("**********************************************")
         print()
-        print(np.matrix(M))
+        print("Résult DP ")
+        # print(np.matrix(M))
+        print("nb_matching_A :", M[n][tmax])
         print("nb_matching_B : ", nb_matching_b)
 
     return M
@@ -339,8 +307,12 @@ def test_unzip():
     print("    index : ", index_lst)
 
 
-if __name__ == '__main__':
+def mainResultDP():
+    # TODO faut encore rajouter le truc du trie sinon ne fonctionne pas pour le moment
     file = "testformuleDP5"
+    file_output = r"./testbed/tests/test0001.position"
+    file_output = r"./testbed/tests/test0001.linkstreamToPosition"
+
     with open(file, 'r') as f:
         n, tmax, d = list(map(int, f.readline().split()))
         x = [[0] * (tmax + 1)] * (n + 1)
@@ -352,7 +324,10 @@ if __name__ == '__main__':
         print("*********************print x*******************************")
         pprint.pprint(x)
         print("***********************************************************")
-        # gammaMatchig1D(n, tmax, d, x)
+        gammaMatchig1D(n, tmax, d, x)
+
+
+if __name__ == '__main__':
     genGammaEdges()
 
 # xMax=20
