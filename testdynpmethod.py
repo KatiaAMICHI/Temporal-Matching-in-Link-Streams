@@ -1,63 +1,10 @@
-import time, os, pprint
-import random
-import numpy as np
 import copy
+import os
+from functools import reduce
+import numpy
+import pprint
 
 gamma = 2
-
-
-def matchingDP(n, t_max, d, pos, file):
-    if not os.path.exists(file):
-        with open(file, 'w') as f:
-            f.write(str(n) + " " + str(t_max) + " " + str(d) + "\n")
-            x_max = -1
-            for i in pos:
-                for j in i:
-                    if x_max < j:
-                        x_max = j
-            print("x_max : ", x_max)
-            M = [[0] * t_max] * (n + 1)
-            A = [False] * n
-            B = [False] * n
-
-            xx = pos.copy()
-
-            for t in range(gamma - 1, t_max):
-                xx[t].sort()
-                x = xx[t].copy()
-                xInput = pos[t].copy()
-
-                for i in range(2, n + 1):
-                    check = True
-                    if abs(xx[t][i] - xx[t][i - 1]) <= d and check:
-
-                        trouve = False
-                        if x[i] in xInput[1::]:
-                            ii = xInput[1::].index(x[i])
-                            temp = xInput[ii + 1]
-                            xInput[ii + 1] = -1
-                            if x[i - 1] in xInput[1::]:
-                                trouve = True
-                                iii = xInput[1::].index(x[i - 1])
-                                xInput[iii + 1] = -1
-                                # Edges.append((ii, iii))
-
-                            M[t][ii] = M[t][xInput[1::].index(i - 2)] + 1
-                        if not trouve:
-                            xInput[ii + 1] = temp
-
-
-
-
-                    else:
-                        pass
-
-
-
-
-
-    else:
-        os.remove(file)
 
 
 def mathing_dp(file):
@@ -97,6 +44,30 @@ def matchingDP_t(n, d, t, xInput):
     return M, Edges
 
 
+def dpstatic(n, d, t, xInput):
+    x = xInput.copy()
+    print(" x : ", x)
+    argsort = list(numpy.argsort(x)) + [n]
+    M = [0] * (n + 1)
+    firstSeen = [True] * n
+    # print(">> Proceeding DP for maximum matching:")
+    edges = []
+    for i in range(1, n):
+        if abs(x[argsort[i]] - x[argsort[i - 1]]) <= d:
+            M[argsort[i]] = M[argsort[i - 2]] + 1
+            if firstSeen[argsort[i]] and firstSeen[argsort[i - 1]]:
+                # print("  ...found vertices:", argsort[i], argsort[i - 1], "; x-positions:", x[argsort[i]],
+                #    x[argsort[i - 1]])
+                edges.append((t, argsort[i], argsort[i - 1]))
+                firstSeen[argsort[i]] = False
+                firstSeen[argsort[i - 1]] = False
+        else:
+            M[argsort[i]] = M[argsort[i - 1]]
+    max_matching = reduce(max, M)
+    print("--> Maximum matching size:", reduce(max, M))
+    return max_matching, edges
+
+
 def genGammaEdges():
     path = r"./testbed/tests/"
 
@@ -115,11 +86,11 @@ def genGammaEdges():
                         t, pos = line.split("[")
                         t = int(t)
                         x[t] = list(map(int, pos.replace("]", "").replace(",", " ").split()))
-                        M[t], edges = matchingDP_t(n, d, t, [0] + x[t])
-                        result.append((M[t][-1], edges))  # ajout du tuple (nb_matching, [les matching])
-                        f_outPut.write(str(M[t][-1]) + " " + str(edges) + "\n")
+                        max_matching, edges = dpstatic(n, d, t, x[t])
+                        # M[t], edges = matchingDP_t(n, d, t, [0] + x[t])
+                        result.append((max_matching, edges))  # ajout du tuple (nb_matching, [les matching])
+                        f_outPut.write(str(max_matching) + " " + str(edges) + "\n")
                         # f_outPut.write(str(t) + " " + str(x[t]) + " " + str(M[t][-1]) + " " + str(edges) + "\n")
-                pprint.pprint(M)
     return result
 
 
@@ -133,7 +104,7 @@ def gammaMatchig1D(n, tmax, d, xInput):
         :return:
         """
 
-    M = np.zeros((n + 1, tmax + 1)).astype(int)
+    M = numpy.zeros((n + 1, tmax + 1)).astype(int)
     A = {}
     B = {}
 
@@ -209,7 +180,7 @@ def gammaMatchig1D(n, tmax, d, xInput):
         print("**********************************************")
         print()
         print("Résult DP ")
-        # print(np.matrix(M))
+        # print(numpy.matrix(M))
         print("nb_matching_A :", M[n][tmax])
         print("nb_matching_B : ", nb_matching_b)
 
@@ -328,17 +299,5 @@ def mainResultDP():
 
 
 if __name__ == '__main__':
+    # test_unzip()
     genGammaEdges()
-
-# xMax=20
-# d=1
-# n=10
-# #
-# position=list(map(lambda x:random.randint(0,xMax-1),[0]*n))
-# # print(position)
-# #
-# # position.sort()
-# # position = [0, 0, 0, 0, 0, 0]
-# print(position)
-#
-# print(matchingDP_t(n, d, [0] + position))
