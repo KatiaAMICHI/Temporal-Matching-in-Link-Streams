@@ -49,14 +49,10 @@ class DecomposeGreedy:
             return nb_matching, M
 
         max_matching, idx_max_matching = self.max_t_matching(list_pos_matching)
-        # print("max_matching, idx_max_matching  : ", max_matching, idx_max_matching)
         M = M + max_matching[1]  # ajout des gamma_matching
         nb_matching += max_matching[0]
 
         list_pos_matching = self.update_list_pos_matching(list_pos_matching, max_matching, idx_max_matching)
-        # print("list_pos_matching :")
-        # pprint.pprint(list_pos_matching)
-        # print("...................")
         self.nb_gamma_matching_decomposition(list_pos_matching[0:idx_max_matching], nb_matching, M, i)
         nb_matching2, M = self.nb_gamma_matching_decomposition(list_pos_matching[idx_max_matching::], nb_matching, M, i)
 
@@ -90,6 +86,7 @@ class DecomposeGreedy:
     def test(self):
         file = "test0001.nb_matching"
         print("****************", file, "****************")
+        # TODO faut modifier list_pos_matching par tryalgo ou ...
         list_pos_matching = self.get_list_pos_matching(self.path + file)
         nb_matching, M = self.nb_gamma_matching_decomposition(list_pos_matching, nb_matching=0, M=[], i=0)
         print(file, " : ", nb_matching, M)
@@ -97,5 +94,5 @@ class DecomposeGreedy:
 
 if __name__ == '__main__':
     dg = DecomposeGreedy()
-    dg.main()
-    # dg.test()
+    # dg.main()
+    dg.test()

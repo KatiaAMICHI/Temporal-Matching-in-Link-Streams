@@ -27,7 +27,7 @@ class GammaMach:
             self.nb_neighbours) + ")"
 
 
-class Matching:
+class MatchingN:
     REVERSE = False
 
     def __init__(self, gamma, file):
@@ -509,8 +509,8 @@ def test_method():
 
 def main():
     gamma = 2
-    path_enron = "./res/enron/test_enron/"
-    path_rollernet = "./res/rollernet/test_rollernet/"
+    path_enron = "../res/enron/test_enron/"
+    path_rollernet = "../res/rollernet/test_rollernet/"
 
     for file in os.listdir(path_enron):
         print("\n .............................", file, ".............................")

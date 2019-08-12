@@ -9,7 +9,7 @@
 # outPut : un fichier avec le temps qui a été divisé par 
 # 	(le nombre de jours passé en paramètre)*(le nombre de secondes en une journée)
 #	et sans les doublont et trier par rapport au temps
-
+#  	trie par rapport aux méthodes de antoine roux
 
 if test -z "$4";then
     echo "pas de parametre: \"${4}\" "
