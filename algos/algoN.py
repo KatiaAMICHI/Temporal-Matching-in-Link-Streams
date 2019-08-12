@@ -368,7 +368,7 @@ class MatchingN:
 
         return M
 
-    def gammaMatchingE_gamma_avancer(self, E_gamma: dict, gamma: int) -> dict:
+    def gammaMatchingE_gamma_avancer(self, E_gamma: dict, gamma: int) -> int:
         M = {"gamma": gamma, "max_matching": 0, "elements": []}
 
         for t, gammaMachingList in E_gamma["elements"].items():
@@ -440,7 +440,7 @@ class MatchingN:
 
                     E_gamma["max_matching"] = E_gamma["max_matching"] - 1 - gammaMaching_to_add.nb_neighbours
 
-        return M
+        return M["max_matching"]
 
     def gammaMatching_L_sort(self, link_stream: dict, gamma: int) -> dict:
         M = {"gamma": gamma, "max_matching": 0, "elements": []}
@@ -485,7 +485,7 @@ def test_method():
     file_test_tab = r"./res/test_local/test_tab.txt"
     file_test_bis = r"./res/test_local/test_bis.txt"
 
-    rollernetClean30min = r"./res/rollernet/test_rollernet/rollernetClean15mins"
+    rollernetClean30min = r"./res/rollernet/test_rollernet/rollernetClean15mins.linkstream"
     rollernetClean30minTO = r"./res/rollernet/test_rollernet/rollernetClean30minsT0"
     path_rollernet = "./res/rollernet/test_rollernet/"
 

@@ -177,7 +177,7 @@ class MatchingV2:
 
 def main():
     gamma = 3
-    path_rollernet = "../res/rollernet/test_rollernet/rollernetClean15mins_sort"
+    path_rollernet = "../res/rollernet/test_rollernet/rollernetClean15mins_sort.linkstream"
     file = "/home/katia/Bureau/file_sort"
 
     g_m = MatchingV2(gamma, path_rollernet)

@@ -68,31 +68,6 @@ def dpstatic(n, d, t, xInput):
     return max_matching, edges
 
 
-def genGammaEdges():
-    path = r"../testbed/tests/"
-
-    result = []
-    for file in os.listdir(path):
-        file_output = path + file.replace(".position", ".nb_matching")
-        if file.endswith('.position'):
-            with open(path + file) as f:
-                print("file : ", file)
-                n, t_max, d = list(map(int, f.readline().split()))
-                x = [[]] * t_max
-                M = [0] * t_max
-                with open(file_output, "+w") as f_outPut:
-                    f_outPut.write(str(n) + " " + str(t_max) + " " + str(d) + "\n")
-                    for line in f:
-                        t, pos = line.split("[")
-                        t = int(t)
-                        x[t] = list(map(int, pos.replace("]", "").replace(",", " ").split()))
-                        max_matching, edges = dpstatic(n, d, t, x[t])
-                        # M[t], edges = matchingDP_t(n, d, t, [0] + x[t])
-                        result.append((max_matching, edges))  # ajout du tuple (nb_matching, [les matching])
-                        f_outPut.write(str(max_matching) + " " + str(edges) + "\n")
-                        # f_outPut.write(str(t) + " " + str(x[t]) + " " + str(M[t][-1]) + " " + str(edges) + "\n")
-    return result
-
 
 def gammaMatchig1D(n, tmax, d, xInput):
     print(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,")
