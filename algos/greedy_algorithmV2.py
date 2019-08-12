@@ -15,7 +15,7 @@ class Edge:
         return "Edge(u:" + str(self.u) + ", v:" + str(self.v) + ", nb_neighbours:" + str(self.nb_neighbours) + ")"
 
 
-class Matching:
+class MatchingV2:
     REVERSE = False
 
     def __init__(self, gamma, file):
@@ -102,8 +102,8 @@ class Matching:
     def gamma_edges_best(self, link_stream: dict, gamma: int) -> []:
         """
         g_edges = {"gamma" : int,
-                    "nb_gamma_matching" = int,
-                    " elements" : [gammaMatching] }
+                    "nb_gamma_matchingV2" = int,
+                    " elements" : [gammaMatchingV2] }
 
         :param link_stream:
         :param gamma:
@@ -177,15 +177,15 @@ class Matching:
 
 def main():
     gamma = 3
-    path_rollernet = "./res/rollernet/test_rollernet/rollernetClean15mins_sort"
+    path_rollernet = "../res/rollernet/test_rollernet/rollernetClean15mins_sort"
     file = "/home/katia/Bureau/file_sort"
 
-    g_m = Matching(gamma, path_rollernet)
+    g_m = MatchingV2(gamma, path_rollernet)
     link_stream = g_m.linkStream()
     print("L : ( V:", link_stream["V"], ", T:", link_stream["T"], ", E:", len(link_stream["E"]), ")")
 
     g_edges = g_m.gamma_edges(link_stream, gamma)
-
+    print("g_edges : ", len(g_edges))
     min_M = len(link_stream["E"])
     max_M = -1
 

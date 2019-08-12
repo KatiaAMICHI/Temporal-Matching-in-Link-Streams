@@ -69,7 +69,7 @@ def dpstatic(n, d, t, xInput):
 
 
 def genGammaEdges():
-    path = r"./testbed/tests/"
+    path = r"../testbed/tests/"
 
     result = []
     for file in os.listdir(path):
@@ -187,6 +187,60 @@ def gammaMatchig1D(n, tmax, d, xInput):
     return M
 
 
+def gammaMatchig1DSort(n, tmax, d, xInput):
+    """
+        OK
+        :param n: nb sommet
+        :param d: distance
+        :param xInput: toutes les positions pour chaque sommets pour chaque t
+        :return:
+        """
+
+    M = numpy.zeros((n + 1, tmax + 1)).astype(int)
+    A = {}
+    B = {}
+
+    for i in range(tmax + 1):
+        A[i] = []
+        B[i] = []
+
+    x = xInput.copy()
+    argsort = list(numpy.argsort(x)) + [n]
+    nb_matching_b = 0
+
+    for i in range(2, n + 1):
+        M[i][1] = M[i - 1][tmax]
+        for j in range(2, tmax + 1):
+            if abs(x[i][argsort[i][j]] - x[i - 1][argsort[i][j]]) <= d and abs(
+                    x[i][argsort[i][j - 1]] - x[i - 1][argsort[i][j - 1]]) <= d:
+                bool_inter, nb_inter, nb_matching_b, Bp = intersectionA(A, B.copy(), j, i, i - 1, nb_matching_b)
+                if bool_inter:
+                    if j - 2 == 0:
+                        M[i][j] = max(M[i - 2][j - 2], M[i - 2][j], (M[i - 1][j - 2] - nb_inter)) + 1
+                    else:
+                        M[i][j] = max(M[i - 2][j - 2], M[i - 2][j], (M[i][j - 2] - nb_inter)) + 1
+                    if nb_inter == 1 and M[i][j] <= M[i][j - 1]:
+                        B = Bp
+                        if not intersectionB(B, j, i, i - 1):
+                            nb_matching_b += 1
+                            B[j].append((i, i - 1))
+                    M[i][j] = max(M[i][j], M[i][j - 1])
+                else:
+                    M[i][j] = max(M[i - 2][j - 2], M[i - 2][j], M[i][j - 2]) + 1
+                    A[j].append((i, i - 1))  # ajout de (u,v)
+                    if not intersectionB(B, j, i, i - 1):
+                        B[j].append((i, i - 1))  # ajout de (u,v)
+                        nb_matching_b += 1
+            else:
+                # ko
+                M[i][j] = max(M[i - 1][j - 1], M[i][j - 1])
+        M[i][0] = M[i][tmax]
+    print("nb_matching_A :", M[n][tmax])
+    print("nb_matching_B : ", nb_matching_b)
+
+    return M
+
+
 def intersectionA(A, Bp, t, u, v, nb_matching_b):
     """
     OK
@@ -213,7 +267,7 @@ def intersectionA(A, Bp, t, u, v, nb_matching_b):
                         B[i].remove(edge)
                         nb_matching_b -= 1
                     nb_inter += 1
-    print(">>>>>>>>>>>>>>>>>>>>>>><<<<<<<><<<<>><<<<<<<>> nb_inter :", nb_inter)
+    # print(">>>>>>>>>>>>>>>>>>>>>>><<<<<<<><<<<>><<<<<<<>> nb_inter :", nb_inter)
     return bool_inter, nb_inter, nb_matching_b, B
 
 
@@ -236,51 +290,14 @@ def intersectionB(B, t, u, v):
             break
         for edge in B[i]:
             if u in edge or v in edge:
-                print("t:", t, " edge : ", edge)
-                print("u:", u, "v:", v)
-                bool_inter = True
                 if t in range(t - gamma - 1, t - 1) or (u > edge[0] and v == edge[0]) or (u == edge[0] and v > edge[0]):
                     return True
     return False
 
 
-def unzip(ls):
-    """
-    OK
-    Pour trier une list et save les indexs
-    :param ls:
-    :return:
-    """
-    if isinstance(ls, list):
-        if not ls:
-            return [], []
-        else:
-            xs, ys = zip(*ls)
-
-        return list(xs), list(ys)
-    else:
-        raise TypeError
-
-
-def test_unzip():
-    """
-    OK
-    :return:
-    """
-    xs = [4, 2, 6, 9, 0]
-    print("AVANT arr : ", xs)
-    i_xs = [(x, i) for (i, x) in enumerate(xs)]
-    s = sorted(i_xs)
-    sorted_xs, index_lst = unzip(s)
-
-    # quickSort(index, arr, 0, n - 1)
-    print("APRES arr : ", sorted_xs)
-    print("    index : ", index_lst)
-
-
 def mainResultDP():
     # TODO faut encore rajouter le truc du trie sinon ne fonctionne pas pour le moment
-    file = "testformuleDP5"
+    file = "../testformuleDP5"
     file_output = r"./testbed/tests/test0001.position"
     file_output = r"./testbed/tests/test0001.linkstreamToPosition"
 
@@ -295,9 +312,33 @@ def mainResultDP():
         print("*********************print x*******************************")
         pprint.pprint(x)
         print("***********************************************************")
-        gammaMatchig1D(n, tmax, d, x)
+        gammaMatchig1DSort(n, tmax, d, x)
+
+
+def main():
+    path = "../testbed/tests/"
+
+    for file in os.listdir(path):
+        if file.endswith('.position'):
+            with open(path + file, 'r') as f:
+                print("***************", file, "***************")
+                tmax, n, d = list(map(int, f.readline().split()))
+                x = [[0] * (tmax + 1)] * (n + 1)
+                i = 1
+                for line in f.read().splitlines():
+                    if line == '':
+                        continue
+                    x[i] = [0] + list(map(int, line.replace("]", "").split("[")[1].split(",")))
+                    i += 1
+
+                # print("*********************print x*******************************")
+                # pprint.pprint(x)
+                # print("***********************************************************")
+
+                gammaMatchig1DSort(n, tmax, d, x)
 
 
 if __name__ == '__main__':
     # test_unzip()
-    genGammaEdges()
+    # genGammaEdges()
+    main()

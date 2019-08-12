@@ -5,6 +5,7 @@ from functools import reduce
 def dpstatic(n, d, xInput):
     x = xInput.copy()
     argsort = list(numpy.argsort(x)) + [n]
+    print("argsort : ", argsort)
     M = [0] * (n + 1)
     firstSeen = [True] * n
     # print(">> Proceeding DP for maximum matching:")
@@ -31,8 +32,20 @@ def main():
     n = 10
 
     x = list(map(lambda x: random.randint(0, xMax - 1), [0] * n))
+    print("x : ", x)
 
     print(dpstatic(n, d, x))
 
 
 main()
+
+print("\n********************************\n")
+arr = numpy.random.randint(7, size=(3, 3))
+print("arr")
+print(arr)
+print()
+argsort = numpy.argsort(arr)
+print("argsort")
+print(argsort)
+
+print("arr[argsort[0]] : ", argsort[0][0])

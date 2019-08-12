@@ -1,3 +1,4 @@
+import os
 from collections import defaultdict
 import time, os
 import pprint
@@ -397,7 +398,7 @@ class MatchingN:
                 # ajout de gammaMathcing
                 if not self.estCompatibleE_gamma(gammaMaching_to_add, M):
                     # print("je vais ajouter :", gammaMaching_to_add)
-                    M["elements"].append(gammaMaching_to_add)
+                    # M["elements"].append(gammaMaching_to_add)
                     M["max_matching"] += 1
 
                     # supprimer ses voisins et décrémenter le nb_neighbour des voisins de leurs voisins
