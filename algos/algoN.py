@@ -53,7 +53,7 @@ class MatchingN:
 
         return True
 
-    def estCompatibleE_gamma(self, gammaMatching: GammaMach, M: dict) -> bool:
+    def estCompatibleG_edges(self, gammaMatching: GammaMach, M: dict) -> bool:
         t = gammaMatching.t
         if gammaMatching in M["elements"]:
             return True
@@ -187,18 +187,18 @@ class MatchingN:
 
         return link_stream
 
-    def E_gammaMatching(self, link_stream: dict, gamma: int) -> dict:
+    def G_edgesMatching(self, link_stream: dict, gamma: int) -> dict:
         """
-        E_gamma = {"gamma" : int,
+        G_edges = {"gamma" : int,
                     "nb_gamma_matching" = int,
                     " elements" : [gammaMatching] }
 
         :param link_stream:
         :param gamma:
-        :return E_gamma: l'ensemble de gamma_matchin disponible
+        :return G_edges: l'ensemble de gamma_matchin disponible
         """
 
-        E_gamma = {"gamma": gamma, "max_matching": 0, "elements": defaultdict(list)}
+        G_edges = {"gamma": gamma, "max_matching": 0, "elements": defaultdict(list)}
         P = link_stream["E"].copy()
         if self.REVERSE:
             P.reverse()
@@ -208,7 +208,7 @@ class MatchingN:
             u = edge.u
             v = edge.v
 
-            if t in E_gamma["elements"] and edge in E_gamma["elements"][t]:
+            if t in G_edges["elements"] and edge in G_edges["elements"][t]:
                 continue
 
             if not self.contient(P, gamma, edge, t):
@@ -216,7 +216,7 @@ class MatchingN:
 
             newGammaMach = GammaMach(t, u, v)
 
-            for tE, gammMatchingEList in E_gamma["elements"].items():
+            for tE, gammMatchingEList in G_edges["elements"].items():
                 for gammMatchingE in gammMatchingEList:
                     if self.REVERSE:
                         t_check = range(tE - self.gamma, tE)
@@ -230,12 +230,12 @@ class MatchingN:
                             gammMatchingE.neighbours.append(newGammaMach)
                             gammMatchingE.nb_neighbours += 1
 
-            E_gamma["elements"][t].append(newGammaMach)
-            E_gamma["max_matching"] += 1
+            G_edges["elements"][t].append(newGammaMach)
+            G_edges["max_matching"] += 1
+        print("G_edges[max_matching] : ", G_edges["max_matching"])
+        return G_edges
 
-        return E_gamma
-
-    def E_gammaMatching_antoineR(self, link_stream: dict, gamma: int) -> dict:
+    def G_edgesMatching_antoineR(self, link_stream: dict, gamma: int) -> dict:
 
         P = link_stream["E"].copy()
 
@@ -263,18 +263,18 @@ class MatchingN:
 
         print(len(result))
 
-    def E_gammaMatching_mu(self, link_stream: dict, gamma: int) -> dict:
+    def G_edgesMatching_mu(self, link_stream: dict, gamma: int) -> dict:
         """
-        E_gamma = {"gamma" : int,
+        G_edges = {"gamma" : int,
                     "nb_gamma_matching" = int,
                     " elements" : [gammaMatching] }
 
         :param link_stream:
         :param gamma:
-        :return E_gamma: l'ensemble de gamma_matchin disponible
+        :return G_edges: l'ensemble de gamma_matchin disponible
         """
 
-        E_gamma = {"gamma": gamma, "max_matching": 0, "elements": defaultdict(list)}
+        G_edges = {"gamma": gamma, "max_matching": 0, "elements": defaultdict(list)}
         P = link_stream["E"].copy()
         if self.REVERSE:
             P.reverse()
@@ -284,7 +284,7 @@ class MatchingN:
             u = edge.u
             v = edge.v
 
-            if t in E_gamma["elements"] and edge in E_gamma["elements"][t]:
+            if t in G_edges["elements"] and edge in G_edges["elements"][t]:
                 continue
 
             if not self.contient(P, gamma, edge, t):
@@ -293,7 +293,7 @@ class MatchingN:
             newGammaMach = GammaMach(t, u, v)
 
             # trouver et ajouter les voisins juste sur un t
-            for tE, gammMatchingEList in E_gamma["elements"].items():
+            for tE, gammMatchingEList in G_edges["elements"].items():
                 for gammMatchingE in gammMatchingEList:
                     if gammMatchingE.t == t and (
                             gammMatchingE.u == v or gammMatchingE.v == u or gammMatchingE.u == u or gammMatchingE.v == v):
@@ -302,27 +302,27 @@ class MatchingN:
                         gammMatchingE.neighbours.append(newGammaMach)
                         gammMatchingE.nb_neighbours += 1
 
-            E_gamma["elements"][t].append(newGammaMach)
-            E_gamma["max_matching"] += 1
+            G_edges["elements"][t].append(newGammaMach)
+            G_edges["max_matching"] += 1
 
-        return E_gamma
+        return G_edges
 
-    def gammaMatchingE_gamma(self, E_gamma: dict, gamma: int) -> dict:
+    def gammaMatchingG_edges(self, G_edges: dict, gamma: int) -> dict:
         M = {"gamma": gamma, "max_matching": 0, "elements": []}
-        E_gamma_copy = E_gamma.copy()
-        for t, gammaMachingList in E_gamma_copy["elements"].items():
+        G_edges_copy = G_edges.copy()
+        for t, gammaMachingList in G_edges_copy["elements"].items():
             while gammaMachingList:
                 gammaMaching = gammaMachingList.pop()
                 gammaMaching_to_add = gammaMaching
-                nb_g_m = E_gamma_copy["max_matching"] - gammaMaching.nb_neighbours
+                nb_g_m = G_edges_copy["max_matching"] - gammaMaching.nb_neighbours
 
                 for g_m_neighbour in gammaMaching.neighbours:
-                    nb_g_m_neighbour = E_gamma_copy["max_matching"] - g_m_neighbour.nb_neighbours
+                    nb_g_m_neighbour = G_edges_copy["max_matching"] - g_m_neighbour.nb_neighbours
                     if nb_g_m < nb_g_m_neighbour:
                         gammaMaching_to_add = g_m_neighbour
 
                 # ajout de gammaMathcing
-                if not self.estCompatibleE_gamma(gammaMaching_to_add, M):
+                if not self.estCompatibleG_edges(gammaMaching_to_add, M):
                     M["elements"].append(gammaMaching_to_add)
                     M["max_matching"] += 1
 
@@ -338,50 +338,50 @@ class MatchingN:
                                 continue
                             try:
                                 index_g_m_neighbour_in_n_g_m_neighbour = n_g_m_neighbour.neighbours.index(g_m_neighbour)
-                                index_n_g_m_neighbour_in_E_gamma = E_gamma_copy["elements"][n_g_m_neighbour.t].index(
+                                index_n_g_m_neighbour_in_G_edges = G_edges_copy["elements"][n_g_m_neighbour.t].index(
                                     n_g_m_neighbour)
-                                E_gamma_copy["elements"][n_g_m_neighbour.t][
-                                    index_n_g_m_neighbour_in_E_gamma].nb_neighbours -= 1
-                                del E_gamma_copy["elements"][n_g_m_neighbour.t][
-                                    index_n_g_m_neighbour_in_E_gamma].neighbours[
+                                G_edges_copy["elements"][n_g_m_neighbour.t][
+                                    index_n_g_m_neighbour_in_G_edges].nb_neighbours -= 1
+                                del G_edges_copy["elements"][n_g_m_neighbour.t][
+                                    index_n_g_m_neighbour_in_G_edges].neighbours[
                                     index_g_m_neighbour_in_n_g_m_neighbour]
                             except:
                                 pass
 
-                        # suppression du voisins dans E_gamma_copy
+                        # suppression du voisins dans G_edges_copy
                         try:
-                            index_g_m_neighbour_in_E_gamma_element = E_gamma_copy["elements"][g_m_neighbour.t].index(
+                            index_g_m_neighbour_in_G_edges_element = G_edges_copy["elements"][g_m_neighbour.t].index(
                                 g_m_neighbour)
-                            del E_gamma_copy["elements"][g_m_neighbour.t][index_g_m_neighbour_in_E_gamma_element]
+                            del G_edges_copy["elements"][g_m_neighbour.t][index_g_m_neighbour_in_G_edges_element]
                         except:
                             pass
 
-                    # suppremer le gamma_matchinc dans E_gamma
+                    # suppremer le gamma_matchinc dans G_edges
                     try:
-                        index_gamma_matching_to_add = E_gamma_copy["elements"][gammaMaching_to_add.t].index(
+                        index_gamma_matching_to_add = G_edges_copy["elements"][gammaMaching_to_add.t].index(
                             gammaMaching_to_add)
-                        del E_gamma_copy["E"][gammaMaching_to_add.t][index_gamma_matching_to_add]
+                        del G_edges_copy["E"][gammaMaching_to_add.t][index_gamma_matching_to_add]
                     except:
                         pass
 
-                    E_gamma_copy["max_matching"] = E_gamma_copy["max_matching"] - 1 - gammaMaching_to_add.nb_neighbours
+                    G_edges_copy["max_matching"] = G_edges_copy["max_matching"] - 1 - gammaMaching_to_add.nb_neighbours
 
         return M
 
-    def gammaMatchingE_gamma_avancer(self, E_gamma: dict, gamma: int) -> int:
+    def gammaMatchingG_edges_avancer(self, G_edges: dict, gamma: int) -> int:
         M = {"gamma": gamma, "max_matching": 0, "elements": []}
 
-        for t, gammaMachingList in E_gamma["elements"].items():
+        for t, gammaMachingList in G_edges["elements"].items():
             # print("***************************** t = ", t, "*****************************")
             while gammaMachingList:
                 gammaMaching = gammaMachingList.pop()
                 # print(">>>> : ", gammaMaching)
                 gammaMaching_to_add = gammaMaching
-                nb_g_m = E_gamma["max_matching"] - gammaMaching.nb_neighbours
+                nb_g_m = G_edges["max_matching"] - gammaMaching.nb_neighbours
                 change = False
                 gammaMaching_bis = None
                 for g_m_neighbour in gammaMaching.neighbours:
-                    nb_g_m_neighbour = E_gamma["max_matching"] - g_m_neighbour.nb_neighbours
+                    nb_g_m_neighbour = G_edges["max_matching"] - g_m_neighbour.nb_neighbours
                     if nb_g_m < nb_g_m_neighbour:
                         change = True
                         nb_g_m = nb_g_m_neighbour
@@ -391,12 +391,12 @@ class MatchingN:
                 # alors on doit vérifier les voisins de g_m_neighbour qui est le new gammaMaching_to_add
                 if change:
                     for g_m_n_neighbour in gammaMaching_bis.neighbours:
-                        nb_g_m_n_neighbour = E_gamma["max_matching"] - g_m_n_neighbour.nb_neighbours
+                        nb_g_m_n_neighbour = G_edges["max_matching"] - g_m_n_neighbour.nb_neighbours
                         if nb_g_m < nb_g_m_n_neighbour:
                             gammaMaching_to_add = gammaMaching
 
                 # ajout de gammaMathcing
-                if not self.estCompatibleE_gamma(gammaMaching_to_add, M):
+                if not self.estCompatibleG_edges(gammaMaching_to_add, M):
                     # print("je vais ajouter :", gammaMaching_to_add)
                     # M["elements"].append(gammaMaching_to_add)
                     M["max_matching"] += 1
@@ -413,32 +413,32 @@ class MatchingN:
                                 continue
                             try:
                                 index_g_m_neighbour_in_n_g_m_neighbour = n_g_m_neighbour.neighbours.index(g_m_neighbour)
-                                index_n_g_m_neighbour_in_E_gamma = E_gamma["elements"][n_g_m_neighbour.t].index(
+                                index_n_g_m_neighbour_in_G_edges = G_edges["elements"][n_g_m_neighbour.t].index(
                                     n_g_m_neighbour)
-                                E_gamma["elements"][n_g_m_neighbour.t][
-                                    index_n_g_m_neighbour_in_E_gamma].nb_neighbours -= 1
-                                del E_gamma["elements"][n_g_m_neighbour.t][index_n_g_m_neighbour_in_E_gamma].neighbours[
+                                G_edges["elements"][n_g_m_neighbour.t][
+                                    index_n_g_m_neighbour_in_G_edges].nb_neighbours -= 1
+                                del G_edges["elements"][n_g_m_neighbour.t][index_n_g_m_neighbour_in_G_edges].neighbours[
                                     index_g_m_neighbour_in_n_g_m_neighbour]
                             except:
                                 pass
 
-                        # suppression du voisins dans E_gamma
+                        # suppression du voisins dans G_edges
                         try:
-                            index_g_m_neighbour_in_E_gamma_element = E_gamma["elements"][g_m_neighbour.t].index(
+                            index_g_m_neighbour_in_G_edges_element = G_edges["elements"][g_m_neighbour.t].index(
                                 g_m_neighbour)
-                            del E_gamma["elements"][g_m_neighbour.t][index_g_m_neighbour_in_E_gamma_element]
+                            del G_edges["elements"][g_m_neighbour.t][index_g_m_neighbour_in_G_edges_element]
                         except:
                             pass
 
-                    # suppremer le gamma_matchinc dans E_gamma
+                    # suppremer le gamma_matchinc dans G_edges
                     try:
-                        index_gamma_matching_to_add = E_gamma["elements"][gammaMaching_to_add.t].index(
+                        index_gamma_matching_to_add = G_edges["elements"][gammaMaching_to_add.t].index(
                             gammaMaching_to_add)
-                        del E_gamma["E"][gammaMaching_to_add.t][index_gamma_matching_to_add]
+                        del G_edges["E"][gammaMaching_to_add.t][index_gamma_matching_to_add]
                     except:
                         pass
 
-                    E_gamma["max_matching"] = E_gamma["max_matching"] - 1 - gammaMaching_to_add.nb_neighbours
+                    G_edges["max_matching"] = G_edges["max_matching"] - 1 - gammaMaching_to_add.nb_neighbours
 
         return M["max_matching"]
 
@@ -497,13 +497,13 @@ def test_method():
         print("****************** testing link_stream method ******************")
         link_streamList = g_m.linkStreamList()
 
-        E_gamma = g_m.E_gammaMatching(link_streamList, gamma)
+        G_edges = g_m.G_edgesMatching(link_streamList, gamma)
 
         print("************************ gamma_matching ************************")
-        print("E_gamma : ", E_gamma["max_matching"])
+        print("G_edges : ", G_edges["max_matching"])
 
         start_time = time.time()
-        M = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
+        M = g_m.gammaMatchingG_edges_avancer(G_edges, gamma)
         print("Temps d execution gamma_matching : %s secondes ---" % (time.time() - start_time))
         print("algo - max_matching: ", M["max_matching"])
 
@@ -520,13 +520,13 @@ def main():
         print("****************** testing link_stream method ******************")
         link_streamList = g_m.linkStreamList()
 
-        E_gamma = g_m.E_gammaMatching(link_streamList, gamma)
+        G_edges = g_m.G_edgesMatching(link_streamList, gamma)
 
         print("************************ gamma_matching ************************")
-        print("E_gamma : ", E_gamma["max_matching"])
+        print("G_edges : ", G_edges["max_matching"])
 
         start_time = time.time()
-        M = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
+        M = g_m.gammaMatchingG_edges_avancer(G_edges, gamma)
         print("Temps d execution gamma_matching : %s secondes ---" % (time.time() - start_time))
         print("algo - max_matching: ", M["max_matching"])
 
@@ -537,13 +537,13 @@ def main():
         print("****************** testing link_stream method ******************")
         link_streamList = g_m.linkStreamList()
 
-        E_gamma = g_m.E_gammaMatching(link_streamList, gamma)
+        G_edges = g_m.G_edgesMatching(link_streamList, gamma)
 
         print("************************ gamma_matching ************************")
-        print("E_gamma : ", E_gamma["max_matching"])
+        print("G_edges : ", G_edges["max_matching"])
 
         start_time = time.time()
-        M = g_m.gammaMatchingE_gamma_avancer(E_gamma, gamma)
+        M = g_m.gammaMatchingG_edges_avancer(G_edges, gamma)
         print("Temps d execution gamma_matching : %s secondes ---" % (time.time() - start_time))
         print("algo - max_matching: ", M["max_matching"])
 

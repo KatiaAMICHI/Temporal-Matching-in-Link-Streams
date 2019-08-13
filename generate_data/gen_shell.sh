@@ -5,11 +5,11 @@ i=1
 
 while [ $i -lt ${max} ]
 do
-  n=$(ruby -e 'puts rand(5..7)')
-  t=$(ruby -e 'puts rand(5..7)')
+  n=$(ruby -e 'puts rand(8..15)')
+  t=$(ruby -e 'puts rand(7..10)')
   d=$(ruby -e 'puts rand(1..3)')
 
-  dir=`echo $i| awk '{printf "../res/gen_B1/test%04d/", $0;}'`
+  dir=`echo $i| awk '{printf "../res/gen_test/test%04d/", $0;}'`
   if [ ! -d $dir ]
   then
      mkdir $dir

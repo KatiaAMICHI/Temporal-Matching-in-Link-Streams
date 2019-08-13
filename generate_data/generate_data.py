@@ -5,13 +5,13 @@ import shlex
 from functools import reduce
 
 """
-Methos do generate data 
+Methos to generate data 
 """
 
 
 def generate1D():
-    nb_file = 10
-    subprocess.call(shlex.split('./gen_shell.sh ' + str(nb_file)))
+    nb_tests = 10
+    subprocess.call(shlex.split('./gen_shell.sh ' + str(nb_tests)))
 
 
 def dpstatic(n, d, t, xInput):
@@ -36,7 +36,7 @@ def dpstatic(n, d, t, xInput):
 
 
 def genGammaEdges():
-    path = r"../res/gen_B1/"
+    path = r"../res/gen_test/"
 
     result = []
     for folder in os.listdir(path):

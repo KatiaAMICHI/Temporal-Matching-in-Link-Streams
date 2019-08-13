@@ -11,7 +11,6 @@ class DpGammaMatching1D:
         self.tmax = tmax
         self.d = d
         self.xInput = xInput
-        print(self.n, self.tmax, self.d, self.xInput)
 
     def gammaMatchig1DSort(self):
         """
@@ -66,8 +65,8 @@ class DpGammaMatching1D:
         max_A = M[self.n][self.tmax]
         max_B = nb_matching_b
 
-        print("nb_matching_A :", M[self.n][self.tmax])
-        print("nb_matching_B : ", nb_matching_b)
+        # print("nb_matching_A :", M[self.n][self.tmax])
+        # print("nb_matching_B : ", nb_matching_b)
 
         return max(max_A, max_B)
 
@@ -125,7 +124,6 @@ class DpGammaMatching1D:
 
 def refactorData(file):
     with open(file, 'r') as f:
-        print("***************", file, "***************")
         tmax, n, d = list(map(int, f.readline().split()))
         x = [[0] * (tmax + 1)] * (n + 1)
         i = 1
@@ -134,4 +132,5 @@ def refactorData(file):
                 continue
             x[i] = [0] + list(map(int, line.replace("]", "").split("[")[1].split(",")))
             i += 1
+
     return n, tmax, d, x
