@@ -9,12 +9,13 @@
 # outPut : un fichier avec le temps qui a été divisé par 
 # 	(le nombre de jours passé en paramètre)*(le nombre de secondes en une journée)
 #	et sans les doublont et trier par rapport au temps
+#  	trie par rapport aux méthodes de antoine roux
 # si $1 == 0 alors on n'éffectue pas de décompo juste le trie
-
 
 if test -z "$4";then
     echo "pas de parametre: \"${4}\" "
-	if test $1 -eq 0
+        nb_sec=$((86400*$1))
+    if test $1 -eq 0
         then
         nb_sec=1
 	else
@@ -22,10 +23,9 @@ if test -z "$4";then
 	fi
     else
         echo "le paramètre entré est \"${4}\" "
-	nb_sec=$4
+        nb_sec=$4
 fi
 
 
 echo "nb_sec:$nb_sec"
-awk '{printf("%s\t%s\t%s\n", int($1/'$nb_sec'), ($2>$3)?$3:$2, ($2>$3)?$2:$3)}' $2  | sort -n | uniq > $3
-
+awk '{printf("%s\t%s\t%s\n", int($1/'$nb_sec'), ($2>$3)?$3:$2, ($2>$3)?$2:$3)}' $2  | sort -b -nk2,2  -nk1,1 | uniq > $3
