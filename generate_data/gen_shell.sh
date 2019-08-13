@@ -1,15 +1,15 @@
 #!/bin/sh
 
 max=$1
-i=1
+i=0
 
 while [ $i -lt ${max} ]
 do
-  n=$(ruby -e 'puts rand(8..15)')
-  t=$(ruby -e 'puts rand(7..10)')
-  d=$(ruby -e 'puts rand(1..3)')
+  n=$(ruby -e 'puts rand(80..150)')
+  t=$(ruby -e 'puts rand(350..2000)')
+  d=$(ruby -e 'puts rand(1..2)')
 
-  dir=`echo $i| awk '{printf "../res/gen_test/test%04d/", $0;}'`
+  dir=`echo $i| awk '{printf "../res/gen_B1/test%04d/", $0;}'`
   if [ ! -d $dir ]
   then
      mkdir $dir

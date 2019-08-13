@@ -14,7 +14,10 @@ for t in range(T):
             if abs(xposition[i] - xposition[j]) <= d:
                 print(t, i, j)
     for i in range(n):
-        if random.randint(0, 9) < 1 and xposition[i] > 0:
-            xposition[i] -= 1
+        var_to_add = random.randint(1, 80) + i % n * random.randint(1, 33)
+        var_to_sud = random.randint(1, 30) + i % n * random.randint(1, 5)
+
+        if random.randint(0, 6) < 1 and xposition[i] > 10:
+            xposition[i] -= var_to_sud
         else:
-            xposition[i] += random.randint(0, 4)
+            xposition[i] += var_to_add

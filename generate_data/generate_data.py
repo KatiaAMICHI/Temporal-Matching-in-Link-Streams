@@ -10,7 +10,7 @@ Methos to generate data
 
 
 def generate1D():
-    nb_tests = 10
+    nb_tests = 2
     subprocess.call(shlex.split('./gen_shell.sh ' + str(nb_tests)))
 
 
@@ -36,7 +36,7 @@ def dpstatic(n, d, t, xInput):
 
 
 def genGammaEdges():
-    path = r"../res/gen_test/"
+    path = r"../res/gen_B1/"
 
     result = []
     for folder in os.listdir(path):
