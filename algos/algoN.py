@@ -232,7 +232,6 @@ class MatchingN:
 
             G_edges["elements"][t].append(newGammaMach)
             G_edges["max_matching"] += 1
-        print("G_edges[max_matching] : ", G_edges["max_matching"])
         return G_edges
 
     def G_edgesMatching_antoineR(self, link_stream: dict, gamma: int) -> dict:
@@ -473,39 +472,27 @@ class MatchingN:
 
 
 def test_method():
-    gamma = 3
+    gamma = 2
 
-    file_test2 = r"./res/test_local/file_test2.txt"
-    file_test3 = r"./res/test_local/file_tes3.txt"
-    file_test6 = r"./res/test_local/file_test6.txt"
-    file_test4 = r"./res/test_local/file_test4.txt"
-    file_test5 = r"./res/test_local/file_test5.txt"
-    file_test_mu = r"./res/test_local/test_mu.txt"
+    path = '../dataEnronRollernet/enron/test_enron/'
+    file = 'enronCleanDeco90days.linkstream'
 
-    file_test_tab = r"./res/test_local/test_tab.txt"
-    file_test_bis = r"./res/test_local/test_bis.txt"
+    print("\n ...............................................", file,
+          "...............................................")
+    g_m = MatchingN(gamma, path + file)
 
-    rollernetClean30min = r"./res/rollernet/test_rollernet/rollernetClean15mins.linkstream"
-    rollernetClean30minTO = r"./res/rollernet/test_rollernet/rollernetClean30minsT0"
-    path_rollernet = "./res/rollernet/test_rollernet/"
+    print("****************** testing link_stream method ******************")
+    link_streamList = g_m.linkStreamList()
 
-    for file in os.listdir(path_rollernet):
-        print("\n ...............................................", file,
-              "...............................................")
-        g_m = Matching(gamma, path_rollernet + file)
+    G_edges = g_m.G_edgesMatching(link_streamList, gamma)
 
-        print("****************** testing link_stream method ******************")
-        link_streamList = g_m.linkStreamList()
+    print("************************ gamma_matching ************************")
+    print("G_edges : ", G_edges["max_matching"])
 
-        G_edges = g_m.G_edgesMatching(link_streamList, gamma)
-
-        print("************************ gamma_matching ************************")
-        print("G_edges : ", G_edges["max_matching"])
-
-        start_time = time.time()
-        M = g_m.gammaMatchingG_edges_avancer(G_edges, gamma)
-        print("Temps d execution gamma_matching : %s secondes ---" % (time.time() - start_time))
-        print("algo - max_matching: ", M["max_matching"])
+    start_time = time.time()
+    M = g_m.gammaMatchingG_edges_avancer(G_edges, gamma)
+    print("Temps d execution gamma_matching : %s secondes ---" % (time.time() - start_time))
+    print("algo - max_matching: ", M)
 
 
 def main():
@@ -515,7 +502,7 @@ def main():
 
     for file in os.listdir(path_enron):
         print("\n .............................", file, ".............................")
-        g_m = Matching(gamma, path_enron + file)
+        g_m = MatchingN(gamma, path_enron + file)
 
         print("****************** testing link_stream method ******************")
         link_streamList = g_m.linkStreamList()
@@ -528,26 +515,9 @@ def main():
         start_time = time.time()
         M = g_m.gammaMatchingG_edges_avancer(G_edges, gamma)
         print("Temps d execution gamma_matching : %s secondes ---" % (time.time() - start_time))
-        print("algo - max_matching: ", M["max_matching"])
-
-    for file in os.listdir(path_rollernet):
-        print("\n .............................", file, ".............................")
-        g_m = Matching(gamma, path_rollernet + file)
-
-        print("****************** testing link_stream method ******************")
-        link_streamList = g_m.linkStreamList()
-
-        G_edges = g_m.G_edgesMatching(link_streamList, gamma)
-
-        print("************************ gamma_matching ************************")
-        print("G_edges : ", G_edges["max_matching"])
-
-        start_time = time.time()
-        M = g_m.gammaMatchingG_edges_avancer(G_edges, gamma)
-        print("Temps d execution gamma_matching : %s secondes ---" % (time.time() - start_time))
-        print("algo - max_matching: ", M["max_matching"])
+        print("algo - max_matching: ", M)
 
 
 if __name__ == '__main__':
-    main()
-    # test_method()
+    # main()
+    test_method()

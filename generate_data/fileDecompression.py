@@ -20,7 +20,7 @@ def main():
     enronResultAR = '../resultatsAntoinePartie/resultas_enron.txt'
     enronFile = '../res/enron/enronClean'
 
-    pathOutPutRollernet = '../res/gen_rollernet/rollernet'
+    pathOutPutRollernet = '../res/decoData/rollernet'
     rollernetResultAR = '../resultatsAntoinePartie/resultas_rollernet.txt'
     rollernetFile = '../res/rollernet/rollernetClean'
 

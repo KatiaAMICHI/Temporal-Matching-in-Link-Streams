@@ -173,11 +173,14 @@ class MatchingV2:
 
 
 def main():
-    gamma = 3
-    path_rollernet = "../res/rollernet/test_rollernet/rollernetClean15mins_sort.linkstream"
-    file = "/home/katia/Bureau/file_sort"
+    gamma = 2
+    # path_rollernet = "../res/rollernet/test_rollernet/rollernetClean15mins_sort.linkstream"
+    # file = "/home/katia/Bureau/file_sort"
 
-    g_m = MatchingV2(gamma, path_rollernet)
+    path = '../dataEnronRollernet/enron/test_enron/'
+    file = 'enronCleanDeco90days.linkstreamAR'
+
+    g_m = MatchingV2(gamma, path+file)
     link_stream = g_m.linkStream()
     print("L : ( V:", link_stream["V"], ", T:", link_stream["T"], ", E:", len(link_stream["E"]), ")")
 
@@ -190,7 +193,7 @@ def main():
 
     tmp_M_max = M
     tmp_M_min = M
-    for i in range(10):
+    for i in range(2):
         M = g_m.greedy_gamma_matching(g_edges, gamma)
         if min_M > len(M):
             tmp_M_min = M
