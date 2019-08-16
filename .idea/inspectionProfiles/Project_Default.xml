@@ -4,7 +4,7 @@
     <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredPackages">
         <value>
-          <list size="15">
+          <list size="17">
             <item index="0" class="java.lang.String" itemvalue="beautifulsoup4" />
             <item index="1" class="java.lang.String" itemvalue="ipaddress" />
             <item index="2" class="java.lang.String" itemvalue="html5lib" />
@@ -20,6 +20,8 @@
             <item index="12" class="java.lang.String" itemvalue="keyrings.alt" />
             <item index="13" class="java.lang.String" itemvalue="webencodings" />
             <item index="14" class="java.lang.String" itemvalue="scour" />
+            <item index="15" class="java.lang.String" itemvalue="pygobject" />
+            <item index="16" class="java.lang.String" itemvalue="pyparsing" />
           </list>
         </value>
       </option>
@@ -29,6 +31,7 @@
         <list>
           <option value="N803" />
           <option value="N802" />
+          <option value="N806" />
         </list>
       </option>
     </inspection_tool>

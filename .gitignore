@@ -2,3 +2,4 @@
 lib/
 openjpeg-2.0.1.tar.gz
 openjpeg-2.0.1/
+res/*
