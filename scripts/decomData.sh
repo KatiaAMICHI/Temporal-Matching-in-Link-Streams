@@ -20,8 +20,8 @@ if test -z "$4";then
 	else
             nb_sec=$((86400*$1))
 	fi
-    else
-        echo "le paramètre entré est \"${4}\" "
+else
+    echo "le paramètre entré est \"${4}\" "
 	nb_sec=$4
 fi
 

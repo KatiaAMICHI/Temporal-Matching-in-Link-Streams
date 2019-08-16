@@ -9,18 +9,18 @@ Methos to generate data
 """
 
 
-def generate1D():
-    nb_tests = 2
-    subprocess.call(shlex.split('./gen_shell.sh ' + str(nb_tests)))
+def generateXD(script, dir):
+    nb_tests = 1500
+    subprocess.call(shlex.split('./gen_shell.sh ' + str(nb_tests) + ' ' + script + ' ' + dir))
 
 
 def dpstatic(n, d, t, xInput):
     x = xInput.copy()
-    print(" x : ", x)
     argsort = list(numpy.argsort(x)) + [n]
     M = [0] * (n + 1)
     firstSeen = [True] * n
     edges = []
+
     for i in range(1, n):
         if abs(x[argsort[i]] - x[argsort[i - 1]]) <= d:
             M[argsort[i]] = M[argsort[i - 2]] + 1
@@ -30,14 +30,13 @@ def dpstatic(n, d, t, xInput):
                 firstSeen[argsort[i - 1]] = False
         else:
             M[argsort[i]] = M[argsort[i - 1]]
+
     max_matching = reduce(max, M)
-    print("--> Maximum matching size:", reduce(max, M))
+
     return max_matching, edges
 
 
-def genGammaEdges():
-    path = r"../res/gen_B1/"
-
+def genGammaEdges(path):
     result = []
     for folder in os.listdir(path):
         for file in os.listdir(path + folder):
@@ -45,7 +44,6 @@ def genGammaEdges():
             file_output = path_file + file.replace(".position", ".nb_matching")
             if file.endswith('.position'):
                 with open(path_file + file) as f:
-                    print("file : ", file)
                     n, t_max, d = list(map(int, f.readline().split()))
                     x = [[]] * t_max
                     with open(file_output, "+w") as f_outPut:
@@ -57,12 +55,23 @@ def genGammaEdges():
                             max_matching, edges = dpstatic(n, d, t, x[t])
                             result.append((max_matching, edges))  # ajout du tuple (nb_matching, [les matching])
                             f_outPut.write(str(max_matching) + " " + str(edges) + "\n")
+
     return result
 
 
 def main():
-    generate1D()
-    genGammaEdges()
+    path = r"../res/gen_test/"
+    script = 'gen2D.py'
+    dir = 'gen_B2'
+
+    generateXD(script, dir)
+    # genGammaEdges(path)
 
 
 main()
+
+my_list = [[0, 1, 3, 6], [0, 1, 3, 6], [0, 1, 3, 6]]
+
+
+
+

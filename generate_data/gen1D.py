@@ -14,10 +14,14 @@ for t in range(T):
             if abs(xposition[i] - xposition[j]) <= d:
                 print(t, i, j)
     for i in range(n):
-        var_to_add = random.randint(1, 80) + i % n * random.randint(1, 33)
-        var_to_sud = random.randint(1, 30) + i % n * random.randint(1, 5)
+        var_to_add = random.randint(1, 20) + i % n * random.randint(1, 15)
+        var_to_sud = random.randint(1, 20) + i % n * random.randint(1, 15)
 
-        if random.randint(0, 6) < 1 and xposition[i] > 10:
-            xposition[i] -= var_to_sud
+        if random.randint(0, 4) < 1 and xposition[i] > 10:
+            xposition[i] -= random.randint(1, 30)
         else:
-            xposition[i] += var_to_add
+            xposition[i] += random.randint(0, 80)
+
+        # changement du 14/08 (après génération des tests dans gen_B1)
+        if t % random.randint(1, t+1) == 0:
+            xposition[i] = 0
