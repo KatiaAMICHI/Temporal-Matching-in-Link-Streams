@@ -3,7 +3,9 @@ import copy
 import pprint
 
 gamma = 2
-
+# TODO faut refaire a la main la méthode
+# TODO faut vérifeir si :
+# je dois parcourir par raport a la distance ou par rapport au sommets
 
 class DpGammaMatching1D:
     def __init__(self, n, tmax, d, xInput, r):
