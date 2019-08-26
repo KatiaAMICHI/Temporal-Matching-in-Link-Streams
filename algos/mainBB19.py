@@ -6,6 +6,8 @@ from algos.BBR19 import MatchingV2
 from algos.main import var
 
 
+# TODO lancer le 26 à 15h28
+# TODO changer gen_B2 y a trop de lien !!!!
 def mainBBR19():
     pathF1 = '../res'
     fileOutPutTimes = '../outPutFile/BBR19/executionTimes.csv'
@@ -38,7 +40,7 @@ def mainBBR19():
         RT1BB19 = []
         RT2BB19 = []
 
-        if 'gen_B2' not in pathF2:
+        if 'gen_rollernet' not in pathF2:
             continue
 
         fileResult = pathResult + f1
@@ -52,7 +54,8 @@ def mainBBR19():
                 path = pathF2 + "/" + f2 + "/"
                 if os.path.isdir(path):
                     for file in os.listdir(path):
-                        print("******************************", gamma, pathF2, "******************************")
+                        # print("******************************", gamma, f2, "******************************")
+                        print("******************************", gamma, file, "******************************")
                         if file.endswith('linkstreamAR'):
                             # algo BBR19
 
