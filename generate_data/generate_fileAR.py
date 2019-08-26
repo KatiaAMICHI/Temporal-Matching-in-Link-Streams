@@ -1,8 +1,7 @@
-import shlex, os
-import subprocess
+import os
 
 """
-Methos to generate data 
+Methos to sort file for AR method 
 """
 
 
@@ -12,8 +11,9 @@ def sortFileAR():
     for f1 in os.listdir(pathF1):
         pathF2 = pathF1 + "/" + f1
 
-        if 'gen_B2' in pathF2 or 'gen_test' in pathF2:
+        if 'gen_B2' not in pathF2:
             continue
+
         for f2 in os.listdir(pathF2):
             path = pathF2 + "/" + f2 + "/"
 

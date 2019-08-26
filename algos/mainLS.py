@@ -1,9 +1,8 @@
-import collections
 import csv
+import os
 import time
 
-from algos.DpGammaMatching import *
-from algos.algoN import MatchingN
+from algos.LS import MatchingN
 from algos.greedy_algorithm import Matching
 from algos.main import var
 
@@ -13,15 +12,16 @@ def mainLS():
     fileOutPutTimes = '../outPutFile/LS/executionTimes.csv'
     fileOutPutNbGM = '../outPutFile/LS/NBGammaMatching.csv'
 
+    pathResult = '../outPutFile/LS/result'  # on écrit tt les données pour le calcule de la variance
+
     csv_Times = open(fileOutPutTimes, mode='w')
     csv_NbGM = open(fileOutPutNbGM, mode='w')
 
-    fieldnamesTimes = ['File', '|V|', '|T|', '|E|', 'G_edges', 'LS']
-
+    fieldnamesTimes = ['File', 'Gamma', '|V|', '|T|', '|E|', 'G_edges', 'LS', 'varLS']
     writerTimes = csv.DictWriter(csv_Times, fieldnames=fieldnamesTimes)
     writerTimes.writeheader()
 
-    fieldnamesNbGM = ['File', 'G_edges', 'LS', 'varLS']
+    fieldnamesNbGM = ['File', 'Gamma', 'G_edges', 'LS', 'varLS']
     writerNbGM = csv.DictWriter(csv_NbGM, fieldnames=fieldnamesNbGM)
     writerNbGM.writeheader()
 
@@ -36,64 +36,121 @@ def mainLS():
         R1LS = []
         R2LS = []
 
-        G_edges_filesDP = collections.defaultdict(int)
+        RT1LS = []
+        RT2LS = []
 
-        if 'gen_B2' in pathF2 or 'gen_test' in pathF2:
+        if 'gen_rollernet' not in pathF2 :
             continue
-        for f2 in os.listdir(pathF2):
-            path = pathF2 + "/" + f2 + "/"
 
-            if os.path.isdir(path):
+        fileResult = pathResult + f1
+        csv_result = open(fileResult, mode='w')
+        fieldnamesResult = ['File', "Gamma", 'V', 'T', 'E', 'TG_edges', 'Tnb_gmLS', 'G_edges', 'nb_gmLS']
+        writerResult = csv.DictWriter(csv_result, fieldnames=fieldnamesResult)
+        writerResult.writeheader()
 
-                for file in os.listdir(path):
-                    print("******************************", file, "******************************")
+        for gamma in range(2, 401):
+            for f2 in os.listdir(pathF2):
+                path = pathF2 + "/" + f2 + "/"
+                if os.path.isdir(path):
+                    for file in os.listdir(path):
+                        if file.endswith('.linkstream'):
+                            print("******************************", file, "******************************")
+                            # algo with neighbour LS
+                            nb_file += 1
+                            g_m = Matching(gamma, path + file)
+                            link_stream = g_m.linkStream()
 
-                    if file.endswith('.linkstream'):
-                        # algo with neighbour LS
-                        nb_file += 1
-                        g_m = Matching(gamma, path + file)
-                        link_stream = g_m.linkStream()
+                            if link_stream['T'] < gamma:
+                                end_time_LS_edges = 0
+                                end_time_LS_NbGM = 0
+                                nb_gmLS = 0
+                                nb_g_edgesLs = 0
+                            else:
+                                g_m_n = MatchingN(gamma, path + file)
+                                link_streamList = g_m_n.linkStreamList()
 
-                        g_m_n = MatchingN(gamma, path + file)
-                        link_streamList = g_m_n.linkStreamList()
-                        G_edges = g_m_n.G_edgesMatching(link_streamList, gamma)
-                        nb_g_edgesLs = G_edges["max_matching"]
+                                start_time = time.time()
+                                G_edges = g_m_n.G_edgesMatching(link_streamList, gamma)
+                                end_time_LS_edges = round(time.time() - start_time, 4)
+                                nb_g_edgesLs = G_edges["max_matching"]
 
-                        nbGMoutPut['G_edges'] += G_edges["max_matching"]
+                                nbGMoutPut['G_edges'] += nb_g_edgesLs
 
-                        start_time = time.time()
-                        nb_gmLS = g_m_n.gammaMatchingG_edges_avancer(G_edges, gamma)
-                        end_time_LS = time.time() - start_time
+                                start_time = time.time()
+                                nb_gmLS = g_m_n.gammaMatchingG_edges_avancer(G_edges, gamma)
+                                end_time_LS_NbGM = round(time.time() - start_time, 4)
 
-                        timesOutPut['V'] += link_stream['V']
-                        timesOutPut['T'] += link_stream['T']
-                        timesOutPut['E'] += len(link_stream['E'])
-                        timesOutPut['G_edges'] += len(G_edges)
-                        timesOutPut['end_time_LS'] += end_time_LS
+                            timesOutPut['V'] += link_stream['V']
+                            timesOutPut['T'] += link_stream['T']
+                            timesOutPut['E'] += len(link_stream['E'])
+                            timesOutPut['G_edges'] += end_time_LS_edges
+                            timesOutPut['end_time_LS'] += end_time_LS_NbGM
 
-                        nbGMoutPut['nb_gmLS'] += nb_gmLS
+                            nbGMoutPut['nb_gmLS'] += nb_gmLS
 
-                        R1LS.append(nb_gmLS)
-                        R2LS.append(nb_g_edgesLs)
-                        G_edges_filesDP[str(path + file).replace('.linkstream', '')] = nb_g_edgesLs
+                            R1LS.append(nb_gmLS)
+                            R2LS.append(nb_g_edgesLs)
 
-        # calcule de la variance et de l'ecart-type
-        nbGMoutPut['varLS'] = var(R1LS, R2LS)
+                            RT1LS.append(end_time_LS_NbGM)
+                            RT2LS.append(end_time_LS_edges)
+                            if "enron" in f1 or "rollernet" in f1:
+                                fileOutPutResult = file.replace(".linkstream", "")
+                            else:
+                                fileOutPutResult = f2
 
-        # ecriture dans le outPutFile a la fin de chaque parcour d'un dossier
-        print()
-        print("je vais écrir !!")
-        writerTimes.writerow({'File': f1,
-                              '|V|': round(timesOutPut['V'] / nb_file, 4),
-                              '|T|': round(timesOutPut['T'] / nb_file, 4),
-                              '|E|': round(timesOutPut['E'] / nb_file, 4),
-                              'G_edges': round(timesOutPut['G_edges'] / nb_file, 4),
-                              "LS": round(timesOutPut['end_time_LS'] / nb_file, 4)})
+                            writerResult.writerow({'File': fileOutPutResult, "Gamma": gamma,
+                                                   'V': link_stream['V'],
+                                                   'T': link_stream['T'],
+                                                   'E': link_stream['E'],
+                                                   'TG_edges': end_time_LS_edges,
+                                                   'Tnb_gmLS': end_time_LS_NbGM,
+                                                   'G_edges': nb_g_edgesLs,
+                                                   'nb_gmLS': nb_gmLS})
 
-        writerNbGM.writerow({'File': f1,
-                             'G_edges': round(nbGMoutPut['G_edges'] / nb_file, 4),
-                             'LS': round(nbGMoutPut['nb_gmLS'] / nb_file, 4),
-                             'varLS': nbGMoutPut['varLS']})
+            # calcule de la variance et de l'ecart-type
+            timesOutPut['varLS'] = var(RT1LS, RT2LS)
+            nbGMoutPut['varLS'] = var(R1LS, R2LS)
+
+            # ecriture dans le outPutFile a la fin de chaque parcour d'un dossier
+            print()
+            print("je vais écrir !!")
+            writerTimes.writerow({'File': f1, 'Gamma': gamma,
+                                  '|V|': round(timesOutPut['V'] / nb_file, 4),
+                                  '|T|': round(timesOutPut['T'] / nb_file, 4),
+                                  '|E|': round(timesOutPut['E'] / nb_file, 4),
+                                  'G_edges': round(timesOutPut['G_edges'] / nb_file, 4),
+                                  "LS": round(timesOutPut['end_time_LS'] / nb_file, 4),
+                                  'varLS': nbGMoutPut['varLS']})
+
+            writerNbGM.writerow({'File': f1, 'Gamma': gamma,
+                                 'G_edges': round(nbGMoutPut['G_edges'] / nb_file, 4),
+                                 'LS': round(nbGMoutPut['nb_gmLS'] / nb_file, 4),
+                                 'varLS': nbGMoutPut['varLS']})
+
+
+def mainLSFile():
+    gamma = 2
+    path = "../res/gen_B2/test0000/"
+    file = "test.linkstream"
+
+    if file.endswith('.linkstream'):
+        print("******************************", file, "******************************")
+        # algo with neighbour LS
+        g_m_n = MatchingN(gamma, path + file)
+        link_streamList = g_m_n.linkStreamList()
+
+        start_time = time.time()
+        G_edges = g_m_n.G_edgesMatching(link_streamList, gamma)
+        end_time_LS_edges = round(time.time() - start_time, 4)
+        nb_g_edgesLs = G_edges["max_matching"]
+        print("end_time_LS_edges : ", end_time_LS_edges)
+        print("nb_g_edgesLs : ", nb_g_edgesLs)
+
+        start_time = time.time()
+        nb_gmLS = g_m_n.gammaMatchingG_edges_avancer(G_edges, gamma)
+        end_time_LS_NbGM = round(time.time() - start_time, 4)
+        print("nb_gmLS : ", nb_gmLS)
+        print("end_time_LS_NbGM  : ", end_time_LS_NbGM)
 
 
 mainLS()

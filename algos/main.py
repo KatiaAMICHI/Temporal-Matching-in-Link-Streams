@@ -1,13 +1,12 @@
 import collections
 import csv
-import time
+import time, pprint, os
 
 from algos.DpGammaMatching import *
-from algos.algoN import MatchingN
+from algos.LS import MatchingN
 from algos.greedy_algorithm import Matching
-from algos.greedy_algorithmV2 import MatchingV2
+from algos.BBR19 import MatchingV2
 
-gamma = 2
 path_enron = "../res/enron/test_enron/"
 path_rollernet = "../res/rollernet/test_rollernet/"
 
@@ -197,8 +196,11 @@ def tocsvForeachDir():
 
 
 def moyenne(R1, R2):
+    print("R1 : ", R1)
+    print("R2 : ", R2)
     result = round(sum(map(lambda x: x[0] * x[1], zip(R1, R2))), 2)
-    return round(result / sum(R2), 2)
+    sumR2 = sum(R2)
+    return None if sumR2 == 0 else round(result / sumR2, 2)
 
 
 def var(R1, R2):
@@ -211,25 +213,36 @@ def var(R1, R2):
         return 0
 
     xb = moyenne(R1, R2)
-    return round(sum(map(lambda x: x[1] * (x[0] - xb) * (x[0] - xb), zip(R1, R2))) / sum(R2), 4)
+    return 0 if not xb else round(sum(map(lambda x: x[1] * (x[0] - xb) * (x[0] - xb), zip(R1, R2))) / sum(R2), 4)
 
 
-def testDP():
-    file = "test.position"
-    path = '../local_tests/'
+def mainDP():
+    path = "../res/gen_test/test0000/"
+    fileP = "test.position"
+    fileL = "test.linkstream"
 
-    if file.endswith('.position'):
-        n, tmax, d, x = refactorData(path + file)
+    if fileL.endswith('.linkstream'):
+        # algo with neighbour LS
+        g_m = Matching(gamma, path + fileL)
+
+        g_m_n = MatchingN(gamma, path + fileL)
+        link_streamList = g_m_n.linkStreamList()
+
+        G_edges = g_m_n.G_edgesMatching(link_streamList, gamma)
+        print("G_edges mqx : ", G_edges["max_matching"])
+        nb_gmLS = g_m_n.gammaMatchingG_edges_avancer(G_edges, gamma)
+        print("nb_gmLS : ", nb_gmLS)
+
+    if fileP.endswith('.position'):
+        n, tmax, d, x = refactorData(path + fileP)
         dgGM = DpGammaMatching1D(n, tmax, d, x)
 
         nb_gmDP = dgGM.gammaMatchig1DSort()
         print("nb_gmDP : ", nb_gmDP)
 
 
-
-
 if __name__ == '__main__':
     # tocsv()
     # tocsvForeachDir()
     # test_methods_file()
-    mainLS()
+    mainDP()

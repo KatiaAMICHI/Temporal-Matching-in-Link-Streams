@@ -42,9 +42,9 @@ class DecomposeGreedy:
 
         return list_pos_matching
 
-    def nb_gamma_matching_decomposition(self, list_pos_matching: list, nb_matching: int, M, i) -> (list, int):
+    def nb_gamma_matching_decomposition(self, list_pos_matching: list, nb_matching: int, M) -> (list, int):
         # print("nb_iter : ", i)
-        i += 1
+        # i += 1
         if len(list_pos_matching) < 1:
             return nb_matching, M
 
@@ -53,8 +53,8 @@ class DecomposeGreedy:
         nb_matching += max_matching[0]
 
         list_pos_matching = self.update_list_pos_matching(list_pos_matching, max_matching, idx_max_matching)
-        self.nb_gamma_matching_decomposition(list_pos_matching[0:idx_max_matching], nb_matching, M, i)
-        nb_matching2, M = self.nb_gamma_matching_decomposition(list_pos_matching[idx_max_matching::], nb_matching, M, i)
+        self.nb_gamma_matching_decomposition(list_pos_matching[0:idx_max_matching], nb_matching, M)
+        nb_matching2, M = self.nb_gamma_matching_decomposition(list_pos_matching[idx_max_matching::], nb_matching, M)
 
         return nb_matching2, M
 
@@ -86,7 +86,7 @@ class DecomposeGreedy:
     def test(self):
         file = "test0001.nb_matching"
         print("****************", file, "****************")
-        # TODO faut modifier list_pos_matching par tryalgo ou ...
+        # TODO faut modifier list_pos_matching pour tryalgo ou ...
         list_pos_matching = self.get_list_pos_matching(self.path + file)
         nb_matching, M = self.nb_gamma_matching_decomposition(list_pos_matching, nb_matching=0, M=[], i=0)
         print(file, " : ", nb_matching, M)
