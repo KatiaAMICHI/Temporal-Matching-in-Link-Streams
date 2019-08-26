@@ -10,7 +10,7 @@ Methos to generate data
 
 
 def generateXD(script, dir):
-    nb_tests = 1500
+    nb_tests = 950
     subprocess.call(shlex.split('./gen_shell.sh ' + str(nb_tests) + ' ' + script + ' ' + dir))
 
 
@@ -60,7 +60,7 @@ def genGammaEdges(path):
 
 
 def main():
-    path = r"../res/gen_test/"
+    path = r"../res/gen_B2/"
     script = 'gen2D.py'
     dir = 'gen_B2'
 
@@ -69,9 +69,3 @@ def main():
 
 
 main()
-
-my_list = [[0, 1, 3, 6], [0, 1, 3, 6], [0, 1, 3, 6]]
-
-
-
-

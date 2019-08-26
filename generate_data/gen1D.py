@@ -17,8 +17,10 @@ for t in range(T):
         var_to_add = random.randint(1, 20) + i % n * random.randint(1, 15)
         var_to_sud = random.randint(1, 20) + i % n * random.randint(1, 15)
 
-        if random.randint(0, 4) < 1 and xposition[i] > 10:
-            xposition[i] -= random.randint(1, 30)
+        # ajout de la variable valToSub le 16/08
+        valToSud = random.randint(1, 30)
+        if random.randint(0, 4) < 1 and xposition[i] > valToSud:
+            xposition[i] -= valToSud
         else:
             xposition[i] += random.randint(0, 80)
 
