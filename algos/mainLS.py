@@ -6,6 +6,12 @@ from algos.LS import MatchingN
 from algos.greedy_algorithm import Matching
 from algos.main import var
 
+# !!!!!!! TODO je dois lancer de mainLS avec B1 sur mon pc ce soir !!!!
+
+# TODO lancement de mainLS avec enron sur hp
+# TODO lancement de mainLS avec rollernet sur dell
+# TODO lancement de mainBB19 avec B2 sur dell
+
 
 def mainLS():
     pathF1 = '../res'
@@ -39,7 +45,7 @@ def mainLS():
         RT1LS = []
         RT2LS = []
 
-        if 'gen_rollernet' not in pathF2 :
+        if 'gen_rollernet' not in pathF2:
             continue
 
         fileResult = pathResult + f1
@@ -54,7 +60,7 @@ def mainLS():
                 if os.path.isdir(path):
                     for file in os.listdir(path):
                         if file.endswith('.linkstream'):
-                            print("******************************", file, "******************************")
+                            print("******************************", gamma, file, "******************************")
                             # algo with neighbour LS
                             nb_file += 1
                             g_m = Matching(gamma, path + file)
@@ -101,7 +107,7 @@ def mainLS():
                             writerResult.writerow({'File': fileOutPutResult, "Gamma": gamma,
                                                    'V': link_stream['V'],
                                                    'T': link_stream['T'],
-                                                   'E': link_stream['E'],
+                                                   'E': len(link_stream['E']),
                                                    'TG_edges': end_time_LS_edges,
                                                    'Tnb_gmLS': end_time_LS_NbGM,
                                                    'G_edges': nb_g_edgesLs,

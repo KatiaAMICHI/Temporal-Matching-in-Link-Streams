@@ -43,7 +43,7 @@ def mainBBR19():
 
         fileResult = pathResult + f1
         csv_result = open(fileResult, mode='w')
-        fieldnamesResult = ['File', "Gamma", 'TG_edges', 'Tnb_gmBBR19', 'G_edges', 'nb_gmBBR19']
+        fieldnamesResult = ['File', "Gamma", 'V', 'T', 'E', 'TG_edges', 'Tnb_gmBBR19', 'G_edges', 'nb_gmBBR19']
         writerResult = csv.DictWriter(csv_result, fieldnames=fieldnamesResult)
         writerResult.writeheader()
 
@@ -52,7 +52,7 @@ def mainBBR19():
                 path = pathF2 + "/" + f2 + "/"
                 if os.path.isdir(path):
                     for file in os.listdir(path):
-                        print("******************************", file, "******************************")
+                        print("******************************", gamma, pathF2, "******************************")
                         if file.endswith('linkstreamAR'):
                             # algo BBR19
 
@@ -61,20 +61,27 @@ def mainBBR19():
                             g_mV2 = MatchingV2(gamma, path + file)
                             link_stream = g_mV2.linkStream()
 
-                            start_time = time.time()
-                            g_edges = g_mV2.gamma_edges(link_stream, gamma)
-                            end_time_BBR19G_edges = round(time.time() - start_time, 8)
-                            timesOutPut['G_edges'] += end_time_BBR19G_edges
-                            nb_g_edges = len(g_edges)
-                            nbGMoutPut['G_edges'] += nb_g_edges
+                            if link_stream['T'] < gamma:
+                                nb_gmBBR19 = 0
+                                nb_g_edges = 0
+                                end_time_BBR19NbGM = 0
+                                end_time_BBR19G_edges = 0
 
-                            start_time = time.time()
-                            M = g_mV2.greedy_gamma_matching(g_edges, gamma)
-                            end_time_BBR19NbGM = round(time.time() - start_time, 8)
-                            timesOutPut['end_time_BBR19'] += end_time_BBR19NbGM
+                            else:
+                                start_time = time.time()
+                                g_edges = g_mV2.gamma_edges(link_stream, gamma)
+                                end_time_BBR19G_edges = round(time.time() - start_time, 8)
+                                timesOutPut['G_edges'] += end_time_BBR19G_edges
+                                nb_g_edges = len(g_edges)
+                                nbGMoutPut['G_edges'] += nb_g_edges
 
-                            nb_gmBBR19 = len(M)
-                            nbGMoutPut['nb_gmBBR19'] += nb_gmBBR19
+                                start_time = time.time()
+                                M = g_mV2.greedy_gamma_matching(g_edges, gamma)
+                                end_time_BBR19NbGM = round(time.time() - start_time, 8)
+                                timesOutPut['end_time_BBR19'] += end_time_BBR19NbGM
+
+                                nb_gmBBR19 = len(M)
+                                nbGMoutPut['nb_gmBBR19'] += nb_gmBBR19
 
                             R1BB19.append(nb_gmBBR19)
                             R2BB19.append(nb_g_edges)
@@ -88,6 +95,9 @@ def mainBBR19():
                                 fileOutPutResult = f2
 
                             writerResult.writerow({'File': fileOutPutResult, "Gamma": gamma,
+                                                   'V': link_stream['V'],
+                                                   'T': link_stream['T'],
+                                                   'E': len(link_stream['E']),
                                                    'TG_edges': end_time_BBR19G_edges,
                                                    'Tnb_gmBBR19': end_time_BBR19NbGM,
                                                    'G_edges': nb_g_edges,
