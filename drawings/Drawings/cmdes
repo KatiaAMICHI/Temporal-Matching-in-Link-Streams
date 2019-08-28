@@ -1,0 +1,2 @@
+
+for i in `ls *.py | grep -v "Drawing.py"`; do f=`echo $i | cut -d"." -f1`; echo $f; python $f.py > $f.fig; fig2dev -L eps $f.fig > $f.eps; done
