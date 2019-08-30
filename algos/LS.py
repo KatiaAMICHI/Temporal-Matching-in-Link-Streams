@@ -1,7 +1,6 @@
 import os
+import time
 from collections import defaultdict
-import time, os
-import pprint
 
 
 class Edge:
@@ -152,9 +151,9 @@ class MatchingN:
             G_edges["max_matching"] += 1
         return G_edges
 
-    def gammaMatchingG_edges_avancer(self, G_edges: dict, gamma: int) -> int:
+    def gammaMatchingG_edges_avancer(self, GE: dict, gamma: int) -> int:
         M = {"gamma": gamma, "max_matching": 0, "elements": []}
-
+        G_edges = GE.copy()
         for t, gammaMachingList in G_edges["elements"].items():
 
             while gammaMachingList:
@@ -182,6 +181,7 @@ class MatchingN:
                         if nb_g_m < nb_g_m_n_neighbour:
                             gammaMaching_to_add = gammaMaching
                             # TODO ajout d'un break
+                            break
 
                 # ajout de gammaMathcing
                 if not self.estCompatibleG_edges(gammaMaching_to_add, M):

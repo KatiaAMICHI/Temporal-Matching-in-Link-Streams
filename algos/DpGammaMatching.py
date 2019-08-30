@@ -119,7 +119,8 @@ class DpGammaMatching1D:
                                 nb_matching_b += 1
                                 print("je rajoute dans B : ", (argsort[j][i], argsort[j][v]))
                                 B[j].append((argsort[j][i], argsort[j][v]))
-                        M[i][j] = max(M[i][j], M[i][j - 1])
+                            # par ce que dès foit quand on fait nb_inter on peut se retrouver avec un résultat pas ouf donc on dois reprednre notre résultat d'avant
+                            M[i][j] = max(M[i][j], M[i][j - 1])
                         print("3 **************** B ************")
                         pprint.pprint(B)
                         print("*********************************")

@@ -196,11 +196,9 @@ def tocsvForeachDir():
 
 
 def moyenne(R1, R2):
-    print("R1 : ", R1)
-    print("R2 : ", R2)
-    result = round(sum(map(lambda x: x[0] * x[1], zip(R1, R2))), 2)
+    result = round(sum(map(lambda x: x[0] * x[1], zip(R1, R2))), 6)
     sumR2 = sum(R2)
-    return None if sumR2 == 0 else round(result / sumR2, 2)
+    return None if sumR2 == 0 else round(result / sumR2, 6)
 
 
 def var(R1, R2):
@@ -213,7 +211,7 @@ def var(R1, R2):
         return 0
 
     xb = moyenne(R1, R2)
-    return 0 if not xb else round(sum(map(lambda x: x[1] * (x[0] - xb) * (x[0] - xb), zip(R1, R2))) / sum(R2), 4)
+    return 0 if not xb else round(sum(map(lambda x: x[1] * (x[0] - xb) * (x[0] - xb), zip(R1, R2))) / sum(R2), 6)
 
 
 def mainDP():

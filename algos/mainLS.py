@@ -6,16 +6,17 @@ from algos.LS import MatchingN
 from algos.greedy_algorithm import Matching
 from algos.main import var
 
+
 # !!!!!!! TODO je dois lancer de mainLS avec B1 sur mon pc ce soir !!!!
 
 # TODO lancement de mainLS avec enron sur hp
 # TODO lancement de mainLS avec rollernet sur dell
 # TODO lancement de mainBB19 avec B2 sur dell
-
-
+# TODO relancement de mainLS avec gamma=4 sur 1003 fichier un peu avant 17h40
+# 1h30 je viens de le lancer a partir de gamma = 3
 def mainLS():
     pathF1 = '../res'
-    fileOutPutTimes = '../outPutFile/LS/executionTimes.csv'
+    fileOutPutTimes = '../outPutFile/LS/executionTimesG6_9.csv'
     fileOutPutNbGM = '../outPutFile/LS/NBGammaMatching.csv'
 
     pathResult = '../outPutFile/LS/result'  # on écrit tt les données pour le calcule de la variance
@@ -36,6 +37,7 @@ def mainLS():
     nbGMoutPut = {'G_edges': 0, 'nb_gmLS': 0, 'varLS': 0}
 
     for f1 in os.listdir(pathF1):
+
         pathF2 = pathF1 + "/" + f1
         nb_file = 0
 
@@ -54,17 +56,19 @@ def mainLS():
         writerResult = csv.DictWriter(csv_result, fieldnames=fieldnamesResult)
         writerResult.writeheader()
 
-        for gamma in range(2, 401):
+        for gamma in range(6, 9):
             for f2 in os.listdir(pathF2):
                 path = pathF2 + "/" + f2 + "/"
                 if os.path.isdir(path):
+                    if "1003_inf" in path:
+                        continue
                     for file in os.listdir(path):
                         if file.endswith('.linkstream'):
                             print("******************************", gamma, file, "******************************")
                             # algo with neighbour LS
                             nb_file += 1
-                            g_m = Matching(gamma, path + file)
-                            link_stream = g_m.linkStream()
+                            g_m_n = MatchingN(gamma, path + file)
+                            link_stream = g_m_n.linkStreamList()
 
                             if link_stream['T'] < gamma:
                                 end_time_LS_edges = 0
@@ -72,11 +76,9 @@ def mainLS():
                                 nb_gmLS = 0
                                 nb_g_edgesLs = 0
                             else:
-                                g_m_n = MatchingN(gamma, path + file)
-                                link_streamList = g_m_n.linkStreamList()
 
                                 start_time = time.time()
-                                G_edges = g_m_n.G_edgesMatching(link_streamList, gamma)
+                                G_edges = g_m_n.G_edgesMatching(link_stream, gamma)
                                 end_time_LS_edges = round(time.time() - start_time, 4)
                                 nb_g_edgesLs = G_edges["max_matching"]
 
