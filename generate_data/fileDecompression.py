@@ -16,9 +16,9 @@ def decomData(resultAR, enronFile, pathOutPut):
 
 
 def main():
-    pathOutPutEnron = '../res/gen_enron/enron'
+    pathOutPutEnron = '../res/gen_enron/enron400'
     enronResultAR = '../resultatsAntoinePartie/resultas_enron.txt'
-    enronFile = '../res/enron/enronClean'
+    enronFile = '../res/enron400/enronClean'
 
     pathOutPutRollernet = '../res/decoData/rollernet'
     rollernetResultAR = '../resultatsAntoinePartie/resultas_rollernet.txt'

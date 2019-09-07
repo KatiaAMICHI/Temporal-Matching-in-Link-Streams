@@ -2,12 +2,14 @@ import os
 import time
 from collections import defaultdict
 
+from apt import cache
+
 
 class Edge:
     def __init__(self, u, v):
         self.u = u
         self.v = v
-        self.neighbours = []
+        self.neighbours = set()
         self.nb_neighbours = 0
 
     def __repr__(self):
@@ -19,7 +21,7 @@ class GammaMach:
         self.t = t
         self.u = u
         self.v = v
-        self.neighbours = []
+        self.neighbours = set()
         self.nb_neighbours = 0
 
     def __repr__(self):
@@ -27,7 +29,7 @@ class GammaMach:
             self.nb_neighbours) + ")"
 
 
-class MatchingN:
+class MatchingNV2:
     REVERSE = False
 
     def __init__(self, gamma, file):
@@ -58,15 +60,15 @@ class MatchingN:
                     return True
         return False
 
-    def contient(self, P: [Edge], gamma: int, edge: Edge, t: int) -> bool:
+    def contient(self, P: [Edge], gamma: int, u, v, t: int) -> bool:
         nb_gammma = 1
-        for (tP, edgeP) in P:
+        for (tP, uP, vP) in P:
             if self.REVERSE:
                 t_check = t - 1
             else:
                 t_check = t + 1
 
-            if edgeP.u != edge.u or edgeP.v != edge.v or tP != t_check:
+            if uP != u or vP != v or tP != t_check:
                 continue
 
             nb_gammma += 1
@@ -91,7 +93,7 @@ class MatchingN:
                 u = line_split[1]
                 v = line_split[2]
 
-                link_stream["E"].append((int(t), Edge(u=u, v=v)))  # ajout du tuple (t, uv)
+                link_stream["E"].append((t, u, v))  # ajout du tuple (t, u, v)
 
                 if max_node < max(int(u), int(v)):
                     max_node = max(int(u), int(v))
@@ -117,36 +119,69 @@ class MatchingN:
 
         G_edges = {"gamma": gamma, "max_matching": 0, "elements": defaultdict(list)}
         P = link_stream["E"].copy()
-        if self.REVERSE:
-            P.reverse()
-
         while len(P) != 0:
-            (t, edge) = P.pop(0)
-            u = edge.u
-            v = edge.v
+            (t, u, v) = P.pop(0)
 
-            if t in G_edges["elements"] and edge in G_edges["elements"][t]:
+            if t in G_edges["elements"] and (u, v) in G_edges["elements"][t]:
                 continue
 
-            if not self.contient(P, gamma, edge, t):
+            if not self.contient(P, gamma, u, v, t):
                 continue
 
             newGammaMach = GammaMach(t, u, v)
 
             for tE, gammMatchingEList in G_edges["elements"].items():
                 for gammMatchingE in gammMatchingEList:
-                    if self.REVERSE:
-                        t_check = range(tE - self.gamma, tE)
-                    else:
-                        t_check = range(tE, tE + self.gamma)
+                    t_check = range(tE, tE + self.gamma)
 
                     if t in t_check:
                         if gammMatchingE.u == v or gammMatchingE.v == u or gammMatchingE.u == u or gammMatchingE.v == v:
-                            newGammaMach.neighbours.append(gammMatchingE)
+                            newGammaMach.neighbours.add(gammMatchingE)
                             newGammaMach.nb_neighbours += 1
-                            gammMatchingE.neighbours.append(newGammaMach)
+                            gammMatchingE.neighbours.add(newGammaMach)
                             gammMatchingE.nb_neighbours += 1
 
+            G_edges["elements"][t].append(newGammaMach)
+            G_edges["max_matching"] += 1
+        return G_edges
+
+    def G_edgesMatchingV2(self, link_stream: dict, gamma: int) -> dict:
+        """
+        G_edges = {"gamma" : int,
+                    "nb_gamma_matching" = int,
+                    " elements" : [gammaMatching] }
+
+        :param link_stream:
+        :param gamma:
+        :return G_edges: l'ensemble de gamma_matchin disponible
+        """
+
+        G_edges = {"gamma": gamma, "max_matching": 0, "elements": defaultdict(list)}
+        P = link_stream["E"].copy()
+        while len(P) != 0:
+            (t, u, v) = P.pop(0)
+
+            if t in G_edges["elements"] and (u, v) in G_edges["elements"][t]:
+                continue
+
+            if not self.contient(P, gamma, u, v, t):
+                continue
+
+            newGammaMach = GammaMach(t, u, v)
+
+            for tE in range(t-gamma+1, t+gamma):
+                # for tE, gammMatchingEList in G_edges["elements"].items():
+                i = 0
+                for gammMatchingE in G_edges["elements"][tE]:
+
+                    # t_check = range(tE, tE + self.gamma)
+                    # if t in t_check:
+                    if gammMatchingE.u == v or gammMatchingE.v == u or gammMatchingE.u == u or gammMatchingE.v == v:
+                        newGammaMach.neighbours.add(gammMatchingE)
+                        newGammaMach.nb_neighbours += 1
+                        G_edges["elements"][tE][i].neighbours.add(newGammaMach)
+                        G_edges["elements"][tE][i].nb_neighbours += 1
+                    i += 1
             G_edges["elements"][t].append(newGammaMach)
             G_edges["max_matching"] += 1
         return G_edges
@@ -180,7 +215,6 @@ class MatchingN:
                         nb_g_m_n_neighbour = G_edges["max_matching"] - g_m_n_neighbour.nb_neighbours
                         if nb_g_m < nb_g_m_n_neighbour:
                             gammaMaching_to_add = gammaMaching
-                            # TODO ajout d'un break
                             break
 
                 # ajout de gammaMathcing
@@ -228,29 +262,3 @@ class MatchingN:
                     G_edges["max_matching"] = G_edges["max_matching"] - 1 - gammaMaching_to_add.nb_neighbours
         # pprint.pprint(M["elements"])
         return M["max_matching"]
-
-
-def main():
-    gamma = 2
-    path_enron = "../res/enron400/test_enron/"
-
-    for file in os.listdir(path_enron):
-        print("\n .............................", file, ".............................")
-        g_m = MatchingN(gamma, path_enron + file)
-
-        print("****************** testing link_stream method ******************")
-        link_streamList = g_m.linkStreamList()
-
-        G_edges = g_m.G_edgesMatching(link_streamList, gamma)
-
-        print("************************ gamma_matching ************************")
-        print("G_edges : ", G_edges["max_matching"])
-
-        start_time = time.time()
-        M = g_m.gammaMatchingG_edges_avancer(G_edges, gamma)
-        print("Temps d execution gamma_matching : %s secondes ---" % (time.time() - start_time))
-        print("algo - max_matching: ", M)
-
-
-if __name__ == '__main__':
-    main()

@@ -165,7 +165,6 @@ class DpGammaMatching1DORIGINE:
 def refactorData(file):
     with open(file, 'r') as f:
         tmax, n, d = list(map(int, f.readline().split()))
-        # x = [[0] * (tmax + 1)] * (n + 1)
         x = [[0] * (tmax)] * (n)
         i = 1
         for line in f.read().splitlines():

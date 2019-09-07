@@ -3,7 +3,7 @@
 max=$1
 scriptPy=$2
 dir_path=$3
-i=900
+i=852
 # 370 -> 1500
   # n=$(ruby -e 'puts rand(20..50)')
   # t=$(ruby -e 'puts rand(50..150)')
@@ -25,10 +25,13 @@ i=900
   # d=$(ruby -e 'puts rand(1..2)')
 
 # 900 -> 950
+  # n=$(ruby -e 'puts rand(90..120)')
+  # t=$(ruby -e 'puts rand(100..200)')
+  # d=$(ruby -e 'puts rand(1..2)')
 while [ $i -lt ${max} ]
 do
-   n=$(ruby -e 'puts rand(90..120)')
-   t=$(ruby -e 'puts rand(100..200)')
+   n=$(ruby -e 'puts rand(30..60)')
+   t=$(ruby -e 'puts rand(40..100)')
    d=$(ruby -e 'puts rand(1..2)')
 #  n=6
 #  t=11
@@ -39,13 +42,22 @@ do
      mkdir $dir
   fi
   file_output="${dir}test"
+  # l=`cat $file_output".linkstream" | wc -l`
+  l=1000000000000
+  if (( l > 30000 )); then
+      echo "$file_output: $l"
+      echo $n " " $t " " $d > $file_output".input"
+      python3.7 $scriptPy $n $t $d >> $file_output".input"
+      `cat $file_output".input" | grep -v "\[" > $file_output".linkstream"`
+      echo $n " " $t " " $d > $file_output".position"
+      `cat $file_output".input" | grep "\[" >> $file_output".position"`
+      l=`cat $file_output".linkstream" | wc -l`
+        if (( l > 30000 )); then
+            i=$(expr $i - 1)
+        fi
 
-  echo $n " " $t " " $d > $file_output".input"
-  python3.7 $scriptPy $n $t $d >> $file_output".input"
-  `cat $file_output".input" | grep -v "\[" > $file_output".linkstream"`
-  echo $n " " $t " " $d > $file_output".position"
-  `cat $file_output".input" | grep "\[" >> $file_output".position"`
-
+       echo "FIN  $file_output: $l"
+  fi
   i=$(expr $i + 1)
 
 done

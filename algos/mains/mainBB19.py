@@ -2,18 +2,16 @@ import csv
 import os
 import time
 
-from algos.BBR19 import MatchingV2
-from algos.main import var
+from algos.mainClass.BBR19 import MatchingBBR19
+from algos.mains.main import var
 
 
-# TODO lancer le 26 à 15h28
-# TODO changer gen_B2 y a trop de lien !!!!
 def mainBBR19():
     pathF1 = '../res'
-    fileOutPutTimes = '../outPutFile/BBR19/executionTimes.csv'
-    fileOutPutNbGM = '../outPutFile/BBR19/NBGammaMatching.csv'
+    fileOutPutTimes = '../outPutFile/BBR19/executionTimesG2B2.csv'
+    fileOutPutNbGM = '../outPutFile/BBR19/NBGammaMatchingG2B2.csv'
 
-    pathResult = '../outPutFile/BBR19/result'  # on écrit tt les données pour le calcule de la variance
+    pathResult = '../outPutFile/BBR19/resultG2B2'  # on écrit tt les données pour le calcule de la variance
 
     csv_Times = open(fileOutPutTimes, mode='w')
     csv_NbGM = open(fileOutPutNbGM, mode='w')
@@ -40,7 +38,7 @@ def mainBBR19():
         RT1BB19 = []
         RT2BB19 = []
 
-        if 'gen_rollernet' not in pathF2:
+        if 'gen_B2' not in pathF2:
             continue
 
         fileResult = pathResult + f1
@@ -49,19 +47,20 @@ def mainBBR19():
         writerResult = csv.DictWriter(csv_result, fieldnames=fieldnamesResult)
         writerResult.writeheader()
 
-        for gamma in range(2, 401):
+        for gamma in range(2, 3):
             for f2 in os.listdir(pathF2):
                 path = pathF2 + "/" + f2 + "/"
                 if os.path.isdir(path):
+                    if "1003_inf" in path:
+                        continue
                     for file in os.listdir(path):
-                        # print("******************************", gamma, f2, "******************************")
-                        print("******************************", gamma, file, "******************************")
                         if file.endswith('linkstreamAR'):
+                            print("******************************", gamma, f2, "******************************")
                             # algo BBR19
 
                             nb_file += 1
 
-                            g_mV2 = MatchingV2(gamma, path + file)
+                            g_mV2 = MatchingBBR19(gamma, path + file)
                             link_stream = g_mV2.linkStream()
 
                             if link_stream['T'] < gamma:
@@ -72,14 +71,14 @@ def mainBBR19():
 
                             else:
                                 start_time = time.time()
-                                g_edges = g_mV2.gamma_edges(link_stream, gamma)
+                                g_edges = g_mV2.gamma_edges(link_stream)
                                 end_time_BBR19G_edges = round(time.time() - start_time, 8)
                                 timesOutPut['G_edges'] += end_time_BBR19G_edges
                                 nb_g_edges = len(g_edges)
                                 nbGMoutPut['G_edges'] += nb_g_edges
 
                                 start_time = time.time()
-                                M = g_mV2.greedy_gamma_matching(g_edges, gamma)
+                                M = g_mV2.greedy_gamma_matching(g_edges)
                                 end_time_BBR19NbGM = round(time.time() - start_time, 8)
                                 timesOutPut['end_time_BBR19'] += end_time_BBR19NbGM
 
@@ -92,7 +91,7 @@ def mainBBR19():
                             RT1BB19.append(end_time_BBR19NbGM)
                             RT2BB19.append(end_time_BBR19G_edges)
 
-                            if "enron" in f1 or "rollernet" in f1:
+                            if "enron400" in f1 or "rollernet" in f1:
                                 fileOutPutResult = file.replace(".linkstreamAR", "")
                             else:
                                 fileOutPutResult = f2

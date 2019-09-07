@@ -1,4 +1,4 @@
-from algos.main import *
+from algos.mains.main import *
 
 
 def mainDP():

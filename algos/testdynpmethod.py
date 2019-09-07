@@ -68,7 +68,6 @@ def dpstatic(n, d, t, xInput):
     return max_matching, edges
 
 
-
 def gammaMatchig1D(n, tmax, d, xInput):
     print(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,")
     """

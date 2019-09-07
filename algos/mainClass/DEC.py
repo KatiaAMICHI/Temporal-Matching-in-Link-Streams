@@ -1,12 +1,9 @@
 import ast
-import os
 
 gamma = 2
 
 
 class DecomposeGreedy:
-    def __init__(self, path="../res/gen_B1/"):
-        self.path = path
 
     def max_t_matching(self, list_pos_matching: [[]]) -> (list, int):
         max_matching = (0, [])
@@ -37,7 +34,6 @@ class DecomposeGreedy:
         if max_matching in list_pos_matching:
             list_pos_matching.remove(max_matching)
         if [0, []] in list_pos_matching:
-            # with suppress(ValueError, AttributeError):
             list_pos_matching.remove([0, []])
 
         return list_pos_matching
@@ -91,20 +87,3 @@ class DecomposeGreedy:
             t += 1
 
         return result
-
-    def main(self):
-        for path in os.listdir(self.path):
-            print("****************", path, "****************")
-            for file in os.listdir(self.path + path):
-                if file.endswith('.nb_matching'):
-                    list_pos_matching = self.get_list_pos_matching(self.path + path + "/" + file)
-                    nb_matching, M = self.nb_gamma_matching_decomposition(list_pos_matching, nb_matching=0, M=[])
-                    print(file, " : ", nb_matching)
-
-    def test(self):
-        file = "../res/gen_B1/test0001/test.nb_matching"
-        print("****************", file, "****************")
-        # TODO faut modifier list_pos_matching pour tryalgo ou ...
-        list_pos_matching = self.get_list_pos_matching(self.path + file)
-        nb_matching, M = self.nb_gamma_matching_decomposition(list_pos_matching, nb_matching=0, M=[])
-        print(file, " : ", nb_matching, M)

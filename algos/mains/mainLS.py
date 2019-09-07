@@ -2,24 +2,16 @@ import csv
 import os
 import time
 
-from algos.LS import MatchingN
-from algos.greedy_algorithm import Matching
-from algos.main import var
+from algos.mainClass.LS import MatchingN
+from algos.mains.main import var
 
 
-# !!!!!!! TODO je dois lancer de mainLS avec B1 sur mon pc ce soir !!!!
-
-# TODO lancement de mainLS avec enron sur hp
-# TODO lancement de mainLS avec rollernet sur dell
-# TODO lancement de mainBB19 avec B2 sur dell
-# TODO relancement de mainLS avec gamma=4 sur 1003 fichier un peu avant 17h40
-# 1h30 je viens de le lancer a partir de gamma = 3
 def mainLS():
     pathF1 = '../res'
-    fileOutPutTimes = '../outPutFile/LS/executionTimesG6_9.csv'
-    fileOutPutNbGM = '../outPutFile/LS/NBGammaMatching.csv'
+    fileOutPutTimes = '../outPutFile/LS/executionTimesLSG18_19.csv'
+    fileOutPutNbGM = '../outPutFile/LS/NBGammaMatchingLSG18_19.csv'
 
-    pathResult = '../outPutFile/LS/result'  # on écrit tt les données pour le calcule de la variance
+    pathResult = '../outPutFile/LS/resultLSG18_19'  # on écrit tt les données pour le calcule de la variance
 
     csv_Times = open(fileOutPutTimes, mode='w')
     csv_NbGM = open(fileOutPutNbGM, mode='w')
@@ -47,7 +39,7 @@ def mainLS():
         RT1LS = []
         RT2LS = []
 
-        if 'gen_rollernet' not in pathF2:
+        if 'gen_enron' not in pathF2:
             continue
 
         fileResult = pathResult + f1
@@ -56,19 +48,20 @@ def mainLS():
         writerResult = csv.DictWriter(csv_result, fieldnames=fieldnamesResult)
         writerResult.writeheader()
 
-        for gamma in range(6, 9):
+        for gamma in range(18, 20):
             for f2 in os.listdir(pathF2):
                 path = pathF2 + "/" + f2 + "/"
                 if os.path.isdir(path):
                     if "1003_inf" in path:
                         continue
                     for file in os.listdir(path):
+
                         if file.endswith('.linkstream'):
                             print("******************************", gamma, file, "******************************")
                             # algo with neighbour LS
                             nb_file += 1
                             g_m_n = MatchingN(gamma, path + file)
-                            link_stream = g_m_n.linkStreamList()
+                            link_stream = g_m_n.linkStream()
 
                             if link_stream['T'] < gamma:
                                 end_time_LS_edges = 0
@@ -85,7 +78,7 @@ def mainLS():
                                 nbGMoutPut['G_edges'] += nb_g_edgesLs
 
                                 start_time = time.time()
-                                nb_gmLS = g_m_n.gammaMatchingG_edges_avancer(G_edges, gamma)
+                                nb_gmLS = g_m_n.gammaMatching(G_edges, gamma)
                                 end_time_LS_NbGM = round(time.time() - start_time, 4)
 
                             timesOutPut['V'] += link_stream['V']
@@ -101,7 +94,7 @@ def mainLS():
 
                             RT1LS.append(end_time_LS_NbGM)
                             RT2LS.append(end_time_LS_edges)
-                            if "enron" in f1 or "rollernet" in f1:
+                            if "enron400" in f1 or "rollernet" in f1:
                                 fileOutPutResult = file.replace(".linkstream", "")
                             else:
                                 fileOutPutResult = f2
@@ -128,7 +121,7 @@ def mainLS():
                                   '|E|': round(timesOutPut['E'] / nb_file, 4),
                                   'G_edges': round(timesOutPut['G_edges'] / nb_file, 4),
                                   "LS": round(timesOutPut['end_time_LS'] / nb_file, 4),
-                                  'varLS': nbGMoutPut['varLS']})
+                                  'varLS': timesOutPut['varLS']})
 
             writerNbGM.writerow({'File': f1, 'Gamma': gamma,
                                  'G_edges': round(nbGMoutPut['G_edges'] / nb_file, 4),

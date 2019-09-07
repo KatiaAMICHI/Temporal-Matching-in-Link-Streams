@@ -10,7 +10,7 @@ Methos to generate data
 
 
 def generateXD(script, dir):
-    nb_tests = 950
+    nb_tests = 1500
     subprocess.call(shlex.split('./gen_shell.sh ' + str(nb_tests) + ' ' + script + ' ' + dir))
 
 

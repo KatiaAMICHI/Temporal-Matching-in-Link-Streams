@@ -466,7 +466,7 @@ Single\n\
         self.addRectangle(self.first_node, self.first_node, self.alpha, self.omega, width=300, depth=60, color=7)
 
 
-# main
+# mains
 if __name__ == '__main__':
     # s = Drawing()
     # s = Drawing(alpha=0, omega=10)

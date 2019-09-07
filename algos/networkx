@@ -1,0 +1,26 @@
+How to use nettworks
+
+# t = 0
+# G = nx.Graph()
+# G.add_edge(7, 63)
+# G.add_edge(18, 55)
+# G.add_edge(18, 79)
+# G.add_edge(27, 53)
+# G.add_edge(27, 82)
+# G.add_edge(46, 70)
+# G.add_edge(53, 82)
+# G.add_edge(55, 79)
+#
+# print(sorted(G.nodes()))
+# print(sorted(G.edges()))
+#
+# n = len(networkx.maximal_matching(G))
+# a = networkx.maximal_matching(G)
+#
+# edges = list(map(lambda x: (0, x[0], x[1]), a))
+#
+# print(n, edges)
+
+# fileIn = '../res/gen_B1/test0001/test.linkstream'
+# fileOutPutNBMATCHING = 'fileOutPutNBMATCHING'
+

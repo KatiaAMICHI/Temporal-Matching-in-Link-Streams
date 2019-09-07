@@ -1,9 +1,12 @@
 import numpy
 import copy
 import pprint
+import collections
 
 gamma = 2
-# TODO faut refaire a la main la méthode
+
+
+# TODO faut refaire a la mains la méthode
 # TODO faut vérifeir si :
 # je dois parcourir par raport a la distance ou par rapport au sommets
 
@@ -397,9 +400,6 @@ class DpGammaMatching1D:
                             u == edge[0] or v == edge[0]:
                         return True
         return False
-
-
-import collections
 
 
 def refactorData(file):

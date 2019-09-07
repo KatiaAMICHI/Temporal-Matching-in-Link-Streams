@@ -124,7 +124,7 @@ class Matching:
 
 def main():
     gamma = 2
-    path_enron = "../res/enron/test_enron/"
+    path_enron = "../res/enron400/test_enron/"
     path_rollernet = "../res/rollernet/test_rollernet/"
 
     for file in os.listdir(path_enron):
