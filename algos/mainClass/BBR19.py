@@ -1,3 +1,6 @@
+import collections
+
+
 class MatchingBBR19:
 
     def __init__(self, gamma, file):
@@ -38,6 +41,7 @@ class MatchingBBR19:
         gamma_cpt = 0
 
         result = []
+
         for i in range(len(P)):
             (t, u, v) = P[i]
 
@@ -48,6 +52,7 @@ class MatchingBBR19:
 
             if gamma_cpt >= self.gamma - 1:
                 result.append((t - self.gamma + 1, u, v))
+
             last_u = u
             last_v = v
             last_t = t
@@ -59,10 +64,13 @@ class MatchingBBR19:
         P = L.copy()
 
         # random.shuffle(P)
+        resultsT = collections.defaultdict(list)
 
         while len(P):
             (t, u, v) = P.pop(0)
             result.append((t, u, v))
+            resultsT[t].append((t, u, v))
+
             i = 0
 
             while i < len(P):
@@ -73,5 +81,5 @@ class MatchingBBR19:
                     i -= 1
                 i += 1
 
-        return result
+        return len(result), resultsT
 

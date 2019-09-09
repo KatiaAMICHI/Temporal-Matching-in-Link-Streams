@@ -1,5 +1,5 @@
 import csv
-import time
+import time, os
 
 from math import sqrt
 

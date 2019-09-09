@@ -3,7 +3,7 @@
 max=$1
 scriptPy=$2
 dir_path=$3
-i=852
+i=1501
 # 370 -> 1500
   # n=$(ruby -e 'puts rand(20..50)')
   # t=$(ruby -e 'puts rand(50..150)')
@@ -30,8 +30,8 @@ i=852
   # d=$(ruby -e 'puts rand(1..2)')
 while [ $i -lt ${max} ]
 do
-   n=$(ruby -e 'puts rand(30..60)')
-   t=$(ruby -e 'puts rand(40..100)')
+   n=$(ruby -e 'puts rand(80..100)')
+   t=$(ruby -e 'puts rand(100..108)')
    d=$(ruby -e 'puts rand(1..2)')
 #  n=6
 #  t=11
@@ -52,7 +52,7 @@ do
       echo $n " " $t " " $d > $file_output".position"
       `cat $file_output".input" | grep "\[" >> $file_output".position"`
       l=`cat $file_output".linkstream" | wc -l`
-        if (( l > 30000 )); then
+        if (( l > 190000 )); then
             i=$(expr $i - 1)
         fi
 

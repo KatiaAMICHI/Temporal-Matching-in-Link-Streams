@@ -6,13 +6,13 @@ Methos to sort file for AR method
 
 
 def sortFileAR():
-    pathF1 = '../res'
     pathF1 = '../FilesRapport'
+    pathF1 = '../res'
 
     for f1 in os.listdir(pathF1):
         pathF2 = pathF1 + "/" + f1
 
-        if 'enron' not in pathF2:
+        if 'B2' not in pathF2:
             continue
 
         for f2 in os.listdir(pathF2):

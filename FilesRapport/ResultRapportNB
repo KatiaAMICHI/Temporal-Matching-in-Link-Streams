@@ -1,2 +1,14 @@
 File & |V| & |T| & |E| & V_living & G_Edges & BBR19 & LS & LSAR & DEC
-rollernetClean2mins. & 62 & 84 & 33304 & 4783 & 942 & 1017 & 963 & 1109
+rollernetClean2mins & 62 & 84 & 33304 & 4783 & 17089 & 942 & 1020 & 964 & 1109
+rollernetClean1min & 62 & 167 & 45469 & 9427 & 24009 & 1804 & 1902 & 1829 & 2183
+rollernetClean1h & 62 & 3 & 5000 & 185 & 3094 & 31 & 30 & 31 & 31
+rollernetClean30mins & 62 & 6 & 8324 & 369 & 5979 & 76 & 90 & 90 & 83
+rollernetClean15mins & 62 & 12 & 12410 & 719 & 8544 & 144 & 168 & 152 & 165
+rollernetClean5mins & 62 & 34 & 22484 & 1967 & 13346 & 411 & 444 & 411 & 477
+enronCleanDeco90days & 150 & 13 & 3480 & 1070 & 1650 & 154 & 168 & 166 & 171
+enronCleanDeco7days & 150 & 163 & 10028 & 7287 & 4812 & 832 & 874 & 859 & 987
+enronCleanDeco1h & 150 & 27300 & 21959 & 32496 & 1991 & 1254 & 1261 & 1261 & 1172
+enronCleanDeco1day & 150 & 1138 & 16224 & 17858 & 4416 & 1438 & 1505 & 1500 & 1636
+enronCleanDeco3days & 150 & 380 & 12868 & 11552 & 4644 & 1101 & 1149 & 1141 & 1296
+enronCleanDeco3h & 150 & 9100 & 20284 & 27923 & 2695 & 1424 & 1459 & 1458 & 1429
+enronCleanDeco30days & 150 & 38 & 5573 & 2531 & 2917 & 338 & 363 & 366 & 401

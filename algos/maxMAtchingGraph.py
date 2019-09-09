@@ -1,5 +1,8 @@
 import networkx as nx
 import networkx.algorithms.matching
+import os
+from collections import defaultdict
+import csv
 
 
 def linkStream(file):
@@ -79,7 +82,6 @@ def getNbMatchingT(gamma, pathFile):
     if not pathFile.endswith('.linkstreamAR'):
         return result
 
-    # print("********", fileIn, "***********")
     last_t = 0
 
     G = nx.Graph()
@@ -95,7 +97,7 @@ def getNbMatchingT(gamma, pathFile):
         if last_t != t:
             n = len(networkx.maximal_matching(G))
             a = networkx.maximal_matching(G)
-            edges = list(map(lambda x: (0, x[0], x[1]), a))
+            edges = list(map(lambda x: (t, x[0], x[1]), a))
             G = nx.Graph()
             last_t = t
             result.append(str(n) + ' ' + str(edges))
@@ -108,3 +110,85 @@ def getNbMatchingT(gamma, pathFile):
     result.append(str(n) + ' ' + str(edges))
 
     return result
+
+
+def generateNbMAtchingAR():
+    pathE = '../res/gen_enron/decoData/'
+    pathR = '../res/gen_rollernet/decoData/'
+    pathB1 = '../res/gen_B1/'
+    pathB2 = '../res/gen_B2/'
+
+    path = pathB2
+    nbFile = 0
+    gamma = 2
+    for f in os.listdir(path):
+        for fileIn in os.listdir(path + f):
+            if fileIn.endswith('.linkstreamAR'):
+                nbFile += 1
+                print("********", fileIn, "***********")
+                last_t = 0
+
+                # fileOutPut = path + fileIn.replace('linkstream', 'nb_matching')
+                fileOutPut = path + f + '/' + fileIn.replace('linkstream', 'nb_matching')
+
+                fw = open(fileOutPut, '+w')
+                G = nx.Graph()
+
+                # link_stream = linkStream(path + fileIn)
+                link_stream = linkStream(path + f + '/' + fileIn)
+
+                g_edges = gamma_edges(gamma, link_stream)
+                g_edges = sorted(g_edges, key=lambda tup: tup[0])
+
+                for line in g_edges:
+                    t, u, v = line
+
+                    if last_t != t:
+                        n = len(networkx.maximal_matching(G))
+                        a = networkx.maximal_matching(G)
+                        edges = list(map(lambda x: (0, x[0], x[1]), a))
+                        G = nx.Graph()
+                        last_t = t
+                        fw.writelines(str(n) + ' ' + str(edges) + '\n')
+
+                    G.add_edge(u, v)
+
+                n = len(networkx.maximal_matching(G))
+                a = networkx.maximal_matching(G)
+                edges = list(map(lambda x: (0, x[0], x[1]), a))
+                fw.writelines(str(n) + ' ' + str(edges) + '\n')
+                print("Fin d'écriture dans ", fileOutPut)
+
+
+def generateMaxGammaMatchingAllfiles():
+    path = '../res/'
+    for f in os.listdir(path):
+        if not os.path.isdir(path + '/' + f):
+            continue
+        results = defaultdict(lambda: defaultdict(int))
+
+        for fileIn in os.listdir(path + f):
+            if not os.path.isdir(path + f + '/' + fileIn):
+                continue
+            for file in os.listdir(path + f + '/' + fileIn):
+                if file.endswith('.nb_matchingAR'):
+                    print(" ********************* ", file, '*********************')
+                    fr = open(path + f + '/' + fileIn + '/' + file, 'r')
+                    t = 0
+                    for line in fr.readlines():
+                        results[t]['sum'] += int(line.split(' ')[0])
+                        results[t]['nb'] += 1
+                        t += 1
+        # ecritur du resultat
+        # division
+        a = list(map(lambda x: (x[0], x[1]['sum'] / x[1]['nb']), results.items()))
+
+        fileOUT = path + '/' + f + '/MaxGammaMatchingG2'
+        with open(fileOUT, "w+") as output:
+            writer = csv.writer(output, lineterminator='\n')
+            writer.writerows(a)
+
+
+# generateNbMAtchingAR()
+
+# generateMaxGammaMatchingAllfiles()

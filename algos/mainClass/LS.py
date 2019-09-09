@@ -1,5 +1,6 @@
+import collections, pprint
 from collections import defaultdict
-
+import csv
 
 class GammaMach:
     def __init__(self, t, u, v):
@@ -10,8 +11,7 @@ class GammaMach:
         self.nb_neighbours = 0
 
     def __repr__(self):
-        return "GammaMach(t:" + str(self.t) + ", u:" + str(self.u) + ",v: " + self.v + ", nb_neighbours :" + str(
-            self.nb_neighbours) + ")"
+        return "GammaMach(t:" + str(self.t) + ", u:" + str(self.u) + ",v: " + str(self.v) + ", nb_neighbours :" + str(self.nb_neighbours) + ")"
 
 
 class MatchingN:
@@ -117,6 +117,7 @@ class MatchingN:
                         idx_g_e += 1
 
                 result["elements"][t_starting].append(gamma_e)
+
                 result["max_matching"] += 1
 
             last_u = u
@@ -164,11 +165,12 @@ class MatchingN:
             G_edges["max_matching"] += 1
         return G_edges
 
-    def gammaMatching(self, GE: dict, gamma: int) -> int:
+    def gammaMatching(self, GE: dict, gamma: int) -> (int, []):
         M = {"gamma": gamma, "max_matching": 0, "elements": []}
         G_edges = GE.copy()
-        for t, gammaMachingList in G_edges["elements"].items():
 
+        resultsT = collections.defaultdict(list)
+        for t, gammaMachingList in G_edges["elements"].items():
             while gammaMachingList:
                 gammaMaching = gammaMachingList.pop()
                 gammaMaching_to_add = gammaMaching
@@ -197,6 +199,7 @@ class MatchingN:
                 # ajout de gammaMathcing
                 if not self.estCompatible(gammaMaching_to_add, M):
                     M["elements"].append(gammaMaching_to_add)
+                    resultsT[t].append(gammaMaching_to_add)
                     M["max_matching"] += 1
 
                     # supprimer ses voisins et décrémenter le nb_neighbour des voisins de leurs voisins
@@ -237,4 +240,5 @@ class MatchingN:
                         pass
 
                     G_edges["max_matching"] = G_edges["max_matching"] - 1 - gammaMaching_to_add.nb_neighbours
-        return M["max_matching"]
+
+        return M["max_matching"], resultsT
