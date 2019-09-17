@@ -1,41 +1,15 @@
 #!/bin/bash
-# TODO lancer le script 300 fois, puis lancer celui de sort AR
 max=$1
 scriptPy=$2
 dir_path=$3
-i=1501
-# 370 -> 1500
-  # n=$(ruby -e 'puts rand(20..50)')
-  # t=$(ruby -e 'puts rand(50..150)')
-  # d=$(ruby -e 'puts rand(1..2)')
+i=0
 
-# 0 -> 299
-  # n=$(ruby -e 'puts rand(20..40)')
-  # t=$(ruby -e 'puts rand(20..50)')
-  # d=$(ruby -e 'puts rand(1..2)')
-
-# 300 -> 599
-  # n=$(ruby -e 'puts rand(40..60)')
-  # t=$(ruby -e 'puts rand(50..75)')
-  # d=$(ruby -e 'puts rand(1..2)')
-
-# 600 -> 899
-  # n=$(ruby -e 'puts rand(60..90)')
-  # t=$(ruby -e 'puts rand(75..100)')
-  # d=$(ruby -e 'puts rand(1..2)')
-
-# 900 -> 950
-  # n=$(ruby -e 'puts rand(90..120)')
-  # t=$(ruby -e 'puts rand(100..200)')
-  # d=$(ruby -e 'puts rand(1..2)')
 while [ $i -lt ${max} ]
 do
-   n=$(ruby -e 'puts rand(80..100)')
-   t=$(ruby -e 'puts rand(100..108)')
-   d=$(ruby -e 'puts rand(1..2)')
-#  n=6
-#  t=11
-#  d=1
+   n=$(ruby -e 'puts rand(20..200)')
+   t=$(ruby -e 'puts rand(20..200)')
+   d=$(ruby -e 'puts rand(1..10)')
+
   dir=`echo $i| awk -vvar="${dir_path}" '{printf "../res/'$dir_path'/test%04d/", $v, $0;}'`
   if [ ! -d $dir ]
   then

@@ -2,6 +2,9 @@ import collections
 
 
 class MatchingBBR19:
+    """
+    Aproximation algorithm to find a gamma-matching (J. Baste et al)
+    """
 
     def __init__(self, gamma, file):
         self.gamma = gamma

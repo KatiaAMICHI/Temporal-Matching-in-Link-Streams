@@ -1,7 +1,6 @@
 import os
 import subprocess
 import shlex
-import pprint
 
 
 def decomData(resultAR, enronFile, pathOutPut):
@@ -24,7 +23,6 @@ def main():
     rollernetResultAR = '../resultatsAntoinePartie/resultas_rollernet.txt'
     rollernetFile = '../res/rollernet/rollernetClean'
 
-    # decomData(enronResultAR, enronFile, pathOutPutEnron)
     decomData(rollernetResultAR, rollernetFile, pathOutPutRollernet)
 
 

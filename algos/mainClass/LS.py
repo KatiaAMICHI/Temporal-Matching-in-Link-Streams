@@ -1,26 +1,26 @@
-import collections, pprint
+import collections
 from collections import defaultdict
-import csv
 
-class GammaMach:
-    def __init__(self, t, u, v):
-        self.t = t
-        self.u = u
-        self.v = v
-        self.neighbours = set()
-        self.nb_neighbours = 0
-
-    def __repr__(self):
-        return "GammaMach(t:" + str(self.t) + ", u:" + str(self.u) + ",v: " + str(self.v) + ", nb_neighbours :" + str(self.nb_neighbours) + ")"
+from algos.mainClass.commonObjects import GammaMach
 
 
 class MatchingN:
+    """
+    Aproximation algorithm to find a gamma-matching
+    """
 
     def __init__(self, gamma, file):
         self.gamma = gamma
         self.file = file
 
-    def estCompatible(self, gammaMatching: GammaMach, M: dict) -> bool:
+    def isCompatible(self, gammaMatching: GammaMach, M: dict) -> bool:
+        """
+        Check if a gamma-edge is present in gamma-matching M
+
+        :param gammaMatching: a GammaMach to check if it already present in M
+        :param M: the list of edges that represents the gamma-matching
+        :return: true if gammaMatching is present in M, False else
+        """
         t = gammaMatching.t
         if gammaMatching in M["elements"]:
             return True
@@ -40,7 +40,17 @@ class MatchingN:
                     return True
         return False
 
-    def contient(self, P: [tuple], gamma: int, u, v, t: int) -> bool:
+    def contains(self, P: [tuple], gamma: int, u, v, t: int) -> bool:
+        """
+        Check if (t, u, v) in P
+
+        :param P: a link stream
+        :param gamma: an integer
+        :param u: a vertice
+        :param v: a vertice
+        :param t:
+        :return: True if (t, u, v) in P, False else
+        """
         nb_gammma = 1
         for (tP, uP, vP) in P:
             t_check = t + 1
@@ -56,6 +66,12 @@ class MatchingN:
         return False
 
     def linkStream(self) -> dict:
+        """
+        Read file ans return a link stream
+
+        :return: link stream; dictionary of number of vertices, a discretized time instant, and list of edges
+        """
+
         link_stream = {"V": 0, "T": 0, "E": []}
         max_node = -1
         t_max = -1
@@ -80,7 +96,56 @@ class MatchingN:
 
         return link_stream
 
-    def gamma_edgesAR(self, gamma, link_stream):
+    def G_edges(self, link_stream: dict, gamma: int) -> dict:
+        """
+        G_edges = {"gamma" : an integer,
+                    "nb_gamma_matching" = number of gamma-edges,
+                    " elements" : set of gamma-edge}
+
+        :param link_stream: a Link stream sorting according to t
+        :param gamma: an integer
+        :return G_edges: set of independent gamma-edge
+        """
+
+        G_edges = {"gamma": gamma, "max_matching": 0, "elements": defaultdict(list)}
+        P = link_stream["E"].copy()
+
+        while len(P) != 0:
+            (t, u, v) = P.pop(0)
+
+            if t in G_edges["elements"] and (u, v) in G_edges["elements"][t]:
+                continue
+
+            if not self.contains(P, gamma, u, v, t):
+                continue
+
+            newGammaMach = GammaMach(t, u, v)
+
+            for tE in range(t - gamma + 1, t + gamma):
+                i = 0
+                for gammMatchingE in G_edges["elements"][tE]:
+
+                    if gammMatchingE.u == v or gammMatchingE.v == u or gammMatchingE.u == u or gammMatchingE.v == v:
+                        newGammaMach.neighbours.add(gammMatchingE)
+                        newGammaMach.nb_neighbours += 1
+                        G_edges["elements"][tE][i].neighbours.add(newGammaMach)
+                        G_edges["elements"][tE][i].nb_neighbours += 1
+                    i += 1
+            G_edges["elements"][t].append(newGammaMach)
+            G_edges["max_matching"] += 1
+        return G_edges
+
+    def gamma_edges_sort(self, gamma, link_stream):
+        """
+        G_edges = {"gamma" : an integer,
+                    "nb_gamma_matching" = number of gamma-edges,
+                    " elements" : set of gamma-edge}
+
+        :param link_stream: a Link stream sorting according to u and v
+        :param gamma: an integer
+        :return G_edges: set of dependent gamma-edge
+        """
+
         P = link_stream["E"].copy()
         result = {"gamma": gamma, "max_matching": 0, "elements": defaultdict(list)}
 
@@ -100,7 +165,7 @@ class MatchingN:
             if gamma_cpt >= gamma - 1:
                 t_starting = t - gamma + 1
                 gamma_e = GammaMach(t_starting, u, v)
-                # ajout des voisin
+                # adding of ajout neighbours
                 for t_check in range(t_starting - gamma + 1, t_starting + gamma):
                     if t_check < 0:
                         continue
@@ -126,46 +191,14 @@ class MatchingN:
 
         return result
 
-    def G_edges(self, link_stream: dict, gamma: int) -> dict:
-        """
-        G_edges = {"gamma" : int,
-                    "nb_gamma_matching" = int,
-                    " elements" : [gammaMatching] }
-
-        :param link_stream:
-        :param gamma:
-        :return G_edges: l'ensemble de gamma_matching disponible
-        """
-
-        G_edges = {"gamma": gamma, "max_matching": 0, "elements": defaultdict(list)}
-        P = link_stream["E"].copy()
-
-        while len(P) != 0:
-            (t, u, v) = P.pop(0)
-
-            if t in G_edges["elements"] and (u, v) in G_edges["elements"][t]:
-                continue
-
-            if not self.contient(P, gamma, u, v, t):
-                continue
-
-            newGammaMach = GammaMach(t, u, v)
-
-            for tE in range(t - gamma + 1, t + gamma):
-                i = 0
-                for gammMatchingE in G_edges["elements"][tE]:
-
-                    if gammMatchingE.u == v or gammMatchingE.v == u or gammMatchingE.u == u or gammMatchingE.v == v:
-                        newGammaMach.neighbours.add(gammMatchingE)
-                        newGammaMach.nb_neighbours += 1
-                        G_edges["elements"][tE][i].neighbours.add(newGammaMach)
-                        G_edges["elements"][tE][i].nb_neighbours += 1
-                    i += 1
-            G_edges["elements"][t].append(newGammaMach)
-            G_edges["max_matching"] += 1
-        return G_edges
-
     def gammaMatching(self, GE: dict, gamma: int) -> (int, []):
+        """
+        Finding a gamma-matching
+
+        :param GE: set of dependent gamma-edge
+        :param gamma: an integer
+        :return: set of gamma-edge
+        """
         M = {"gamma": gamma, "max_matching": 0, "elements": []}
         G_edges = GE.copy()
 
@@ -186,7 +219,7 @@ class MatchingN:
                         gammaMaching_to_add = g_m_neighbour
                         gammaMaching_bis = g_m_neighbour
 
-                # alors on doit vérifier les voisins de g_m_neighbour qui est le new gammaMaching_to_add
+                # then we have to check the neighbors of g_m neighbor which is the new gammaMaching_to_add
                 if change:
                     for g_m_n_neighbour in gammaMaching_bis.neighbours:
                         if g_m_n_neighbour == gammaMaching:
@@ -196,19 +229,19 @@ class MatchingN:
                             gammaMaching_to_add = gammaMaching
                             break
 
-                # ajout de gammaMathcing
-                if not self.estCompatible(gammaMaching_to_add, M):
+                # adding of gammaMathcing
+                if not self.isCompatible(gammaMaching_to_add, M):
                     M["elements"].append(gammaMaching_to_add)
                     resultsT[t].append(gammaMaching_to_add)
                     M["max_matching"] += 1
 
-                    # supprimer ses voisins et décrémenter le nb_neighbour des voisins de leurs voisins
+                    # delete neighbors and decrement the neighbor number of neighbors of their neighbors
                     for g_m_neighbour in gammaMaching_to_add.neighbours:
                         if g_m_neighbour == gammaMaching_to_add:
                             continue
 
-                        # supprimer ce voisin dans leurs voisins
-                        # pour chaque voisins le truver et le supprimer et décrimenter le nb_voisins
+                        # delete this neighbor in their neighbors
+                        # for each neighbor find it and delete it and decrement the nb_voisins
                         for n_g_m_neighbour in g_m_neighbour.neighbours:
                             if n_g_m_neighbour == gammaMaching_to_add:
                                 continue
@@ -223,7 +256,7 @@ class MatchingN:
                             except:
                                 pass
 
-                        # suppression du voisins dans G_edges
+                        # removing neighbors in G_edges
                         try:
                             index_g_m_neighbour_in_G_edges_element = G_edges["elements"][g_m_neighbour.t].index(
                                 g_m_neighbour)
@@ -231,7 +264,7 @@ class MatchingN:
                         except:
                             pass
 
-                    # supprimer le gamma_matchinc dans G_edges
+                    # delete gammaMaching_to_add in G_edges
                     try:
                         index_gamma_matching_to_add = G_edges["elements"][gammaMaching_to_add.t].index(
                             gammaMaching_to_add)

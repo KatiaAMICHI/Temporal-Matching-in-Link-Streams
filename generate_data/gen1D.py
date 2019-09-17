@@ -14,8 +14,6 @@ for t in range(T):
             if abs(xposition[i] - xposition[j]) <= d:
                 print(t, i, j)
     for i in range(n):
-        var_to_add = random.randint(1, 20) + i % n * random.randint(1, 15)
-        var_to_sud = random.randint(1, 20) + i % n * random.randint(1, 15)
 
         # ajout de la variable valToSub le 16/08
         valToSud = random.randint(1, 30)
