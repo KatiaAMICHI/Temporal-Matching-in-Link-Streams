@@ -18,7 +18,9 @@ Let L= (V,T,E) a link stream and γ an integer
 A γ-edges is set of repeated edges between vertices u and v starting at t and ending at t +γ- 1:{(t’,{u,v})|t’∈[t, t+γ-1]}.
 
 Two γ-edges Γ1= (t1,u,v) and Γ2= (t2,u′,v′) are independent if t1>t2+γ−1. (t1<t2+γ−1) where u!=u′ and v!=v′
+
 ![alt text](pngForReadme/gamma-edges.png)
+
 Definition:  A γ-matching is a set of independent γ-edges.
 
 
