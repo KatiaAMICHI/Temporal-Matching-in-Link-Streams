@@ -1,3 +1,5 @@
+networkx
+bokeh
 asn1crypto==0.24.0
 beautifulsoup4==4.6.3
 chardet==3.0.4
